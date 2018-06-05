@@ -1,0 +1,28 @@
+Visiblement G-mark traduit mal les requêtes en Cypher
+
+On va prendre l'exemple 11 de shop-a données par G-marks
+(requête sans étoile)
+
+SELECT DISTINCT ?x0 ?x3 WHERE {
+        { ?x0 ((:pmakesPurchase/:ppurchaseFor)) ?x1 .
+          ?x1 ((:ptitle/^:ppaymentAccepted/:poffers)|(:pcaption/^:pdescription/^:pincludes)|(:pcaption/^:ptext/:prelease/^:pvalidForm)) ?x2 .
+          ?x2 ((:pincludes/:ptag)|(:pincludes/:ptag/^:ptag/:ptag)|(:pincludes/:ptag)) ?x3 . } }
+
+
+MATCH (x0)-[:pmakesPurchase]->()-[:ppurchaseFor]->(x1),
+      (x1)-[:ptitle]->()<-[:ppaymentAccepted]-()-[:poffers]->(x2),
+      (x2)-[:pincludes]->()-[:ptag]->(x3)
+RETURN DISTINCT x0, x3;
+
+Les deux requêtes devraient être identique puisqu'elle exprime la même RPQ, or de x1 vers x2 il manque dans Cypher les 2 tiers de la requêtes
+
+Voila la RPQ exprimer dans G-mark ((title.paymentAccepted-.offers)+(caption.description-.includes-)+(caption.text-.release.validForm-))
+
+Sinon on regarde la requêtes Cypher on a seulement (title.paymentAccepted-.offers) qui est exprimé.
+Le + qui exprime un OR existe dans la requêtes sparql mais pas dans Cypher
+
+Même problème dans la requêtes 1
+
+
+Le problème est encore pire si il y a une étoile
+(cf requêtes 10 et 14)
