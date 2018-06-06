@@ -12,6 +12,7 @@ public class RPQ {
 		this.expression = expression;
 	}
 	
+	
 	public String toCypher(){
 		return null;
 	}
