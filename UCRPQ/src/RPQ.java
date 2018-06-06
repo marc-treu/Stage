@@ -17,4 +17,8 @@ public class RPQ {
 		return null;
 	}
 	
+	public String toString(){
+		return this.origin+","+this.expression+","+this.destination;
+	}
+	
 }

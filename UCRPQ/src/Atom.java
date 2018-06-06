@@ -25,5 +25,9 @@ public class Atom implements RegExp {
 	public List<RegExp> children() {
 		throw new UnsupportedOperationException();
 	}
+	
+	public String toString() {
+		return (this.direction) ? this.etiquette: this.etiquette+"-";
+	}
 
 }

@@ -22,5 +22,19 @@ public class Union extends NAry {
 	public List<RegExp> children() {
 		return this.children;
 	}
+	
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("(");
+		sb.append(this.children.get(0).toString());
+		
+		for(int i=1 ;i<this.children.size();++i) {
+			sb.append("+");
+			sb.append(this.children.get(i).toString());
+		}
+		sb.append(")");
+		return sb.toString();
+	}
 
 }
