@@ -1,3 +1,4 @@
+import java.util.List;
 
 public interface RegExp {
 
@@ -9,5 +10,7 @@ public interface RegExp {
 	}
 	
 	public Type type();
+	
+	public List<RegExp> children();
 	
 }

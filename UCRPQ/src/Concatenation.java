@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Concatenation extends NAry {
 
@@ -15,6 +16,11 @@ public class Concatenation extends NAry {
 	@Override
 	public Type type() {
 		return Type.Concatenation;
+	}
+
+	@Override
+	public List<RegExp> children() {
+		return this.children;
 	}
 
 }

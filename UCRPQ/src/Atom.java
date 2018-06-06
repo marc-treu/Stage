@@ -1,3 +1,4 @@
+import java.util.List;
 
 public class Atom implements RegExp {
 
@@ -11,6 +12,12 @@ public class Atom implements RegExp {
 	@Override
 	public Type type() {
 		return Type.Atom;
+	}
+
+
+	@Override
+	public List<RegExp> children() {
+		throw new UnsupportedOperationException();
 	}
 
 }

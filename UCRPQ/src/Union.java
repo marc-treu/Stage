@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Union extends NAry {
 	
@@ -15,6 +16,11 @@ public class Union extends NAry {
 	@Override
 	public Type type() {
 		return Type.Union;
+	}
+
+	@Override
+	public List<RegExp> children() {
+		return this.children;
 	}
 
 }
