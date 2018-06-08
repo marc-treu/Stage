@@ -1,16 +1,12 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Union extends NAry {
 	
+	List<RegExp> children;
+	String separator;
 	
 	public Union(RegExp... args) {
-		
-		this.children = new ArrayList<RegExp>();
-		
-		for(int i=0;i<args.length;++i){
-			this.children.add(args[i]);
-		}	
+		super("+",args);
 	}
 	
 	@Override
@@ -23,18 +19,9 @@ public class Union extends NAry {
 		return this.children;
 	}
 	
+	@Override
 	public String toString() {
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("(");
-		sb.append(this.children.get(0).toString());
-		
-		for(int i=1 ;i<this.children.size();++i) {
-			sb.append("+");
-			sb.append(this.children.get(i).toString());
-		}
-		sb.append(")");
-		return sb.toString();
+		return super.toString();
 	}
 
 }
