@@ -24,8 +24,19 @@ public class Union extends NAry {
 
 	@Override
 	public String toCypher() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		sb.append( ((Atom) this.children.get(0)).getDirection() ? "-[:"	: "<-[:");
+
+		sb.append(((Atom)this.children.get(0)).getEtiquette());
+		
+		for(int i=1 ;i<this.children.size();++i) {
+			sb.append("|");
+			sb.append(((Atom)this.children.get(i)).getEtiquette());
+		}
+
+		
+		sb.append(((Atom) this.children.get(0)).getDirection() ? "]->" : "]-");
+		return sb.toString();
 	}
 
 }

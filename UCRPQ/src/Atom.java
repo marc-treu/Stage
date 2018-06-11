@@ -34,5 +34,13 @@ public class Atom implements RegExp {
 	public String toCypher() {
 		return (this.direction) ? "-[:"+this.etiquette+"]->" : "<-[:"+this.etiquette+"]-";
 	}
+	
+	public boolean getDirection() {
+		return this.direction;
+	}
+	
+	public String getEtiquette() {
+		return this.etiquette; 
+	}
 
 }

@@ -29,7 +29,8 @@ public class Test {
 		
 		// x,((a)*+b),y
 		RPQ rpq4 = new RPQ("x",
-				new Union(new Star(new Atom("a")),new Atom("b")),
+				new Concatenation(
+				new Union(new Atom("a"),new Atom("b")),new Atom("c")),
 				"y");
 		System.out.println(rpq4);
 		System.out.println(rpq4.toCypher());
