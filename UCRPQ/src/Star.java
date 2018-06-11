@@ -23,5 +23,11 @@ public class Star implements RegExp {
 	public String toString() {
 		return "("+this.child.toString()+")*";
 	}
+
+	@Override
+	public String toCypher() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

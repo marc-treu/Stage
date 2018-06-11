@@ -2,8 +2,6 @@ import java.util.List;
 
 public class Union extends NAry {
 	
-	List<RegExp> children;
-	String separator;
 	
 	public Union(RegExp... args) {
 		super("+",args);
@@ -22,6 +20,12 @@ public class Union extends NAry {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+
+	@Override
+	public String toCypher() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -12,5 +12,7 @@ public interface RegExp {
 	public Type type();
 	
 	public List<RegExp> children();
+
+	public String toCypher();
 	
 }

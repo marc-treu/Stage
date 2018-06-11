@@ -2,8 +2,8 @@ import java.util.List;
 
 public class Concatenation extends NAry {
 
-	List<RegExp> children;
-	String separator;
+	/*List<RegExp> children;
+	String separator;*/
 	
 	public Concatenation(RegExp... args) {
 		super(".",args);
@@ -22,6 +22,19 @@ public class Concatenation extends NAry {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+	
+	public String toCypher() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.children.get(0).toCypher());
+	
+		for(int i=1 ;i<this.children.size();++i) {
+			sb.append("()");
+			sb.append(this.children.get(i).toCypher());
+		}
+		
+		return sb.toString();
 	}
 	
 }

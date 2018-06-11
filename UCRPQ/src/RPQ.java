@@ -14,9 +14,22 @@ public class RPQ {
 	
 	
 	public String toCypher(){
-		return null;
+		StringBuilder br = new StringBuilder();
+		
+		if(isCypherable()) {
+			br.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
+			br.append("\nRETURN "+this.origin+", "+this.destination);
+		}
+	
+		return br.toString();
 	}
 	
+	
+	private boolean isCypherable() {
+		return true;
+	}
+
+
 	public String toString(){
 		return this.origin+","+this.expression+","+this.destination;
 	}

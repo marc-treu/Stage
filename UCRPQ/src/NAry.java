@@ -16,7 +16,6 @@ public abstract class NAry implements RegExp {
 	}
 	
 	public String toString() {
-		System.out.println(this.children.size());
 		StringBuilder sb = new StringBuilder();
 		sb.append("(");
 		sb.append(this.children.get(0).toString());
