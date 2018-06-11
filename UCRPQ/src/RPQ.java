@@ -19,12 +19,22 @@ public class RPQ {
 		if(isCypherable()) {
 			br.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
 			br.append("\nRETURN "+this.origin+", "+this.destination);
+		}else {
+			br.append("doit etre modifier");
 		}
 	
 		return br.toString();
 	}
 	
-	
+	/**
+	 * Fonction qui teste si l'expression est exprimable en Cypher
+	 * sans effectuer de modification
+	 * Sont Exprimable directement en Cypher,
+	 * les Atoms, les Concatenations et les Unions d'Atom, les Concatenations d'Union d'Atom
+	 * Pour les Unions d'Atom, chaque Atom doit etre dans la meme direction
+	 *  
+	 *  return true si exprimable en Cypher tel quel, false sinon
+	 */
 	private boolean isCypherable() {
 		return this.expression.isCypherable();
 	}

@@ -48,7 +48,7 @@ public class Union extends NAry {
 			}
 		}		
 		
-		return false;
+		return true;
 	}
 
 }
