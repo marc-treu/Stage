@@ -29,5 +29,10 @@ public class Star implements RegExp {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean isCypherable() {
+		return false;
+	}
 	
 }

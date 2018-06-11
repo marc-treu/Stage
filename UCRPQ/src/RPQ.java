@@ -26,7 +26,7 @@ public class RPQ {
 	
 	
 	private boolean isCypherable() {
-		return true;
+		return this.expression.isCypherable();
 	}
 
 

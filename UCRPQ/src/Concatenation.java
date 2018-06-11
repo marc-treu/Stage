@@ -36,5 +36,16 @@ public class Concatenation extends NAry {
 		
 		return sb.toString();
 	}
+
+	@Override
+	public boolean isCypherable() {
+		
+		for (RegExp e : this.children) {
+			if(!(e.isCypherable())) {
+				return false;
+			}
+		}		
+		return true;
+	}
 	
 }

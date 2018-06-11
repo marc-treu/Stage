@@ -43,4 +43,9 @@ public class Atom implements RegExp {
 		return this.etiquette; 
 	}
 
+	@Override
+	public boolean isCypherable() {
+		return true;
+	}
+
 }

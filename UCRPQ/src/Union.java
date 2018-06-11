@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class Union extends NAry {
-	
+
 	
 	public Union(RegExp... args) {
 		super("+",args);
@@ -37,6 +37,18 @@ public class Union extends NAry {
 		
 		sb.append(((Atom) this.children.get(0)).getDirection() ? "]->" : "]-");
 		return sb.toString();
+	}
+
+	@Override
+	public boolean isCypherable() {
+		
+		for (RegExp e : this.children) {
+			if(e.type()!=RegExp.Type.Atom) {
+				return false;
+			}
+		}		
+		
+		return false;
 	}
 
 }

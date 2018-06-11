@@ -15,4 +15,6 @@ public interface RegExp {
 
 	public String toCypher();
 	
+	public boolean isCypherable();
+	
 }
