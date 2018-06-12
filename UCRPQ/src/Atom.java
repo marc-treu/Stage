@@ -48,4 +48,9 @@ public class Atom implements RegExp {
 		return true;
 	}
 
+	
+	public Atom flatten() {
+		return this;
+	}
+
 }

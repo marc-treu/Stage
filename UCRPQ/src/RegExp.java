@@ -18,4 +18,6 @@ public interface RegExp {
 
 	public boolean isCypherable();
 
+	public RegExp flatten();
+
 }

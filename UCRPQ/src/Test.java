@@ -56,6 +56,11 @@ public class Test {
 		System.out.println(rpq7);
 		System.out.println(rpq7.toCypher());
 		
+		RPQ rpq8 = new RPQ("x",
+				new Union(new Atom("a"),new Union(new Atom("b"),new Atom("c"))),
+				"y");
+		System.out.println(rpq8);
+		System.out.println(rpq8.toCypher());
 	}
 
 }

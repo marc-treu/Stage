@@ -34,5 +34,10 @@ public class Star implements RegExp {
 	public boolean isCypherable() {
 		return false;
 	}
+
+	public Star flatten() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

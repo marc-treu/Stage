@@ -9,7 +9,7 @@ public class RPQ {
 	public RPQ(String origin, RegExp expression, String destination){
 		this.origin = origin;
 		this.destination = destination;
-		this.expression = expression;
+		this.expression = expression.flatten();
 	}
 	
 	

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Concatenation extends NAry {
@@ -8,7 +9,7 @@ public class Concatenation extends NAry {
 	public Concatenation(RegExp... args) {
 		super(".",args);
 	}
-
+	
 	@Override
 	public Type type() {
 		return Type.Concatenation;
@@ -46,6 +47,24 @@ public class Concatenation extends NAry {
 			}
 		}
 		return true;
+	}
+
+	
+	public Concatenation flatten() {
+		
+		List<RegExp> le = new ArrayList<RegExp>();
+		
+		for (RegExp e : this.children) {
+			if(e.type()==RegExp.Type.Concatenation) {
+				RegExp t = e.flatten();
+				for (RegExp ee : t.children()) {
+					le.add(ee.flatten());
+				}
+			}
+			else
+				le.add(e);
+		}
+		return new Concatenation(le.toArray(new RegExp [le.size()]));
 	}
 
 }
