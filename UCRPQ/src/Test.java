@@ -27,13 +27,21 @@ public class Test {
 		System.out.println(rpq3.toCypher());
 
 		
-		// x,((a)*+b),y
+		// x,((a+b-).c),y
 		RPQ rpq4 = new RPQ("x",
 				new Concatenation(
-				new Union(new Atom("a"),new Atom("b")),new Atom("c")),
+				new Union(new Atom("a"),new Atom("b",false)),new Atom("c")),
 				"y");
 		System.out.println(rpq4);
 		System.out.println(rpq4.toCypher());
+		
+		RPQ rpq5 = new RPQ("x",
+				new Concatenation(
+				new Union(new Atom("a"),new Atom("b")),new Atom("c",false)),
+				"y");
+		System.out.println(rpq5);
+		System.out.println(rpq5.toCypher());
+
 
 	}
 

@@ -2,11 +2,11 @@ import java.util.List;
 
 public class Union extends NAry {
 
-
+	
 	public Union(RegExp... args) {
 		super("+",args);
 	}
-
+	
 	@Override
 	public Type type() {
 		return Type.Union;
@@ -16,11 +16,11 @@ public class Union extends NAry {
 	public List<RegExp> children() {
 		return this.children;
 	}
-
-// 	@Override
-// 	public String toString() {
-// 		return super.toString();
-// 	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 
 	@Override
 	public String toCypher() {
@@ -28,27 +28,39 @@ public class Union extends NAry {
 		sb.append( ((Atom) this.children.get(0)).getDirection() ? "-[:"	: "<-[:");
 
 		sb.append(((Atom)this.children.get(0)).getEtiquette());
-
+		
 		for(int i=1 ;i<this.children.size();++i) {
 			sb.append("|");
 			sb.append(((Atom)this.children.get(i)).getEtiquette());
 		}
 
-
+		
 		sb.append(((Atom) this.children.get(0)).getDirection() ? "]->" : "]-");
 		return sb.toString();
 	}
 
 	@Override
 	public boolean isCypherable() {
-
-		for (RegExp e : this.children) {
-			if(e.type()!=RegExp.Type.Atom) {
+		
+		//Iniatialisation
+		if(this.children.get(0).type()!=RegExp.Type.Atom) {
+			return false;
+		}
+		boolean direction = ((Atom)this.children.get(0)).getDirection();
+		
+		for (int i = 1; i <this.children.size();++i) {
+			if(this.children.get(i).type()!=RegExp.Type.Atom) {
 				return false;
 			}
-		}
-
-		return false;
+			
+			// On teste si tous les Atoms sont dans la meme direction que le premier
+			else if(((Atom)this.children.get(i)).getDirection()!=direction) {
+				return false;
+			}
+			
+		}		
+		
+		return true;
 	}
 
 }
