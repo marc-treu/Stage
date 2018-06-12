@@ -42,10 +42,22 @@ public class Union extends NAry {
 	@Override
 	public boolean isCypherable() {
 		
-		for (RegExp e : this.children) {
-			if(e.type()!=RegExp.Type.Atom) {
+		//Iniatialisation
+		if(this.children.get(0).type()!=RegExp.Type.Atom) {
+			return false;
+		}
+		boolean direction = ((Atom)this.children.get(0)).getDirection();
+		
+		for (int i = 1; i <this.children.size();++i) {
+			if(this.children.get(i).type()!=RegExp.Type.Atom) {
 				return false;
 			}
+			
+			// On teste si tous les Atoms sont dans la meme direction que le premier
+			else if(((Atom)this.children.get(i)).getDirection()!=direction) {
+				return false;
+			}
+			
 		}		
 		
 		return true;
