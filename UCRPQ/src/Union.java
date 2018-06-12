@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +19,6 @@ public class Union extends NAry {
 	public List<RegExp> children() {
 		return this.children;
 	}
-	
-//	@Override
-//	public String toString() {
-//		return super.toString();
-//	}
 
 	@Override
 	public String toCypher() {
@@ -81,19 +75,4 @@ public class Union extends NAry {
 		return true;
 	}
 	
-	public Union flatten() {
-		List<RegExp> le = new ArrayList<RegExp>();
-		
-		for (RegExp e : this.children) {
-			if(e.type()==RegExp.Type.Union) {
-				RegExp t = e.flatten();
-				for (RegExp ee : t.children()) {
-					le.add(ee.flatten());
-				}
-			}
-			else
-				le.add(e);
-		}
-		return new Union(le.toArray(new RegExp [le.size()]));	}
-
 }

@@ -6,6 +6,7 @@ public abstract class NAry implements RegExp {
 	List<RegExp> children;
 	String separator;
 	
+	
 	public NAry(String separator,RegExp... args) {
 		this.separator = separator;
 		this.children = new ArrayList<RegExp>();
@@ -26,6 +27,23 @@ public abstract class NAry implements RegExp {
 		}
 		sb.append(")");
 		return sb.toString();
+	}
+	
+	public RegExp flatten() {
+		List<RegExp> le = new ArrayList<RegExp>();
+		
+		for (RegExp e : this.children) {
+			if(e.type()==(separator=="." ? RegExp.Type.Concatenation : RegExp.Type.Union)) {
+				RegExp t = e.flatten();
+				for (RegExp ee : t.children()) {
+					le.add(ee.flatten());
+				}
+			}
+			else
+				le.add(e);
+		}
+		return separator=="." ? new Concatenation(le.toArray(new RegExp [le.size()])) : new Union(le.toArray(new RegExp [le.size()])) ;
+		
 	}
 
 }
