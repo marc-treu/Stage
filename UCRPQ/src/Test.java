@@ -42,7 +42,20 @@ public class Test {
 		System.out.println(rpq5);
 		System.out.println(rpq5.toCypher());
 
-
+		RPQ rpq6 = new RPQ("x",
+				new Concatenation(
+				new Union(new Atom("a"),new Atom("b",false)),new Atom("c",false)),
+				"y");
+		System.out.println(rpq6);
+		System.out.println(rpq6.toCypher());
+		
+		RPQ rpq7 = new RPQ("x",
+				new Concatenation(
+				new Union(new Atom("a"),new Atom("a",false)),new Atom("c",false)),
+				"y");
+		System.out.println(rpq7);
+		System.out.println(rpq7.toCypher());
+		
 	}
 
 }
