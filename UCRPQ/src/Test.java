@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Test {
 
@@ -9,23 +12,23 @@ public class Test {
 		System.out.println(rpq1);
 		System.out.println(rpq1.toCypher());
 
-		
+
 		// x,a.b,y
 		RPQ rpq2 = new RPQ("x",
 				new Concatenation(new Atom("a"),new Atom("b")),
 				"y");
 		System.out.println(rpq2);
 		System.out.println(rpq2.toCypher());
-		
-		
+
+
 		// x,(a.b-),y
 		RPQ rpq3 = new RPQ("x1",
 					new Concatenation(new Atom("a"), new Atom("b",false)),
-					"y"); 
+					"y");
 		System.out.println(rpq3);
 		System.out.println(rpq3.toCypher());
 
-		
+
 		// x,((a+b-).c),y
 		RPQ rpq4 = new RPQ("x",
 				new Concatenation(
@@ -33,21 +36,21 @@ public class Test {
 				"y");
 		System.out.println(rpq4);
 		System.out.println(rpq4.toCypher());
-		
+
 		RPQ rpq5 = new RPQ("x",
 				new Concatenation(
 				new Union(new Atom("a"),new Atom("b")),new Atom("c",false)),
 				"y");
 		System.out.println(rpq5);
 		System.out.println(rpq5.toCypher());
-		
+
 		RPQ rpq6 = new RPQ("x",
 				new Concatenation(
 				new Union(new Atom("a"),new Atom("a",false)),new Atom("c",false)),
 				"y");
 		System.out.println(rpq6);
 		System.out.println(rpq6.toCypher());
-		
+
 		RPQ rpq7 = new RPQ("x",
 				new Union(new Atom("a"),new Union(new Atom("b"),new Atom("c"))),
 				"y");
@@ -59,13 +62,27 @@ public class Test {
 				"y");
 		System.out.println(rpq8);
 		System.out.println(rpq8.toCypher());
-		
+
 		RPQ rpq9 = new RPQ("x",
 				new Star(new Union(new Atom("a"),new Atom("b",false),new Atom("b"))),
 				"y");
 		System.out.println(rpq9);
-		
+
 		System.out.println(rpq9.toCypher());
+
+
+    List<String> strings
+      = Arrays.asList( "x,((a+b).(a-+b-)).(a-+(a+a)+a-)*,y",
+                       "x,(a+b),y",
+                       "x,(a.b),y",
+                       "x,(a+b)*,y"
+                     );
+    List<RPQ> rpqs = strings.stream().map(Parser::parseRPQ).collect(Collectors.toList());
+		for (RPQ rpq : rpqs) {
+      System.out.println(rpq);
+      System.out.println(rpq.toCypher());
+		}
+
 	}
 
 }

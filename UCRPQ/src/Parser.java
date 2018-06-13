@@ -58,6 +58,8 @@ public class Parser {
         parenthesisMatching.set(i, j-i);
       }
     }
+    if (! stack.isEmpty())
+      throw new RuntimeException("Parentheses in \""+input+"\" are not well balanced");
   }
 
   private List<Integer> lvlZOperators() {
