@@ -1,3 +1,4 @@
+package main;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Star implements RegExp {
 	@Override
 	public boolean isCypherable() {
 		// Si l'étoile est au desous de la Concatenation,
-		// alors la requêtte est n'est pas exprimable
+		// alors la requête est n'est pas exprimable
 		if(this.child.isCypherable() && this.child.type()!=RegExp.Type.Concatenation)
 			return true;
 		return false;
