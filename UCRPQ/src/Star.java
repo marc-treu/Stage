@@ -21,7 +21,7 @@ public class Star implements RegExp {
 	}
 	
 	public String toString() {
-		return "("+this.child.toString()+")*";
+		return this.child.type()==RegExp.Type.Atom ? "("+this.child.toString()+")*" : this.child.toString()+"*" ;
 	}
 
 	@Override
