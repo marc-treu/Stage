@@ -2,7 +2,7 @@
 public class Test {
 
 	public static void main(String[] args) {
-		
+		/*
 		// x,a,y
 		RPQ rpq1 = new RPQ("x",
 					new Atom("a"),
@@ -54,12 +54,19 @@ public class Test {
 				"y");
 		System.out.println(rpq7);
 		System.out.println(rpq7.toCypher());
-	
+		*/
 		RPQ rpq8 = new RPQ("x",
 				new Star(new Atom("x")),
 				"y");
 		System.out.println(rpq8);
 		System.out.println(rpq8.toCypher());
+		
+		RPQ rpq9 = new RPQ("x",
+				new Star(new Union(new Atom("a"),new Atom("b",false))),
+				"y");
+		System.out.println(rpq9);
+		
+		System.out.println(rpq9.toCypher());
 	}
 
 }

@@ -76,4 +76,10 @@ public class Union extends NAry {
 		return true;
 	}
 	
+	public int getDirection() {
+		if(this.direction==-1)// Si la direction n'est pas encore defini, normalement, isCypherable() est appeler avant toCypher()
+			this.isCypherable();// La direction des atoms est donnée dans isCypherable()
+		return this.direction;
+	}
+	
 }
