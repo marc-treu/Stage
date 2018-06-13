@@ -41,23 +41,22 @@ public class Test {
 				"y");
 		System.out.println(rpq5);
 		System.out.println(rpq5.toCypher());
-
+		
 		RPQ rpq6 = new RPQ("x",
 				new Concatenation(
-				new Union(new Atom("a"),new Atom("b",false)),new Atom("c",false)),
+				new Union(new Atom("a"),new Atom("a",false)),new Atom("c",false)),
 				"y");
 		System.out.println(rpq6);
 		System.out.println(rpq6.toCypher());
 		
 		RPQ rpq7 = new RPQ("x",
-				new Concatenation(
-				new Union(new Atom("a"),new Atom("a",false)),new Atom("c",false)),
+				new Union(new Atom("a"),new Union(new Atom("b"),new Atom("c"))),
 				"y");
 		System.out.println(rpq7);
 		System.out.println(rpq7.toCypher());
-		
+	
 		RPQ rpq8 = new RPQ("x",
-				new Union(new Atom("a"),new Union(new Atom("b"),new Atom("c"))),
+				new Star(new Atom("x")),
 				"y");
 		System.out.println(rpq8);
 		System.out.println(rpq8.toCypher());
