@@ -63,13 +63,14 @@ public class Union extends NAry {
 				hm.put(tmp_etiquette, ((Atom)e).getDirection() ? 1 : 0);			
 		}			
 
-		// On teste si 
+		// On teste si tous les Atom sont dans la même direction
 		for (Map.Entry<String, Integer> entry : hm.entrySet()) {
 			if (entry.getValue() != hm.get(tmp_etiquette)){
 				return false;
 			}
 		}
 		
+		// On initialisation la direction des etiquettes 
 		this.direction = hm.get(tmp_etiquette);
 		
 		return true;
