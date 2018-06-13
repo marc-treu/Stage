@@ -26,18 +26,25 @@ public class Star implements RegExp {
 
 	@Override
 	public String toCypher() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+
+		sb.append( ((Atom)this.child).getDirection()==false ? "<-[:" : "-[:");
+
+		sb.append(((Atom)this.child).getEtiquette());
+	
+		sb.append( ((Atom)this.child).getDirection()==true ? "*]->" : "*]-");
+		return sb.toString();
 	}
 
 	@Override
 	public boolean isCypherable() {
-		return false;
+		// Si l'étoile est au desous de la Concatenation,
+		// alors la requêtte est n'est pas exprimable
+		return this.child.type()==RegExp.Type.Concatenation ? false : true;
 	}
 
 	public Star flatten() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Star(this.child.flatten());
 	}
 	
 }
