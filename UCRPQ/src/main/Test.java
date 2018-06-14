@@ -1,6 +1,10 @@
-import java.util.List;
+package main;
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
+
+
 
 public class Test {
 
