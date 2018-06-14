@@ -73,8 +73,10 @@ public class Test {
 
     List<String> strings
       = Arrays.asList( "x,((a+b).(a-+b-)).(a-+(a+a)+a-)*,y",
-                       "x,(a+b),y",
-                       "x,(a.b),y",
+                       "x,(a+b)+c,y",
+                       "x,(a+a),y",
+                       "x,(a+a-),y",
+                       "x,(a.b).c,y",
                        "x,(a+b)*,y",
                        "x,(a+b)*.a-*.b*.(a+c)*,y"
                      );
