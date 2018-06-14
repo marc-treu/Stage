@@ -41,7 +41,7 @@ public abstract class NAry implements RegExp {
 				}
 			}
 			else
-				le.add(e);
+				le.add(e.flatten());
 		}
 		return separator=="." ? new Concatenation(le.toArray(new RegExp [le.size()])) : new Union(le.toArray(new RegExp [le.size()])) ;
 		
