@@ -75,7 +75,8 @@ public class Test {
       = Arrays.asList( "x,((a+b).(a-+b-)).(a-+(a+a)+a-)*,y",
                        "x,(a+b),y",
                        "x,(a.b),y",
-                       "x,(a+b)*,y"
+                       "x,(a+b)*,y",
+                       "x,(a+b)*.a-*.b*.(a+c)*,y"
                      );
     List<RPQ> rpqs = strings.stream().map(Parser::parseRPQ).collect(Collectors.toList());
 		for (RPQ rpq : rpqs) {
