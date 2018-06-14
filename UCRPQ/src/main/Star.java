@@ -33,20 +33,8 @@ public class Star implements RegExp {
 			sb.append( ((Atom)this.child).getEtiquette());	
 			sb.append( ((Atom)this.child).getDirection()==true ? "*]->" : "*]-");
 		}
-		else {// si on a une Union d'Atom
-			int direction = ((Union)this.child).getDirection();
-			sb.append( direction==0 ? "<-[:" : "-[:");
-			sb.append(((Atom)((Union)this.child).children.get(0)).getEtiquette());
-			
-			for(int i=1 ;i<((Union)this.child).children.size();++i) {
-				sb.append("|");
-				sb.append(((Atom)((Union)this.child).children.get(i)).getEtiquette());
-			}
-
-			
-			sb.append( direction==1 ? "*]->" : "*]-");
-			
-		}
+		else // si on a une Union d'Atom	
+			sb.append( ((Union)this.child).toCypher(true));
 		return sb.toString();
 	}
 

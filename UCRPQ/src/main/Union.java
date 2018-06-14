@@ -25,6 +25,10 @@ public class Union extends NAry {
 
 	@Override
 	public String toCypher() {
+		return this.toCypher(false);
+	}
+	
+	public String toCypher(boolean fromStar) {
 		StringBuilder sb = new StringBuilder();
 
 		if(this.direction==-1)// Si la direction n'est pas encore defini, normalement, isCypherable() est appeler avant toCypher()
@@ -40,7 +44,7 @@ public class Union extends NAry {
 		}
 
 		
-		sb.append( this.direction==1 ? "]->" : "]-");
+		sb.append( fromStar ? (this.direction==1 ? "*]->" : "*]-") : (this.direction==1 ? "]->" : "]-"));
 		return sb.toString();
 	}
 
