@@ -1,8 +1,11 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Union extends NAry {
@@ -29,7 +32,10 @@ public class Union extends NAry {
 	}
 	
 	public String toCypher(boolean fromStar) {
+		// Initialisation
 		StringBuilder sb = new StringBuilder();
+		Set<String> hs = new HashSet<String>();
+
 
 		if(this.direction==-1)// Si la direction n'est pas encore defini, normalement, isCypherable() est appeler avant toCypher()
 			this.isCypherable();// La direction des atoms est donnée dans isCypherable()
@@ -37,10 +43,14 @@ public class Union extends NAry {
 		sb.append( this.direction==0 ? "<-[:" : "-[:");
 
 		sb.append(((Atom)this.children.get(0)).getEtiquette());
-		
+		hs.add(((Atom)this.children.get(0)).getEtiquette());
+
 		for(int i=1 ;i<this.children.size();++i) {
-			sb.append("|");
-			sb.append(((Atom)this.children.get(i)).getEtiquette());
+			if (!hs.contains((((Atom)this.children.get(i)).getEtiquette()))) {
+				hs.add(((Atom)this.children.get(i)).getEtiquette());
+				sb.append("|");
+				sb.append(((Atom)this.children.get(i)).getEtiquette());
+			}
 		}
 
 		
@@ -71,11 +81,9 @@ public class Union extends NAry {
 		}			
 
 		// On teste si tous les Atom sont dans la même direction
-		for (Map.Entry<String, Integer> entry : hm.entrySet()) {
-			if (entry.getValue() != hm.get(tmp_etiquette)){
+		for (Map.Entry<String, Integer> entry : hm.entrySet()) 
+			if (entry.getValue() != hm.get(tmp_etiquette))
 				return false;
-			}
-		}
 		
 		// On initialisation la direction des etiquettes 
 		this.direction = hm.get(tmp_etiquette);
