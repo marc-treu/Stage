@@ -21,7 +21,7 @@ public class RPQ {
 			br.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
 			br.append("\nRETURN "+this.origin+", "+this.destination);
 		}else {
-			br.append("doit etre modifier");
+			br.append("La RPQ doit etre modifier");
 		}
 	
 		return br.toString();
@@ -32,11 +32,12 @@ public class RPQ {
 	 * sans effectuer de modification
 	 * Sont Exprimable directement en Cypher,
 	 * les Atoms, les Concatenations et les Unions d'Atom, les Concatenations d'Union d'Atom
-	 * Pour les Unions d'Atom, chaque Atom doit etre dans la meme direction
+	 * Pour les Unions d'Atom, chaque Atom doit etre dans la meme direction ou bien toute les direction 
+	 * sont presente pour chaque Atom
 	 *  
 	 *  return true si exprimable en Cypher tel quel, false sinon
 	 */
-	private boolean isCypherable() {
+	public boolean isCypherable() {
 		return this.expression.isCypherable();
 	}
 
