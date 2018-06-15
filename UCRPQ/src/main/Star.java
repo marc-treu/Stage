@@ -57,4 +57,9 @@ public class Star implements RegExp {
 	public RegExp getChild(){
 		return this.child;
 	}
+
+	@Override
+	public List<RegExp> getCypherable() {
+		return new ArrayList<>(Arrays.asList(this));
+	}
 }

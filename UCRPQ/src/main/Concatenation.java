@@ -1,4 +1,6 @@
 package main;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Concatenation extends NAry {
@@ -39,6 +41,11 @@ public class Concatenation extends NAry {
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public List<RegExp> getCypherable() {
+		return new ArrayList<>(Arrays.asList(this));
 	}
 
 }

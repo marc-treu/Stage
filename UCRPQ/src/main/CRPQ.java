@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -49,6 +50,23 @@ public class CRPQ {
 				return false;
 		}
 		return true;
+	}
+
+
+
+	public List<CRPQ> getCypherable() {
+		
+		List<List <RegExp>> liste_resultat = new ArrayList<>();
+		
+		for (RPQ e : this.children) {
+			List <RegExp> temp = e.getCypherable();
+			if(temp!=null) 
+				liste_resultat.add(temp);				
+			else
+				return null;
+		}
+				
+		return getCypherableAux(liste_resultat);
 	}
 	
 }

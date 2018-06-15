@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 public class RPQ {
 	
 	String origin;
@@ -44,6 +46,11 @@ public class RPQ {
 
 	public String toString(){
 		return this.origin+","+this.expression+","+this.destination;
+	}
+
+
+	public List<RegExp> getCypherable() {
+		return this.expression.getCypherable();
 	}
 	
 }

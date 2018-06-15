@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class Test {
 
 
 		// x,(a.b-),y
-		RPQ rpq3 = new RPQ("x1",
+		RPQ rpq3 = new RPQ("x",
 					new Concatenation(new Atom("a"), new Atom("b",false)),
 					"y");
 		System.out.println(rpq3);
@@ -75,21 +76,41 @@ public class Test {
 		System.out.println(rpq9.toCypher());
 
 
-    List<String> strings
-      = Arrays.asList( "x,((a+b).(a-+b-)).(a-+(a+a)+a-)*,y",
-                       "x,(a+b)+c,y",
-                       "x,(a+a),y",
-                       "x,(a+a-),y",
-                       "x,(a.b).c,y",
-                       "x,(a+b)*,y",
-                       "x,(a+b)*.a-*.b*.(a+c)*,y"
-                     );
-    List<RPQ> rpqs = strings.stream().map(Parser::parseRPQ).collect(Collectors.toList());
-		for (RPQ rpq : rpqs) {
-			System.out.println(rpq);
-			System.out.println(rpq.toCypher());
-		}
+	    List<String> strings
+	      = Arrays.asList( "x,((a+b).(a-+b-)).(a-+(a+a)+a-)*,y",
+	                       "x,(a+b)+c,y",
+	                       "x,(a+a),y",
+	                       "x,(a+a-),y",
+	                       "x,(a.b).c,y",
+	                       "x,(a+b)*,y",
+	                       "x,(a+b)*.a-*.b*.(a+c)*,y"
+	                     );
+	    List<RPQ> rpqs = strings.stream().map(Parser::parseRPQ).collect(Collectors.toList());
+			for (RPQ rpq : rpqs) {
+				System.out.println(rpq);
+				System.out.println(rpq.toCypher());
+			}
 
+			
+		CRPQ crpq1 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq1,rpq2)));
+		CRPQ crpq2 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq3,rpq5)));
+		UCRPQ ucrpq1 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq1,crpq2)));
+
+		System.out.println();
+		System.out.println(ucrpq1.toCypher());
+		
+		
+		
+		
+		System.out.println();
+
+		RPQ rpq10 = new RPQ("x",
+				new Union(new Concatenation(new Atom("a"), new Atom("b")),new Atom("c")),
+				"y");
+		CRPQ crpq = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq10)));
+		UCRPQ ucrpq = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq)));
+		
+		System.out.println(crpq.toCypher());
+	
 	}
-
 }

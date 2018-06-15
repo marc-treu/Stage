@@ -27,7 +27,10 @@ public class UCRPQ {
 			}
 		
 		}else {
-				sb.append("La UCRPQ doit etre modifier");
+			for (CRPQ e : this.children) {
+				e.getCypherable();
+			}
+			sb.append("La UCRPQ doit etre modifier");
 		}
 		
 		return sb.toString();
