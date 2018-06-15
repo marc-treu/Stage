@@ -20,12 +20,14 @@ public class CRPQ {
 		
 		if(this.isCypherable()) {
 			Set<String> hs = new HashSet<String>();
-			sb.append("MATCH (");
+			sb.append("MATCH ("+this.children.get(0).origin+")"+this.children.get(0).expression.toCypher()+"("+this.children.get(0).destination+")");
+			hs.add(this.children.get(0).origin);
+			hs.add(this.children.get(0).destination);
 
-			for ( RPQ e : this.children) {
-				sb.append(e.origin+")"+e.expression.toCypher()+"("+e.destination+")");
-				hs.add(e.origin);
-				hs.add(e.destination);
+			for (int i = 1; i<this.children.size() ;++i) {
+				sb.append(",\n\t("+this.children.get(i).origin+")"+this.children.get(i).expression.toCypher()+"("+this.children.get(i).destination+")");
+				hs.add(this.children.get(i).origin);
+				hs.add(this.children.get(i).destination);
 			}
 
 			Iterator<String> it = hs.iterator();
