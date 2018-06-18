@@ -55,7 +55,7 @@ public class UCRPQ {
 		sb.append(this.children.get(0).toString());
 		
 		for(int i=1 ;i<this.children.size();++i) {
-			sb.append(") OR (");
+			sb.append(") || (");
 			sb.append(this.children.get(i).toString());
 		}
 		sb.append(")");
