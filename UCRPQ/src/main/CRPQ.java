@@ -60,11 +60,16 @@ public class CRPQ {
 		List<List <RPQ>> liste_rpq = new ArrayList<>();
 		
 		for (RPQ e : this.children) {
-			List <RPQ> temp = e.getCypherable();
-			if(temp!=null) 
-				liste_rpq.add(temp);				
-			else
-				return null;
+			
+			if(e.isCypherable()) {
+				liste_rpq.add(Arrays.asList(e));
+			}else {			
+				List <RPQ> temp = e.getCypherable();
+				if(temp!=null) 
+					liste_rpq.add(temp);				
+				else
+					return null;
+			}
 		}
 				
 		return getCypherableAux(liste_rpq);
