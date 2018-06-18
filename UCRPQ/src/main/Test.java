@@ -112,7 +112,7 @@ public class Test {
 		CRPQ crpq = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq10)));
 		UCRPQ ucrpq = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq)));
 
-		System.out.println("ucrpq:"+ucrpq);
+		System.out.println(ucrpq);
 		System.out.println(ucrpq.toCypher());
 	
 	}
