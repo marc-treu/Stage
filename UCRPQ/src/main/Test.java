@@ -114,6 +114,30 @@ public class Test {
 
 		System.out.println(ucrpq);
 		System.out.println(ucrpq.toCypher());
-	
+		System.out.println();
+		
+		/*	
+		RPQ rpq11 = new RPQ("x",
+				new Union(new Concatenation(new Union(new Concatenation(new Atom("a"),new Atom("b")),new Concatenation(new Atom("c"),new Atom("d"))),new Atom("e")),new Atom("f")),
+				"y");
+		
+		CRPQ crpq0 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq11)));
+		UCRPQ ucrpq0 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq0)));
+
+		System.out.println(ucrpq0);
+		System.out.println(ucrpq0.toCypher());
+		*/
+		
+		
+		RPQ rpq12 = new RPQ("x",
+				new Concatenation(new Union(new Concatenation(new Atom("a"),new Atom("b")),new Atom("c")),new Atom("d")),
+				"y");
+		
+		CRPQ crpq3 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq12)));
+		UCRPQ ucrpq3 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq3)));
+
+		System.out.println(ucrpq3);
+		System.out.println(ucrpq3.toCypher());
+		
 	}
 }

@@ -31,6 +31,7 @@ public class UCRPQ {
 			List<CRPQ> tmp = new ArrayList<>();
 			for (CRPQ e : this.children) {
 				for( CRPQ c : e.getCypherable()) {
+					if (c == null) {return null;}
 					tmp.add(c);
 				}
 			}

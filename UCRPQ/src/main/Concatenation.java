@@ -1,4 +1,5 @@
 package main;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +46,27 @@ public class Concatenation extends NAry {
 	
 	@Override
 	public List<RegExp> getCypherable() {
-		return new ArrayList<>(Arrays.asList(this));
+		int i = 0;
+		while (i<this.children.size()){
+			
+			if(this.children.get(i).type()==Type.Union) {
+				List<RegExp> resultat = new ArrayList<>();
+				RegExp[] temp = new RegExp[this.children.size()];
+				for(RegExp e : this.children.get(i).getCypherable()) {
+					for (int j = 0;j<this.children.size();++j) {
+						if (j!=i)
+							temp[j]=this.children.get(j);
+						else
+							temp[j]=e;
+						
+					}
+					resultat.add(new Concatenation(temp));
+				}
+				return resultat;				
+			}
+			++i;
+		}
+		return null;
 	}
 
 }
