@@ -130,7 +130,8 @@ public class Test {
 		
 		
 		RPQ rpq12 = new RPQ("x",
-				new Concatenation(new Union(new Concatenation(new Atom("a"),new Atom("b")),new Atom("c")),new Atom("d")),
+				new Concatenation(new Union(new Concatenation(new Atom("a"),new Atom("b")),new Atom("c")),
+						new Union(new Concatenation(new Atom("d"),new Atom("e")),new Atom("f"))),
 				"y");
 		
 		CRPQ crpq3 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq12)));
