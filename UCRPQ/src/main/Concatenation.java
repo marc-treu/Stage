@@ -45,7 +45,9 @@ public class Concatenation extends NAry {
 	
 	@Override
 	public List<RegExp> getCypherable() {
+		
 		int i = 0;
+		List<RegExp> resultat = new ArrayList<>();
 		
 		while (i<this.children.size()){
 			
@@ -55,7 +57,6 @@ public class Concatenation extends NAry {
 			// Ne pas exister grace a la fonction flatten
 			if(this.children.get(i).type()==Type.Union) {// Si on trouve une union d'indice i
 				
-				List<RegExp> resultat = new ArrayList<>();
 				RegExp[] temp = new RegExp[this.children.size()];
 				
 				// On va la séparer grace a getCypherable() dans Union
