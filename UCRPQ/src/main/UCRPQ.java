@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,10 +28,13 @@ public class UCRPQ {
 			}
 		
 		}else {
+			List<CRPQ> tmp = new ArrayList<>();
 			for (CRPQ e : this.children) {
-				e.getCypherable();
+				for( CRPQ c : e.getCypherable()) {
+					tmp.add(c);
+				}
 			}
-			sb.append("La UCRPQ doit etre modifier");
+			 sb.append(new UCRPQ(tmp).toCypher());
 		}
 		
 		return sb.toString();
@@ -42,6 +46,20 @@ public class UCRPQ {
 				return false;
 		}
 		return true;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(");
+		sb.append(this.children.get(0).toString());
+		
+		for(int i=1 ;i<this.children.size();++i) {
+			sb.append(") OR (");
+			sb.append(this.children.get(i).toString());
+		}
+		sb.append(")");
+		return sb.toString();
+		
 	}
 	
 }

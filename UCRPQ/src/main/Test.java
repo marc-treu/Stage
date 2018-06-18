@@ -86,19 +86,21 @@ public class Test {
 	                       "x,(a+b)*.a-*.b*.(a+c)*,y"
 	                     );
 	    List<RPQ> rpqs = strings.stream().map(Parser::parseRPQ).collect(Collectors.toList());
-			for (RPQ rpq : rpqs) {
-				System.out.println(rpq);
-				System.out.println(rpq.toCypher());
-			}
+		for (RPQ rpq : rpqs) {
+			System.out.println(rpq);
+			System.out.println(rpq.toCypher());
+		}
+
+			
+		System.out.println();
 
 			
 		CRPQ crpq1 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq1,rpq2)));
 		CRPQ crpq2 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq3,rpq5)));
 		UCRPQ ucrpq1 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq1,crpq2)));
 
-		System.out.println();
+		System.out.println(ucrpq1);
 		System.out.println(ucrpq1.toCypher());
-		
 		
 		
 		
@@ -109,8 +111,9 @@ public class Test {
 				"y");
 		CRPQ crpq = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq10)));
 		UCRPQ ucrpq = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq)));
-		
-		System.out.println(crpq.toCypher());
+
+		System.out.println("ucrpq:"+ucrpq);
+		System.out.println(ucrpq.toCypher());
 	
 	}
 }

@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RPQ {
@@ -49,8 +50,16 @@ public class RPQ {
 	}
 
 
-	public List<RegExp> getCypherable() {
-		return this.expression.getCypherable();
+	public List<RPQ> getCypherable() {
+		
+		List<RegExp> liste_exp = this.expression.getCypherable();
+		
+		List<RPQ> resultat = new ArrayList<>();
+		for(RegExp e : liste_exp) {
+			resultat.add(new RPQ(this.origin,e,this.destination));
+		}
+		
+		return liste_exp == null ? null : resultat;
 	}
 	
 }
