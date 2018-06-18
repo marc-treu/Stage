@@ -1,7 +1,6 @@
 package main;
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Concatenation extends NAry {
@@ -47,21 +46,32 @@ public class Concatenation extends NAry {
 	@Override
 	public List<RegExp> getCypherable() {
 		int i = 0;
+		
 		while (i<this.children.size()){
 			
-			if(this.children.get(i).type()==Type.Union) {
+			// On ne s'interresse pas au cas de l'étoile pour l'instant
+			// Il ne reste que le cas de l'union a traiter donc
+			// Car l'Atom n'a pas besoin de transformation, et la Concatenation 
+			// Ne pas exister grace a la fonction flatten
+			if(this.children.get(i).type()==Type.Union) {// Si on trouve une union d'indice i
+				
 				List<RegExp> resultat = new ArrayList<>();
 				RegExp[] temp = new RegExp[this.children.size()];
+				
+				// On va la séparer grace a getCypherable() dans Union
 				for(RegExp e : this.children.get(i).getCypherable()) {
+					// Et pour chaque nouvelle expression on va recree une nouvelle RPQ
 					for (int j = 0;j<this.children.size();++j) {
-						if (j!=i)
+						if (j!=i) // en faisant bien attention a garder le meme ordre 
 							temp[j]=this.children.get(j);
 						else
 							temp[j]=e;
 						
 					}
+					// créant ainsi une nouvelle Concatenation 
 					resultat.add(new Concatenation(temp));
 				}
+				// On retourne notre liste de Concatenation 
 				return resultat;				
 			}
 			++i;
