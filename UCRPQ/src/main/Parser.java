@@ -12,8 +12,8 @@ public class Parser {
 
   private static class Make {
     static RPQ rpq(String o, String d, RegExp e) { return new RPQ(o,e,d); }
-//     static CRPQ crpq(List<RPQ> l) { return null; }
-//     static UCRPQ ucrpq(List<CRPQ> l) { return null; }
+    static CRPQ crpq(List<RPQ> l) { return new CRPQ(l); }
+    static UCRPQ ucrpq(List<CRPQ> l) { return new UCRPQ(l); }
     static RegExp concatenation(List<RegExp> l) { return new Concatenation(l.toArray(new RegExp[l.size()]));  }
     static RegExp union(List<RegExp> l) { return new Union(l.toArray(new RegExp[l.size()]));  }
     static RegExp star(RegExp e) {  return new Star(e);  }
@@ -22,7 +22,7 @@ public class Parser {
     static RegExp atom_b(String s) { return new Atom(s, false); }
   }
 
-  static List<Character> operators = Arrays.asList(',','+','.','*');
+  static List<Character> operators = Arrays.asList('|','&',',','+','.','*');
 
 
   String input;
@@ -172,6 +172,42 @@ public class Parser {
     return Make.rpq(var1,var2,re);
   }
 
+  private CRPQ _parseCRPQ() {
+    int oldEnd = end;
+    int oldStart = start;
+    trimSubstring();
+    List<Integer> op_positions = lvlZOperators();
+    op_positions.removeIf(p->input.charAt(p)!='&');
+    op_positions.add(end);
+    List<RPQ> l = new ArrayList<RPQ>();
+    for(int i : op_positions) {
+      end = i;
+      l.add(_parseRPQ());
+      start = end+1;
+    }
+    end = oldEnd;
+    start = oldStart;
+    return Make.crpq(l);
+  }
+
+  private UCRPQ _parseUCRPQ() {
+    int oldEnd = end;
+    int oldStart = start;
+    trimSubstring();
+    List<Integer> op_positions = lvlZOperators();
+    System.out.println(op_positions);
+    op_positions.removeIf(p->input.charAt(p)!='|');
+    op_positions.add(end);
+    List<CRPQ> l = new ArrayList<CRPQ>();
+    for(int i : op_positions) {
+      end = i;
+      l.add(_parseCRPQ());
+      start = end+1;
+    }
+    end = oldEnd;
+    start = oldStart;
+    return Make.ucrpq(l);
+  }
 
   private boolean isValidAtomString() {
     if ( (start != end) && !Character.isLetter(input.charAt(start)))
@@ -184,14 +220,27 @@ public class Parser {
 
   public static void main(String[] args) {
     Parser parser = new Parser(args[0]);
-    System.out.println(parser._parseRPQ());
+    System.out.println(parser._parseUCRPQ());
   }
 
+
+
+
+
+
+  public static RegExp parseRegExp(String str) {
+    return (new Parser(str)._parseRegExp());
+  }
 
   public static RPQ parseRPQ(String str) {
     return (new Parser(str)._parseRPQ());
   }
-  public static RegExp parseRegExp(String str) {
-    return (new Parser(str)._parseRegExp());
+
+  public static CRPQ parseCRPQ(String str) {
+    return (new Parser(str)._parseCRPQ());
+  }
+
+  public static UCRPQ parseUCRPQ(String str) {
+    return (new Parser(str)._parseUCRPQ());
   }
 }
