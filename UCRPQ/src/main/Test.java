@@ -91,19 +91,19 @@ public class Test {
 			System.out.println(rpq.toCypher());
 		}
 
-			
+
 		System.out.println();
 
-			
+
 		CRPQ crpq1 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq1,rpq2)));
 		CRPQ crpq2 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq3,rpq5)));
 		UCRPQ ucrpq1 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq1,crpq2)));
 
 		System.out.println(ucrpq1);
 		System.out.println(ucrpq1.toCypher());
-		
-		
-		
+
+
+
 		System.out.println();
 
 		RPQ rpq10 = new RPQ("x",
@@ -115,43 +115,45 @@ public class Test {
 		System.out.println(ucrpq);
 		System.out.println(ucrpq.toCypher());
 		System.out.println();
-		
-			
+
+
 		RPQ rpq11 = new RPQ("x",
 				new Union(new Concatenation(new Union(new Concatenation(new Atom("a"),new Atom("b")),new Concatenation(new Atom("c"),new Atom("d"))),new Atom("e")),new Atom("f")),
 				"y");
-		
+
 		CRPQ crpq0 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq11)));
 		UCRPQ ucrpq0 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq0)));
 
 		System.out.println(ucrpq0);
 		System.out.println(ucrpq0.toCypher());
 		System.out.println();
-		
-		
-		
+
+
+
 		RPQ rpq12 = new RPQ("x",
 				new Concatenation(new Union(new Concatenation(new Atom("a"),new Atom("b")),new Atom("c")),
 						new Union(new Concatenation(new Atom("d"),new Atom("e")),new Atom("f"))),
 				"y");
-		
+
 		CRPQ crpq3 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq12)));
 		UCRPQ ucrpq3 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq3)));
 
 		System.out.println(ucrpq3);
 		System.out.println(ucrpq3.toCypher());
 		System.out.println();
-		
-		
+
+
 		CRPQ crpq4 = new CRPQ(new ArrayList<RPQ>(Arrays.asList(rpq1,rpq7,rpq4,rpq6)));
 		UCRPQ ucrpq4 = new UCRPQ(new ArrayList<CRPQ>(Arrays.asList(crpq4)));
 
 		System.out.println(ucrpq4);
 		System.out.println(ucrpq4.toCypher());
 		System.out.println();
-				
-		
-		
-		
+
+    System.out.println(Parser.parseRPQ("x,((a.b+c).d+e).f,y").getCypherable());
+		System.out.println(Parser.parseRPQ("x,(a.b+a.b).(a.b+a.b),y").getCypherable());
+		System.out.println(Parser.parseRPQ("x,a+b,y").getCypherable());
+    System.out.println(Parser.parseUCRPQ("(x,(a+b),y)&x,(c-),y|x,(a+b),y"));
+
 	}
 }
