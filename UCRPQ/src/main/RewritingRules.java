@@ -113,5 +113,13 @@ public class RewritingRules {
 	
 		}
 	}
+
+	public static UCRPQ rewriteUCRPQ(UCRPQ query) {
+		List<CRPQ> resultat = new ArrayList<>();
+		for(CRPQ cr : query.children) {
+			resultat.addAll(rewriteCRPQ(cr));
+		}
+		return new UCRPQ(resultat);
+	}
 	
 }
