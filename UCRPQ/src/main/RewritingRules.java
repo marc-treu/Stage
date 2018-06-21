@@ -35,6 +35,8 @@ public class RewritingRules {
 					resultat.add(e);
 				}
 				break;			
+			case Star:
+				return null;
 			default:
 				return Arrays.asList(query);
 		}
@@ -80,7 +82,12 @@ public class RewritingRules {
 	
 	public static List<RPQ> rewriteRPQ(RPQ query){
 		List<RPQ> resultat = new ArrayList<>();
-		for(RegExp e : extractUnion(query.expression)) {
+		List<RegExp> list_RegExp = extractUnion(query.expression);
+		
+		if(list_RegExp == null)
+			return null;
+		
+		for(RegExp e : list_RegExp) {
 			if(!e.isCypherable()) 
 				resultat.addAll(rewriteRPQ(new RPQ(query.origin,e,query.destination)));
 			else
@@ -93,8 +100,13 @@ public class RewritingRules {
 		List<CRPQ> resultat = new ArrayList<>();
 		List<List<RPQ>> temp = new ArrayList<>();
 		for(RPQ r : query.children) {
-			temp.add(rewriteRPQ(r));
+			List<RPQ> rewrite_rpq = rewriteRPQ(r);
+			if(rewrite_rpq!=null)
+				temp.add(rewrite_rpq);
+			else
+				return null;
 		}
+		
 		getCombinaison(temp,resultat,0,new ArrayList<RPQ>());
 		return resultat;
 	}
@@ -117,7 +129,12 @@ public class RewritingRules {
 	public static UCRPQ rewriteUCRPQ(UCRPQ query) {
 		List<CRPQ> resultat = new ArrayList<>();
 		for(CRPQ cr : query.children) {
-			resultat.addAll(rewriteCRPQ(cr));
+			List<CRPQ> rewrite_crpq = rewriteCRPQ(cr);
+			if(rewrite_crpq!=null)
+				resultat.addAll(rewrite_crpq);
+			else
+				return null;
+
 		}
 		return new UCRPQ(resultat);
 	}
