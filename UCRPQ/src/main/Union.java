@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,8 +46,8 @@ public class Union extends NAry {
 		hs.add(((Atom)this.children.get(0)).getEtiquette());
 
 		for(int i=1 ;i<this.children.size();++i) {
-			if (!hs.contains((((Atom)this.children.get(i)).getEtiquette()))) {
-				hs.add(((Atom)this.children.get(i)).getEtiquette());
+			if (!hs.contains(((Atom)this.children.get(0)).getEtiquette())) {
+				hs.add(((Atom)this.children.get(0)).getEtiquette());
 				sb.append("|");
 				sb.append(((Atom)this.children.get(i)).getEtiquette());
 			}
@@ -94,6 +95,19 @@ public class Union extends NAry {
 		if(this.direction==-1)// Si la direction n'est pas encore defini, normalement, isCypherable() est appeler avant toCypher()
 			this.isCypherable();// La direction des atoms est donnée dans isCypherable()
 		return this.direction;
+	}
+	
+	@Override
+	public Union flatten() {
+		Set<String> hs = new HashSet<String>();
+		List<RegExp> resultat = new ArrayList<>();
+		for(RegExp e : ((Union) super.flatten()).children) {
+			if (!hs.contains(e.toString())) {
+				hs.add(e.toString());
+				resultat.add(e);
+			}
+		}
+		return new Union(resultat.toArray(new RegExp [resultat.size()]));
 	}
 	
 }
