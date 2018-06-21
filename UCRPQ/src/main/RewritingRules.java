@@ -18,7 +18,7 @@ public class RewritingRules {
 	 * @return Une liste de RegExp ou le premiere Union rencontré non Cypherable
 	 * 			est developper 
 	 */
-	public static List<RegExp> extractUnion(RegExp query){
+	private static List<RegExp> extractUnion(RegExp query){
 		
 		if(query.isCypherable()) {
 			return Arrays.asList(query);
@@ -44,7 +44,7 @@ public class RewritingRules {
 		return resultat;
 	}
 	
-	public static List<RegExp> extractUnionFromConca(RegExp query){
+	private static List<RegExp> extractUnionFromConca(RegExp query){
 
 		int i = 0;
 		List<RegExp> resultat = new ArrayList<>();
@@ -80,6 +80,21 @@ public class RewritingRules {
 		return null;
 	}
 	
+
+	private static void getCombinaison(List<List<RPQ>> temp, List<CRPQ> resultat, int depth, List<RPQ> rpqs) {
+		if(depth==temp.size()) {
+			resultat.add(new CRPQ(rpqs));
+			return;
+		}
+		for(int i=0 ;i<temp.get(depth).size(); ++i) {
+			List<RPQ> temps_rpqs = new ArrayList<RPQ>();
+			temps_rpqs.addAll(rpqs);
+			temps_rpqs.add(temp.get(depth).get(i));
+			getCombinaison(temp, resultat, depth+1, temps_rpqs);
+	
+		}
+	}
+	
 	public static List<RPQ> rewriteRPQ(RPQ query){
 		List<RPQ> resultat = new ArrayList<>();
 		List<RegExp> list_RegExp = extractUnion(query.expression);
@@ -109,21 +124,6 @@ public class RewritingRules {
 		
 		getCombinaison(temp,resultat,0,new ArrayList<RPQ>());
 		return resultat;
-	}
-
-
-	private static void getCombinaison(List<List<RPQ>> temp, List<CRPQ> resultat, int depth, List<RPQ> rpqs) {
-		if(depth==temp.size()) {
-			resultat.add(new CRPQ(rpqs));
-			return;
-		}
-		for(int i=0 ;i<temp.get(depth).size(); ++i) {
-			List<RPQ> temps_rpqs = new ArrayList<RPQ>();
-			temps_rpqs.addAll(rpqs);
-			temps_rpqs.add(temp.get(depth).get(i));
-			getCombinaison(temp, resultat, depth+1, temps_rpqs);
-	
-		}
 	}
 
 	public static UCRPQ rewriteUCRPQ(UCRPQ query) {
