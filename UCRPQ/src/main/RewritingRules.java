@@ -88,5 +88,30 @@ public class RewritingRules {
 		}
 		return resultat;
 	}
+
+	public static List<CRPQ> rewriteCRPQ(CRPQ query) {
+		List<CRPQ> resultat = new ArrayList<>();
+		List<List<RPQ>> temp = new ArrayList<>();
+		for(RPQ r : query.children) {
+			temp.add(rewriteRPQ(r));
+		}
+		getCombinaison(temp,resultat,0,new ArrayList<RPQ>());
+		return resultat;
+	}
+
+
+	private static void getCombinaison(List<List<RPQ>> temp, List<CRPQ> resultat, int depth, List<RPQ> rpqs) {
+		if(depth==temp.size()) {
+			resultat.add(new CRPQ(rpqs));
+			return;
+		}
+		for(int i=0 ;i<temp.get(depth).size(); ++i) {
+			List<RPQ> temps_rpqs = new ArrayList<RPQ>();
+			temps_rpqs.addAll(rpqs);
+			temps_rpqs.add(temp.get(depth).get(i));
+			getCombinaison(temp, resultat, depth+1, temps_rpqs);
+	
+		}
+	}
 	
 }
