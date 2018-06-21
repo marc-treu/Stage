@@ -95,10 +95,5 @@ public class Union extends NAry {
 			this.isCypherable();// La direction des atoms est donnée dans isCypherable()
 		return this.direction;
 	}
-
-	@Override
-	public List<RegExp> getCypherable() {
-		return this.children;
-	}
 	
 }
