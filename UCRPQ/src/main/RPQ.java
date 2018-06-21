@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RPQ {
@@ -18,16 +17,26 @@ public class RPQ {
 	
 	
 	public String toCypher(){
-		StringBuilder br = new StringBuilder();
+
+		StringBuilder sb = new StringBuilder();
 		
-		if(isCypherable()) {
-			br.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
-			br.append("\nRETURN "+this.origin+", "+this.destination);
+		if(!isCypherable()) {// Si il faut réécrire la requête
+			List<RPQ> resultat = RewritingRules.rewriteRPQ(this);
+			if (resultat == null) {
+				return "L'expression est non expressible en Cypher";
+			}
+			sb.append(resultat.get(0).toCypher());
+			for (int i = 1; i<resultat.size() ;++i) {
+				sb.append("\nUNION\n");
+				sb.append(resultat.get(i).toCypher());
+			}
+			
 		}else {
-			br.append("La RPQ doit etre modifier");
+			sb.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
+			sb.append("\nRETURN "+this.origin+", "+this.destination);
 		}
-	
-		return br.toString();
+		
+		return sb.toString();
 	}
 	
 	/**
@@ -46,20 +55,7 @@ public class RPQ {
 
 
 	public String toString(){
-		return this.origin+","+this.expression+","+this.destination;
+		return "\n"+this.origin+","+this.expression+","+this.destination;
 	}
 
-
-	public List<RPQ> getCypherable() {
-		
-		List<RegExp> liste_exp = this.expression.getCypherable();
-		
-		List<RPQ> resultat = new ArrayList<>();
-		for(RegExp e : liste_exp) {
-			resultat.add(new RPQ(this.origin,e,this.destination));
-		}
-		
-		return liste_exp == null ? null : resultat;
-	}
-	
 }
