@@ -27,7 +27,11 @@ public class UCRPQ {
 			}
 
 		}else {
-			sb.append(RewritingRules.rewriteUCRPQ(this).toCypher());
+			UCRPQ resultat = RewritingRules.rewriteUCRPQ(this);
+			if (resultat == null)
+				return "L'expression est non expressible en Cypher";
+			else
+				sb.append(resultat.toCypher());
 		}
 
 		return sb.toString();
