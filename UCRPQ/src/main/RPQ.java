@@ -55,7 +55,7 @@ public class RPQ {
 
 
 	public String toString(){
-		return "\n"+this.origin+","+this.expression+","+this.destination;
+		return this.origin+","+this.expression+","+this.destination;
 	}
 
 }
