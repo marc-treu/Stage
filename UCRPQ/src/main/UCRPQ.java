@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,16 +26,7 @@ public class UCRPQ {
 				sb.append(it.next().toCypher());
 			}
 
-		}else {
-			List<CRPQ> tmp = new ArrayList<>();
-			for (CRPQ e : this.children) {
-				for( CRPQ c : e.getCypherable()) {
-					if (c == null) {return null;}
-					tmp.add(c);
-				}
-			}
-			 sb.append(new UCRPQ(tmp).toCypher());
-		}
+		}else {return null;}
 
 		return sb.toString();
 	}
@@ -64,3 +54,4 @@ public class UCRPQ {
 	}
 
 }
+
