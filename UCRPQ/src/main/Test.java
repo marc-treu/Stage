@@ -159,6 +159,16 @@ public class Test {
 		System.out.println("\n"+Parser.parseRPQ("x,(a.b+a.b).(a.b+a.b),y").toCypher());
 		System.out.println("\n"+Parser.parseRPQ("x,((a.b+c).d+e).(f.g+h*),y").toCypher());
 
+		List<String> crpq_string 
+			= Arrays.asList("(x,(a.b.c),y)&(x,a*,y)",
+					"(x,((a.b)+(c.d)),y)&(x,a*,y)",
+					"(x,((a.b+c).d+e).(f.g+h*),y)&(x,((a.b)+(c.d)),y)&(x,a*,y)");
+		List<CRPQ> crpqs = crpq_string.stream().map(Parser::parseCRPQ).collect(Collectors.toList());
+		for (CRPQ cr : crpqs) {
+			System.out.println("\n"+cr.toString());
+			System.out.println(cr.toCypher());
+		}
+		
 		//System.out.println(Parser.parseUCRPQ("(x,(a+b),y)&x,(c-),y|x,(a+b),y"));
 		
 	}
