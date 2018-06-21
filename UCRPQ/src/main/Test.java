@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 public class Test {
 
 	public static void main(String[] args) {
+		
+		
 		// x,a,y
 		RPQ rpq1 = new RPQ("x",
 					new Atom("a"),
@@ -71,9 +73,8 @@ public class Test {
 		RPQ rpq9 = new RPQ("x",
 				new Star(new Union(new Atom("a"),new Atom("b",false),new Atom("b"))),
 				"y");
-		System.out.println(rpq9);
-
-		System.out.println(rpq9.toCypher());
+		//System.out.println(rpq9);
+		//System.out.println(rpq9.toCypher());
 
 
 	    List<String> strings
@@ -91,7 +92,7 @@ public class Test {
 			System.out.println(rpq.toCypher());
 		}
 
-
+/*
 		System.out.println();
 
 
@@ -149,11 +150,15 @@ public class Test {
 		System.out.println(ucrpq4);
 		System.out.println(ucrpq4.toCypher());
 		System.out.println();
+*/
+		
+		
+		System.out.println("\n"+Parser.parseRPQ("x,(a.b)+c,y").toCypher());
+		System.out.println("\n"+Parser.parseRPQ("x,a+b,y").toCypher());
+		System.out.println("\n"+Parser.parseRPQ("x,((a.b+c).d+e).f,y").toCypher());
+		System.out.println("\n"+Parser.parseRPQ("x,(a.b+a.b).(a.b+a.b),y").toCypher());
 
-    System.out.println(Parser.parseRPQ("x,((a.b+c).d+e).f,y").getCypherable());
-		System.out.println(Parser.parseRPQ("x,(a.b+a.b).(a.b+a.b),y").getCypherable());
-		System.out.println(Parser.parseRPQ("x,a+b,y").getCypherable());
-    System.out.println(Parser.parseUCRPQ("(x,(a+b),y)&x,(c-),y|x,(a+b),y"));
-
+		//System.out.println(Parser.parseUCRPQ("(x,(a+b),y)&x,(c-),y|x,(a+b),y"));
+		
 	}
 }
