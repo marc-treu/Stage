@@ -37,7 +37,15 @@ public class CRPQ {
 				sb.append(", "+it.next());
 			}
 		}else {
-			sb.append("La CRPQ doit etre modifier");
+			List<CRPQ> resultat = RewritingRules.rewriteCRPQ(this);
+			if (resultat == null) {
+				return "L'expression est non expressible en Cypher";
+			}
+			sb.append(resultat.get(0).toCypher());
+			for (int i = 1; i<resultat.size() ;++i) {
+				sb.append("\nUNION\n");
+				sb.append(resultat.get(i).toCypher());
+			}
 		}
 		
 		return sb.toString();
