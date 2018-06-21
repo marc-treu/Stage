@@ -21,6 +21,4 @@ public interface RegExp {
 
 	public RegExp flatten();
 
-	public List<RegExp> getCypherable();
-
 }

@@ -56,8 +56,4 @@ public class Atom implements RegExp {
 		return this;
 	}
 
-	@Override
-	public List<RegExp> getCypherable() {
-		return new ArrayList<>(Arrays.asList(this));
-	}
 }
