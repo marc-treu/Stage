@@ -157,6 +157,7 @@ public class Test {
 		System.out.println("\n"+Parser.parseRPQ("x,a+b,y").toCypher());
 		System.out.println("\n"+Parser.parseRPQ("x,((a.b+c).d+e).f,y").toCypher());
 		System.out.println("\n"+Parser.parseRPQ("x,(a.b+a.b).(a.b+a.b),y").toCypher());
+		System.out.println("\n"+Parser.parseRPQ("x,((a.b+c).d+e).(f.g+h*),y").toCypher());
 
 		//System.out.println(Parser.parseUCRPQ("(x,(a+b),y)&x,(c-),y|x,(a+b),y"));
 		
