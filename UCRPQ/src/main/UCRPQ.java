@@ -26,7 +26,9 @@ public class UCRPQ {
 				sb.append(it.next().toCypher());
 			}
 
-		}else {return null;}
+		}else {
+			sb.append(RewritingRules.rewriteUCRPQ(this).toCypher());
+		}
 
 		return sb.toString();
 	}
