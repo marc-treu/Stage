@@ -52,7 +52,8 @@ public class Test {
 		
 		List<String> ucrpq_string 
 			= Arrays.asList("(x,(a.b.c),y)&(x,a*,y)|(x,(a*.(c+(b.d))),y)",
-					"(x,(a+b),y)&x,(c-),y|x,(a+b),y");
+					"(x,(a+b),y)&x,(c-),y|x,(a+b),y",
+					"(x,a,y)|(x,(a.c)*,y)");
 		
 		List<UCRPQ> ucrpqs = ucrpq_string.stream().map(Parser::parseUCRPQ).collect(Collectors.toList());
 		for (UCRPQ ucr : ucrpqs) {
