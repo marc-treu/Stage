@@ -7,6 +7,7 @@ public class Star implements RegExp {
 
 	RegExp child;
 
+	
 	public Star(RegExp child) {
 		this.child=child;
 	}
