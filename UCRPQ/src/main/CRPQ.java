@@ -25,7 +25,7 @@ public class CRPQ {
 			hs.add(this.children.get(0).destination);
 
 			for (int i = 1; i<this.children.size() ;++i) {
-				sb.append(",\n\t("+this.children.get(i).origin+")"+this.children.get(i).expression.toCypher()+"("+this.children.get(i).destination+")");
+				sb.append("\nMATCH ("+this.children.get(i).origin+")"+this.children.get(i).expression.toCypher()+"("+this.children.get(i).destination+")");
 				hs.add(this.children.get(i).origin);
 				hs.add(this.children.get(i).destination);
 			}
