@@ -46,8 +46,8 @@ public class Union extends NAry {
 		hs.add(((Atom)this.children.get(0)).getEtiquette());
 
 		for(int i=1 ;i<this.children.size();++i) {
-			if (!hs.contains(((Atom)this.children.get(0)).getEtiquette())) {
-				hs.add(((Atom)this.children.get(0)).getEtiquette());
+			if (!hs.contains(((Atom)this.children.get(i)).getEtiquette())) {
+				hs.add(((Atom)this.children.get(i)).getEtiquette());
 				sb.append("|");
 				sb.append(((Atom)this.children.get(i)).getEtiquette());
 			}
