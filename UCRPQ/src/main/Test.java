@@ -60,7 +60,10 @@ public class Test {
 			System.out.println("\n"+ucr.toString());
 			System.out.println(ucr.toCypher());
 		}
+	
 		
+		System.out.println("\n"+new RPQ("x",new Star(new Atom("a"),3),"y").toCypher());
+		System.out.println("\n"+new RPQ("x",new Star(new Union(new Atom("a"), new Atom("b")),3),"y").toCypher());
 		
 		
 	}
