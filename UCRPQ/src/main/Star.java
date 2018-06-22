@@ -14,20 +14,23 @@ public class Star implements RegExp {
 	 * @param child l'éxpression 
 	 * @param borne_superieur La borne superieur de l'étoile
 	 */
-	public Star(RegExp child, int borne_superieur) {
+	public Star(RegExp child) {
 		this.child=child;
-		this.borne_sup=borne_superieur;
 	}
 			
 
+<<<<<<< HEAD
 	/**
 	 * Le constructeur pour l'étoile classique, non borné.
 	 * Par convention on va mettre -1 comme borne supérieur
 	 * 
 	 * @param child l'éxpression sous l'étoile
 	 */
+=======
+	
+>>>>>>> Cyphermorphim2
 	public Star(RegExp child) {
-		this(child,-1);
+		this(child);
 	}
 	
 	@Override

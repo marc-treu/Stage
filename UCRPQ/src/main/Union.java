@@ -11,6 +11,7 @@ import java.util.Set;
 public class Union extends NAry {
 
 	int direction=-1; // 0 si inverser, 1 si normale, 2 si non orienté et -1 si non défini
+
 	
 	public Union(RegExp... args) {
 		super("+",args);
