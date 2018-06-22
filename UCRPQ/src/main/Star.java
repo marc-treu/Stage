@@ -6,11 +6,30 @@ import java.util.List;
 public class Star implements RegExp {
 
 	RegExp child;
-
-	public Star(RegExp child) {
+	int borne_sup;
+	
+	/**
+	 * Construteur qui permet de rajouter une borne superieur a notre étoile
+	 * 
+	 * @param child l'éxpression 
+	 * @param borne_superieur La borne superieur de l'étoile
+	 */
+	public Star(RegExp child, int borne_superieur) {
 		this.child=child;
+		this.borne_sup=borne_superieur;
 	}
-		
+			
+
+	/**
+	 * Le constructeur pour l'étoile classique, non borné.
+	 * Par convention on va mettre -1 comme borne supérieur
+	 * 
+	 * @param child l'éxpression sous l'étoile
+	 */
+	public Star(RegExp child) {
+		this(child,-1);
+	}
+	
 	@Override
 	public Type type() {
 		return Type.Star;
@@ -22,7 +41,10 @@ public class Star implements RegExp {
 	}
 	
 	public String toString() {
-		return this.child.type()==RegExp.Type.Atom ? "("+this.child.toString()+")*" : this.child.toString()+"*" ;
+		StringBuilder sb = new StringBuilder();
+		sb.append( this.child.type()==RegExp.Type.Atom ? "("+this.child.toString()+")" : this.child.toString());
+		sb.append(this.borne_sup > 0 ? "*.."+this.borne_sup : "*");
+		return sb.toString();
 	}
 
 	@Override
@@ -31,10 +53,11 @@ public class Star implements RegExp {
 		if(this.child.type()==RegExp.Type.Atom) {// si on a seulement un Atom
 			sb.append( ((Atom)this.child).getDirection()==false ? "<-[:" : "-[:");
 			sb.append( ((Atom)this.child).getEtiquette());	
-			sb.append( ((Atom)this.child).getDirection()==true ? "*]->" : "*]-");
+			sb.append(this.borne_sup > 0 ? "*.."+this.borne_sup : "*");
+			sb.append( ((Atom)this.child).getDirection()==true ? "]->" : "]-");
 		}
 		else // si on a une Union d'Atom	
-			sb.append( ((Union)this.child).toCypher(true));
+			sb.append( ((Union)this.child).toCypher(true,this.borne_sup));
 		return sb.toString();
 	}
 
@@ -47,11 +70,12 @@ public class Star implements RegExp {
 		return false;
 	}
 
+	@Override
 	public Star flatten() {
 		if(this.child.type()==RegExp.Type.Star)// Si on a Star(Star(...))
 			return new Star( ((Star)this.child).getChild().flatten());
 		
-		return new Star(this.child.flatten());
+		return this.borne_sup > 0 ? new Star(this.child.flatten(),this.borne_sup) : new Star(this.child.flatten());
 	}
 	
 	public RegExp getChild(){
