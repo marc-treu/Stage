@@ -28,10 +28,10 @@ public class Union extends NAry {
 
 	@Override
 	public String toCypher() {
-		return this.toCypher(false);
+		return this.toCypher(false,0);
 	}
 	
-	public String toCypher(boolean fromStar) {
+	public String toCypher(boolean fromStar, int borneSup) {
 		// Initialisation
 		StringBuilder sb = new StringBuilder();
 		Set<String> hs = new HashSet<String>();
@@ -51,9 +51,11 @@ public class Union extends NAry {
 				sb.append(((Atom)this.children.get(i)).getEtiquette());
 			}
 		}
-
 		
-		sb.append( fromStar ? (this.direction==1 ? "*]->" : "*]-") : (this.direction==1 ? "]->" : "]-"));
+		if(!fromStar)
+			sb.append( this.direction==1 ? "]->" : "]-" );
+		else 
+			sb.append( borneSup > 0 ? (this.direction==1 ? "*.."+borneSup+"]->" : "*.."+borneSup+"]-") : (this.direction==1 ? "*]->" : "*]-"));
 		return sb.toString();
 	}
 
