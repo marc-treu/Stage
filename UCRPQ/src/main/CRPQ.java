@@ -15,39 +15,57 @@ public class CRPQ {
 	
 	
 	
-	public String toCypher() {
-		StringBuilder sb = new StringBuilder();
+	public String getCypherExpression() {
 		
-		if(this.isCypherable()) {
-			Set<String> hs = new HashSet<String>();
-			sb.append("MATCH ("+this.children.get(0).origin+")"+this.children.get(0).expression.toCypher()+"("+this.children.get(0).destination+")");
-			hs.add(this.children.get(0).origin);
-			hs.add(this.children.get(0).destination);
-
-			for (int i = 1; i<this.children.size() ;++i) {
-				sb.append("\nMATCH ("+this.children.get(i).origin+")"+this.children.get(i).expression.toCypher()+"("+this.children.get(i).destination+")");
-				hs.add(this.children.get(i).origin);
-				hs.add(this.children.get(i).destination);
-			}
-
-			Iterator<String> it = hs.iterator();
-			
-			sb.append("\nRETURN "+it.next());
-			while (it.hasNext()) {
-				sb.append(", "+it.next());
-			}
-		}else {
+		StringBuilder sb = new StringBuilder();
+				
+		if(!this.isCypherable()) {
 			List<CRPQ> resultat = RewritingRules.rewriteCRPQ(this);
-			if (resultat == null) {
+			
+			if(!resultat.get(0).isCypherable()) {
 				return "L'expression est non expressible en Cypher";
 			}
+			
 			sb.append(resultat.get(0).toCypher());
+			
 			for (int i = 1; i<resultat.size() ;++i) {
+				
+				if(!resultat.get(i).isCypherable()) {
+					return "L'expression est non expressible en Cypher";
+				}
+				
 				sb.append("\nUNION\n");
 				sb.append(resultat.get(i).toCypher());
 			}
+			
 		}
+		else
+			sb.append(this.toCypher());
 		
+		return sb.toString();
+	}
+	
+	public String toCypher() {
+		StringBuilder sb = new StringBuilder();
+		
+		Set<String> hs = new HashSet<String>();
+		sb.append("MATCH ("+this.children.get(0).origin+")"+this.children.get(0).expression.toCypher()+"("+this.children.get(0).destination+")");
+		hs.add(this.children.get(0).origin);
+		hs.add(this.children.get(0).destination);
+
+		for (int i = 1; i<this.children.size() ;++i) {
+			sb.append("\nMATCH ("+this.children.get(i).origin+")"+this.children.get(i).expression.toCypher()+"("+this.children.get(i).destination+")");
+			hs.add(this.children.get(i).origin);
+			hs.add(this.children.get(i).destination);
+		}
+
+		Iterator<String> it = hs.iterator();
+		
+		sb.append("\nRETURN "+it.next());
+		while (it.hasNext()) {
+			sb.append(", "+it.next());
+		}
+
 		return sb.toString();
 	}
 	
