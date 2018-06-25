@@ -99,7 +99,7 @@ public class Union extends NAry {
 	}
 
 	@Override
-	public Union flatten() {
+	public RegExp flatten() {
 		Set<String> hs = new HashSet<String>();
 		List<RegExp> resultat = new ArrayList<>();
 		for(RegExp e : ((Union) super.flatten()).children) {
@@ -108,7 +108,7 @@ public class Union extends NAry {
 				resultat.add(e);
 			}
 		}
-		return new Union(resultat.toArray(new RegExp [resultat.size()]));
+		return resultat.size()==1 ? resultat.get(0).flatten() : new Union(resultat.toArray(new RegExp [resultat.size()]));
 	}
 
 }
