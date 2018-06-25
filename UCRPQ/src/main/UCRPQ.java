@@ -11,27 +11,37 @@ public class UCRPQ {
 		this.children = children;
 	}
 
+	
+	public String getCypherExpression() {
+		
+		StringBuilder sb = new StringBuilder();
+				
+		if(!this.isCypherable()) {
+			UCRPQ resultat = RewritingRules.rewriteUCRPQ(this);
+			
+			if(!resultat.isCypherable()) {
+				return "L'expression est non expressible en Cypher";
+			}
+			
+			sb.append(resultat.toCypher());
+			
+		}
+		else
+			sb.append(this.toCypher());
+		
+		return sb.toString();
+	}
 
 	public String toCypher() {
 		StringBuilder sb = new StringBuilder();
+		
+		Iterator<CRPQ> it = this.children.iterator();
 
-		if(this.isCypherable()) {
+		sb.append(it.next().toCypher());
 
-			Iterator<CRPQ> it = this.children.iterator();
-
+		while(it.hasNext()) {
+			sb.append("\nUNION\n");
 			sb.append(it.next().toCypher());
-
-			while(it.hasNext()) {
-				sb.append("\nUNION\n");
-				sb.append(it.next().toCypher());
-			}
-
-		}else {
-			UCRPQ resultat = RewritingRules.rewriteUCRPQ(this);
-			if (resultat == null)
-				return "L'expression est non expressible en Cypher";
-			else
-				sb.append(resultat.toCypher());
 		}
 
 		return sb.toString();
