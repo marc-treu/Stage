@@ -20,6 +20,7 @@ public class Test {
 	                       "x,(a+b)*,y",
 	                       "x,(a+b)*.a-*.b*.(a+c)*,y",
 	                       "x,(a.b)+c,y",
+	                       "x,c+(a.b),y",
 	                       "x,a+b,y",
 	                       "x,((a.b+c).d+e).f,y",
 	                       "x,(a.b+a.b).(a.b+a.b),y",
@@ -36,11 +37,13 @@ public class Test {
 		List<String> crpq_string 
 			= Arrays.asList("(x,(a.b.c),y)&(x,a*,y)",
 					"(x,((a.b)+(c.d)),y)&(x,a*,y)",
+					"(x,a+b,y)&(x,(a+b)*,y)",
+					"(x,a+b,y)&(x,(a.b)*,y)",
 					"(x,((a.b+c).d+e).(f.g+h*),y)&(x,((a.b)+(c.d)),y)&(x,a*,y)");
 		List<CRPQ> crpqs = crpq_string.stream().map(Parser::parseCRPQ).collect(Collectors.toList());
 		for (CRPQ cr : crpqs) {
 			System.out.println("\n"+cr.toString());
-			System.out.println(cr.toCypher());
+			System.out.println(cr.getCypherExpression());
 		}
 		
 
@@ -55,7 +58,7 @@ public class Test {
 		List<UCRPQ> ucrpqs = ucrpq_string.stream().map(Parser::parseUCRPQ).collect(Collectors.toList());
 		for (UCRPQ ucr : ucrpqs) {
 			System.out.println("\n"+ucr.toString());
-			System.out.println(ucr.toCypher());
+			System.out.println(ucr.getCypherExpression());
 		}
 	
 		
