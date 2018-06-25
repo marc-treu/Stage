@@ -32,16 +32,16 @@ public class UCRPQ {
 		return sb.toString();
 	}
 
-	public String toCypher() {
+	private String toCypher() {
 		StringBuilder sb = new StringBuilder();
 		
 		Iterator<CRPQ> it = this.children.iterator();
 
-		sb.append(it.next().toCypher());
+		sb.append(it.next().getCypherExpression());
 
 		while(it.hasNext()) {
 			sb.append("\nUNION\n");
-			sb.append(it.next().toCypher());
+			sb.append(it.next().getCypherExpression());
 		}
 
 		return sb.toString();

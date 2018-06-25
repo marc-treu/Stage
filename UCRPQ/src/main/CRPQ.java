@@ -45,7 +45,7 @@ public class CRPQ {
 		return sb.toString();
 	}
 	
-	public String toCypher() {
+		private String toCypher() {
 		StringBuilder sb = new StringBuilder();
 		
 		Set<String> hs = new HashSet<String>();

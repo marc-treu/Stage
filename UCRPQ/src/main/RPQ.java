@@ -46,7 +46,7 @@ public class RPQ {
 		return sb.toString();
 	}
 	
-	public String toCypher(){
+	private String toCypher(){
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
