@@ -28,7 +28,7 @@ public class Test {
 	    List<RPQ> rpqs = rpq_strings.stream().map(Parser::parseRPQ).collect(Collectors.toList());
 		for (RPQ rpq : rpqs) {
 			System.out.println("\n"+rpq.toString());
-			System.out.println(rpq.toCypher());
+			System.out.println(rpq.getCypherExpression());
 		}
 
 		System.out.println("\n####  CRPQ  ####\n");
