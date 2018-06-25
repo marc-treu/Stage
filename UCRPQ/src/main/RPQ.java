@@ -16,25 +16,41 @@ public class RPQ {
 	}
 	
 	
-	public String toCypher(){
-
-		StringBuilder sb = new StringBuilder();
+	public String getCypherExpression() {
 		
-		if(!isCypherable()) {// Si il faut réécrire la requête
+		StringBuilder sb = new StringBuilder();
+				
+		if(!this.isCypherable()) {
 			List<RPQ> resultat = RewritingRules.rewriteRPQ(this);
-			if (resultat == null) {
+			
+			if(!resultat.get(0).isCypherable()) {
 				return "L'expression est non expressible en Cypher";
 			}
+			
 			sb.append(resultat.get(0).toCypher());
+			
 			for (int i = 1; i<resultat.size() ;++i) {
+				
+				if(!resultat.get(i).isCypherable()) {
+					return "L'expression est non expressible en Cypher";
+				}
+				
 				sb.append("\nUNION\n");
 				sb.append(resultat.get(i).toCypher());
 			}
 			
-		}else {
-			sb.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
-			sb.append("\nRETURN "+this.origin+", "+this.destination);
 		}
+		else
+			sb.append(this.toCypher());
+		
+		return sb.toString();
+	}
+	
+	public String toCypher(){
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("MATCH ("+this.origin+")"+this.expression.toCypher()+"("+this.destination+")");			
+		sb.append("\nRETURN "+this.origin+", "+this.destination);
 		
 		return sb.toString();
 	}
