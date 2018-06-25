@@ -31,13 +31,21 @@ public abstract class NAry implements RegExp {
 	}
 	
 	public RegExp flatten() {
+		
+		if(this.children.size()==1) 
+			return this.children.get(0).flatten();
+		
 		List<RegExp> le = new ArrayList<RegExp>();
 		
 		for (RegExp e : this.children) {
 			if(e.type()==(separator=="." ? RegExp.Type.Concatenation : RegExp.Type.Union)) {
 				RegExp t = e.flatten();
-				for (RegExp ee : t.children()) {
-					le.add(ee.flatten());
+				try {
+					for (RegExp ee : t.children()) {
+						le.add(ee.flatten());
+					}
+				}catch(UnsupportedOperationException exception) {
+					le.add(t);
 				}
 			}
 			else
