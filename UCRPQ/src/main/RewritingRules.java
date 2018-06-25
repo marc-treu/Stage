@@ -76,32 +76,18 @@ public class RewritingRules {
 		}
 		return Arrays.asList(query);
 	}
-	
-
-	private static void getCombinaison(List<List<RPQ>> temp, List<CRPQ> resultat, int depth, List<RPQ> rpqs) {
-		if(depth==temp.size()) {
-			resultat.add(new CRPQ(rpqs));
-			return;
-		}
-		for(int i=0 ;i<temp.get(depth).size(); ++i) {
-			List<RPQ> temps_rpqs = new ArrayList<RPQ>();
-			temps_rpqs.addAll(rpqs);
-			temps_rpqs.add(temp.get(depth).get(i));
-			getCombinaison(temp, resultat, depth+1, temps_rpqs);
-	
-		}
-	}
-	
+		
 	public static List<RPQ> rewriteRPQ(RPQ query){
 		List<RPQ> resultat = new ArrayList<>();
+		List<RegExp> temp = extractUnion(query.expression);
 		
-		for(RegExp e : extractUnion(query.expression)) {
-			if(!e.isCypherable()) 
+		if(temp.size()==1) 
+			resultat.add(new RPQ(query.origin,query.expression,query.destination));
+		else {
+			for (RegExp e : temp) {
 				resultat.addAll(rewriteRPQ(new RPQ(query.origin,e,query.destination)));
-			else
-				resultat.add(new RPQ(query.origin,e,query.destination));
+			}
 		}
-		
 		return resultat;
 	}
 
@@ -115,6 +101,20 @@ public class RewritingRules {
 		
 		getCombinaison(temp,resultat,0,new ArrayList<RPQ>());
 		return resultat;
+	}
+	
+	private static void getCombinaison(List<List<RPQ>> temp, List<CRPQ> resultat, int depth, List<RPQ> rpqs) {
+		if(depth==temp.size()) {
+			resultat.add(new CRPQ(rpqs));
+			return;
+		}
+		for(int i=0 ;i<temp.get(depth).size(); ++i) {
+			List<RPQ> temps_rpqs = new ArrayList<RPQ>();
+			temps_rpqs.addAll(rpqs);
+			temps_rpqs.add(temp.get(depth).get(i));
+			getCombinaison(temp, resultat, depth+1, temps_rpqs);
+	
+		}
 	}
 
 	public static UCRPQ rewriteUCRPQ(UCRPQ query) {
