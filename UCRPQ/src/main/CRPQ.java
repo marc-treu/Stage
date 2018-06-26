@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -13,9 +14,12 @@ public class CRPQ {
 		this.children = children;
 	}
 	
-	
-	
+
 	public String getCypherExpression() {
+		return this.getCypherExpression(new HashSet<String>());
+	}	
+	
+	public String getCypherExpression(Set<String> returnNode) {
 		
 		StringBuilder sb = new StringBuilder();
 				
@@ -26,7 +30,7 @@ public class CRPQ {
 				return "L'expression est non expressible en Cypher";
 			}
 			
-			sb.append(resultat.get(0).toCypher());
+			sb.append(resultat.get(0).toCypher(returnNode));
 			
 			for (int i = 1; i<resultat.size() ;++i) {
 				
@@ -35,20 +39,20 @@ public class CRPQ {
 				}
 				
 				sb.append("\nUNION\n");
-				sb.append(resultat.get(i).toCypher());
+				sb.append(resultat.get(i).toCypher(returnNode));
 			}
 			
 		}
 		else
-			sb.append(this.toCypher());
+			sb.append(this.toCypher(returnNode));
 		
 		return sb.toString();
 	}
 	
-		private String toCypher() {
+		private String toCypher(Set<String> returnNode) {
 		StringBuilder sb = new StringBuilder();
 		
-		Set<String> hs = new HashSet<String>();
+		Set<String> hs = new HashSet<String>(returnNode);
 		sb.append("MATCH ("+this.children.get(0).origin+")"+this.children.get(0).expression.toCypher()+"("+this.children.get(0).destination+")");
 		hs.add(this.children.get(0).origin);
 		hs.add(this.children.get(0).destination);
@@ -90,6 +94,14 @@ public class CRPQ {
 		sb.append(")");
 		return sb.toString();
 		
+	}
+	
+	public List<String> getReturnNode(){
+		List<String> resultat = new ArrayList<>();
+		for (RPQ r : this.children) {
+			resultat.addAll(r.getReturnNode());
+		}
+		return resultat;
 	}
 	
 }

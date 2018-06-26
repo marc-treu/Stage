@@ -1,7 +1,9 @@
 package main;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class UCRPQ {
 
@@ -33,19 +35,31 @@ public class UCRPQ {
 	}
 
 	private String toCypher() {
-		StringBuilder sb = new StringBuilder();
 		
+		StringBuilder sb = new StringBuilder();
 		Iterator<CRPQ> it = this.children.iterator();
-
-		sb.append(it.next().getCypherExpression());
+		Set<String> sr = this.getReturnNode();
+		
+		sb.append(it.next().getCypherExpression(sr));
 
 		while(it.hasNext()) {
 			sb.append("\nUNION\n");
-			sb.append(it.next().getCypherExpression());
+			sb.append(it.next().getCypherExpression(sr));
 		}
 
 		return sb.toString();
 	}
+
+	private Set<String> getReturnNode() {
+		Set<String> resultat = new HashSet<String>();
+		
+		for(CRPQ cr : this.children) {
+			resultat.addAll(cr.getReturnNode());
+		}
+		
+		return resultat;
+	}
+
 
 	public boolean isCypherable() {
 		for (CRPQ e : this.children) {
