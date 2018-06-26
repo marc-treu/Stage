@@ -40,7 +40,7 @@ public class Test {
 		List<String> crpq_string 
 			= Arrays.asList("(x,(a.b.c),y)&(x,a*,y)",
 					"(x,((a.b)+(c.d)),y)&(x,a*,y)",
-					"(x,a+b,y)&(x,(a+b)*,y)",
+					"(x,a+b,y)&(y,(a+b)*,z)&(z,(a.b.d),x)",
 					"(x,a+b,y)&(x,(a.b)*,y)",
 					"(x,((a.b+c).d+e).(f.g+h*),y)&(x,((a.b)+(c.d)),y)&(x,a*,y)");
 		List<CRPQ> crpqs = crpq_string.stream().map(Parser::parseCRPQ).collect(Collectors.toList());
@@ -55,7 +55,7 @@ public class Test {
 		
 		List<String> ucrpq_string 
 			= Arrays.asList("(x,(a.b.c),y)&(x,a*,y)|(x,(a*.(c+(b.d))),y)",
-					"(x,(a+b),y)&x,(c-),y|x,(a+b),y",
+					"(x,(a+b),y)&y,(c-),z|w,(a+b),q",
 					"(x,a,y)|(x,(a.c)*,y)");
 		
 		List<UCRPQ> ucrpqs = ucrpq_string.stream().map(Parser::parseUCRPQ).collect(Collectors.toList());
