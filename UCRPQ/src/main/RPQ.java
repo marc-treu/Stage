@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class RPQ {
@@ -74,4 +75,8 @@ public class RPQ {
 		return this.origin+","+this.expression+","+this.destination;
 	}
 
+	
+	public List<String> getReturnNode(){
+		return Arrays.asList(this.origin,this.destination);
+	}
 }
