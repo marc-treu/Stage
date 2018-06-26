@@ -43,14 +43,14 @@ public class Union extends NAry {
 
 		sb.append( this.direction==0 ? "<-[:" : "-[:");
 
-		sb.append(((Atom)this.children.get(0)).getEtiquette());
-		hs.add(((Atom)this.children.get(0)).getEtiquette());
+		sb.append(((Atom)this.children.get(0)).getEtiquette().get(0));
+		hs.addAll(((Atom)this.children.get(0)).getEtiquette());
 
 		for(int i=1 ;i<this.children.size();++i) {
-			if (!hs.contains(((Atom)this.children.get(i)).getEtiquette())) {
-				hs.add(((Atom)this.children.get(i)).getEtiquette());
+			if (!hs.contains(((Atom)this.children.get(i)).getEtiquette().get(0))) {
+				hs.addAll(((Atom)this.children.get(i)).getEtiquette());
 				sb.append("|");
-				sb.append(((Atom)this.children.get(i)).getEtiquette());
+				sb.append(((Atom)this.children.get(i)).getEtiquette().get(0));
 			}
 		}
 
@@ -70,7 +70,7 @@ public class Union extends NAry {
 			if(e.type()!=RegExp.Type.Atom)
 				return false;
 
-			tmp_etiquette =((Atom)e).getEtiquette();
+			tmp_etiquette =((Atom)e).getEtiquette().get(0);
 
 			if(hm.containsKey(tmp_etiquette)) { // si l'etiquette est deja dans le set
 				if (hm.get(tmp_etiquette).equals(((Atom)e).getDirection() ? 1 : 0 )== false
