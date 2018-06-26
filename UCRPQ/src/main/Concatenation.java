@@ -1,6 +1,8 @@
 package main;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Concatenation extends NAry {
 
@@ -21,11 +23,26 @@ public class Concatenation extends NAry {
 	public String toCypher() {
 
 		StringBuilder sb = new StringBuilder();
+		Set<String> hs = new HashSet<String>();
+		String temp = "_";
+
+		hs.addAll(this.children.get(0).getEtiquette());
 		sb.append(this.children.get(0).toCypher());
 
 		for(int i=1 ;i<this.children.size();++i) {
-			sb.append("()");
-			sb.append(this.children.get(i).toCypher());
+			
+			if(!hs.stream().anyMatch(this.children.get(i).getEtiquette()::contains)) {
+				sb.append("()");
+				sb.append(this.children.get(i).toCypher());
+			}
+			else {
+				temp += "x";
+				sb.append("("+temp+")\nMATCH ("+temp+")");
+				sb.append(this.children.get(i).toCypher());
+			}
+			
+			hs.addAll(this.children.get(0).getEtiquette());
+
 		}
 
 		return sb.toString();
