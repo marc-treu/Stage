@@ -32,7 +32,7 @@ public class Star implements RegExp {
 		StringBuilder sb = new StringBuilder();
 		if(this.child.type()==RegExp.Type.Atom) {// si on a seulement un Atom
 			sb.append( ((Atom)this.child).getDirection()==false ? "<-[:" : "-[:");
-			sb.append( ((Atom)this.child).getEtiquette());
+			sb.append( ((Atom)this.child).getEtiquette().get(0));
 			sb.append( ((Atom)this.child).getDirection()==true ? "*]->" : "*]-");
 		}
 		else // si on a une Union d'Atom
