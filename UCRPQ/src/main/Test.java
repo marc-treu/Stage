@@ -24,14 +24,17 @@ public class Test {
 	                       "x,a+b,y",
 	                       "x,((a.b+c).d+e).f,y",
 	                       "x,(a.b+a.b).(a.b+a.b),y",
-	                       "x,((a.b+c).d+e).(f.g+h*),y"
+	                       "x,((a.b+c).d+e).(f.g+h*),y",
+	                       "x,(a+f)*.v.s.((b+f))*,y",
+	                       "x,a.b.a,y",
+	                       "x,a.b.a.a.a,y"
 	                     );
 	    List<RPQ> rpqs = rpq_strings.stream().map(Parser::parseRPQ).collect(Collectors.toList());
 		for (RPQ rpq : rpqs) {
 			System.out.println("\n"+rpq.toString());
 			System.out.println(rpq.getCypherExpression());
 		}
-
+		
 		System.out.println("\n####  CRPQ  ####\n");
 		
 		List<String> crpq_string 
@@ -60,7 +63,7 @@ public class Test {
 			System.out.println("\n"+ucr.toString());
 			System.out.println(ucr.getCypherExpression());
 		}
-	
 		
+			
 	}
 }
