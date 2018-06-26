@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Atom implements RegExp {
@@ -41,8 +42,8 @@ public class Atom implements RegExp {
 		return this.direction;
 	}
 	
-	public String getEtiquette() {
-		return this.etiquette; 
+	public List<String> getEtiquette() {
+		return Arrays.asList(this.etiquette); 
 	}
 
 	@Override

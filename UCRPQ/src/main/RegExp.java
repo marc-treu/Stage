@@ -21,4 +21,5 @@ public interface RegExp {
 
 	public RegExp flatten();
 
+	public List<String> getEtiquette();
 }

@@ -51,8 +51,20 @@ public abstract class NAry implements RegExp {
 			else
 				le.add(e.flatten());
 		}
-		return separator=="." ? new Concatenation(le.toArray(new RegExp [le.size()])) : new Union(le.toArray(new RegExp [le.size()])) ;
-		
+		return separator=="." ? new Concatenation(le.toArray(new RegExp [le.size()])) : new Union(le.toArray(new RegExp [le.size()])) ;	
 	}
+	
+	
+	public List<String> getEtiquette(){
+		List<String> resultat = new ArrayList<>();
+		
+		for(RegExp e : this.children) {
+			resultat.addAll(e.getEtiquette());
+		}
+		
+		return resultat;
+	}
+	
+	
 
 }

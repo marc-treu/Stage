@@ -60,4 +60,9 @@ public class Star implements RegExp {
 		return this.child;
 	}
 
+	@Override
+	public List<String> getEtiquette() {
+		return this.child.getEtiquette();
+	}
+
 }
