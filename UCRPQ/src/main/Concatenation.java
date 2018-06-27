@@ -41,7 +41,7 @@ public class Concatenation extends NAry {
 				sb.append(this.children.get(i).toCypher());
 			}
 			
-			hs.addAll(this.children.get(0).getEtiquette());
+			hs.addAll(this.children.get(i).getEtiquette());
 
 		}
 
