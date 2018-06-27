@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 public class Concatenation extends NAry {
+	
+	private static int x = 0;
 
 	public Concatenation(RegExp... args) {
 		super(".",args);
@@ -24,7 +26,7 @@ public class Concatenation extends NAry {
 
 		StringBuilder sb = new StringBuilder();
 		Set<String> hs = new HashSet<String>();
-		String temp = "_";
+		String temp;
 
 		hs.addAll(this.children.get(0).getEtiquette());
 		sb.append(this.children.get(0).toCypher());
@@ -36,7 +38,7 @@ public class Concatenation extends NAry {
 				sb.append(this.children.get(i).toCypher());
 			}
 			else {
-				temp += "x";
+				temp = "_x"+(x++);
 				sb.append("("+temp+")\nMATCH ("+temp+")");
 				sb.append(this.children.get(i).toCypher());
 			}
