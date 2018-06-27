@@ -55,7 +55,7 @@ public class Union extends NAry {
 		}
 
 
-		sb.append( fromStar ? (this.direction==1 ? "*]->" : "*]-") : (this.direction==1 ? "]->" : "]-"));
+		sb.append( fromStar ? (this.direction==1 ? "*0..]->" : "*0..]-") : (this.direction==1 ? "]->" : "]-"));
 		return sb.toString();
 	}
 
