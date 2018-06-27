@@ -52,7 +52,7 @@ public class CRPQ {
 		private String toCypher(Set<String> returnNode) {
 		StringBuilder sb = new StringBuilder();
 		
-		Set<String> hs = new HashSet<String>(returnNode);
+		Set<String> hs = new HashSet<String>();
 		sb.append("MATCH ("+this.children.get(0).origin+")"+this.children.get(0).expression.toCypher()+"("+this.children.get(0).destination+")");
 		hs.add(this.children.get(0).origin);
 		hs.add(this.children.get(0).destination);
@@ -62,12 +62,21 @@ public class CRPQ {
 			hs.add(this.children.get(i).origin);
 			hs.add(this.children.get(i).destination);
 		}
-
+		
 		Iterator<String> it = hs.iterator();
 		
 		sb.append("\nRETURN "+it.next());
 		while (it.hasNext()) {
 			sb.append(", "+it.next());
+		}
+		
+		// On créé un nouvelle ensemble qui va etre la difference entre les noeuds de la CRPQ
+		Set<String> noeudNull = new HashSet<>(returnNode);// et de la UCRPQ pour unifier leur return
+		noeudNull.removeAll(hs);
+		
+		// On va retourné la valeur null pour chaque noeud de la UCRPQ qui n'est pas dans 
+		for(String otherNode : noeudNull ) {// la CRPQ actuelle
+			sb.append(", null AS "+otherNode);
 		}
 
 		return sb.toString();
