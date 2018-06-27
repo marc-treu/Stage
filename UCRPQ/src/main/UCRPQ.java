@@ -43,7 +43,7 @@ public class UCRPQ {
 		sb.append(it.next().getCypherExpression(sr));
 
 		while(it.hasNext()) {
-			sb.append("\nUNION\n");
+			sb.append("\nUNION ALL\n");
 			sb.append(it.next().getCypherExpression(sr));
 		}
 

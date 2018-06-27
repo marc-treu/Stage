@@ -36,7 +36,7 @@ public class RPQ {
 					return "L'expression est non expressible en Cypher";
 				}
 				
-				sb.append("\nUNION\n");
+				sb.append("\nUNION ALL\n");
 				sb.append(resultat.get(i).toCypher());
 			}
 			
