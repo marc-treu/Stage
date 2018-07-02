@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -38,12 +39,12 @@ public class UCRPQ {
 		
 		StringBuilder sb = new StringBuilder();
 		Iterator<CRPQ> it = this.children.iterator();
-		Set<String> sr = this.getReturnNode();
+		ArrayList<String> sr = new ArrayList<>(this.getReturnNode());
 		
 		sb.append(it.next().getCypherExpression(sr));
 
 		while(it.hasNext()) {
-			sb.append("\nUNION ALL\n");
+			sb.append("\nUNION\n");
 			sb.append(it.next().getCypherExpression(sr));
 		}
 

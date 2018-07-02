@@ -16,10 +16,10 @@ public class CRPQ {
 	
 
 	public String getCypherExpression() {
-		return this.getCypherExpression(new HashSet<String>());
+		return this.getCypherExpression(new ArrayList<String>());
 	}	
 	
-	public String getCypherExpression(Set<String> returnNode) {
+	public String getCypherExpression(ArrayList<String> arrayList) {
 		
 		StringBuilder sb = new StringBuilder();
 				
@@ -30,7 +30,7 @@ public class CRPQ {
 				return "L'expression est non expressible en Cypher";
 			}
 			
-			sb.append(resultat.get(0).toCypher(returnNode));
+			sb.append(resultat.get(0).toCypher(arrayList));
 			
 			for (int i = 1; i<resultat.size() ;++i) {
 				
@@ -38,18 +38,18 @@ public class CRPQ {
 					return "L'expression est non expressible en Cypher";
 				}
 				
-				sb.append("\nUNION ALL\n");
-				sb.append(resultat.get(i).toCypher(returnNode));
+				sb.append("\nUNION\n");
+				sb.append(resultat.get(i).toCypher(arrayList));
 			}
 			
 		}
 		else
-			sb.append(this.toCypher(returnNode));
+			sb.append(this.toCypher(arrayList));
 		
 		return sb.toString();
 	}
 	
-		private String toCypher(Set<String> returnNode) {
+		private String toCypher(ArrayList<String> returnNode) {
 		StringBuilder sb = new StringBuilder();
 		
 		Set<String> hs = new HashSet<String>();
@@ -63,20 +63,28 @@ public class CRPQ {
 			hs.add(this.children.get(i).destination);
 		}
 		
-		Iterator<String> it = hs.iterator();
-		
-		sb.append("\nRETURN "+it.next());
-		while (it.hasNext()) {
-			sb.append(", "+it.next());
+		// Cas ou il n'y qu'une CRPQ
+		if(returnNode.size()==0) {
+			Iterator<String> it = hs.iterator();
+			sb.append("\nRETURN "+it.next());
+			while(it.hasNext()) {
+				sb.append(", "+it.next());
+			}
 		}
 		
-		// On créé un nouvelle ensemble qui va etre la difference entre les noeuds de la CRPQ
-		Set<String> noeudNull = new HashSet<>(returnNode);// et de la UCRPQ pour unifier leur return
-		noeudNull.removeAll(hs);
+		// Cas ou il y a plusieur CRPQ, et qu'il faut donc unifier leurs variables de retour
+		else {
+			if(hs.contains(returnNode.get(0))) 
+				sb.append("\nRETURN "+returnNode.get(0));
+			else
+				sb.append("\nRETURN null AS "+returnNode.get(0));
 		
-		// On va retourné la valeur null pour chaque noeud de la UCRPQ qui n'est pas dans 
-		for(String otherNode : noeudNull ) {// la CRPQ actuelle
-			sb.append(", null AS "+otherNode);
+			for(int i = 1;i<returnNode.size();++i) {
+				if(hs.contains(returnNode.get(i))) 
+					sb.append(", "+returnNode.get(i));
+				else
+					sb.append(", null AS "+returnNode.get(i));
+			}
 		}
 
 		return sb.toString();
