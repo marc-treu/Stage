@@ -23,8 +23,24 @@ public class Automate {
 	 */
 	public Automate automateFromRegExp(RegExp r) {
 		
+		// On récuperer la taille de notre Expression
 		int taille = r.getLength() + 1; 
+		// On initialise notre tableau de transition avec des '0' partout
+		char[][] tableTransition  = initialisationTableau(taille);
+		RegExp r_renomer = r.getRename(0);
+		
 		
 		return null;
+	}
+
+
+	private char[][] initialisationTableau(int taille) {
+		char [][] resulat= new char [taille][taille];
+		for(int i=0;i<taille;i++) {
+			for(int j=0;j<taille;j++) {
+				resulat[i][j]='0';
+			}
+		}		
+		return resulat;
 	}
 }
