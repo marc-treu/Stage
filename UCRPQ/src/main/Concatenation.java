@@ -66,7 +66,7 @@ public class Concatenation extends NAry {
 	@Override
 	public List<String> getInitaux() {
 		
-		if(this.children.get(0).type()!=Type.Star)
+		if(this.children.get(0).type()!=Type.Star || this.children.size()==1 )
 			return this.children.get(0).getInitaux();
 		
 		
@@ -75,7 +75,7 @@ public class Concatenation extends NAry {
 		resultat.addAll(new Concatenation( 
 				this.children.subList(1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
 		
-		return null;
+		return resultat;
 	}
 
 }
