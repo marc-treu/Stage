@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
 import main.*;
@@ -105,7 +107,6 @@ public class TestRegExp {
 	
 	@Test
 	void testManyRegExpgetRename() {
-		System.out.println(Parser.parseRegExp("(q.((u+i)*).x). ( (a.(s+w+x+(q.u.e))) + ( ((a.v.(e+s))*) ))").getRename(1));
 
 		assertEquals("(q1.c2.v3.(a4+v5))*"
 				, Parser.parseRegExp("((q.c.v.(a+v))*)").getRename(1).toString());
@@ -120,8 +121,63 @@ public class TestRegExp {
 				, Parser.parseRegExp("(a*)+((b+c).(d+e))").getRename(1).toString());
 	}
 	
+
+	// TESTE UNIT POUR getInitaux()
+	
+	@Test
+	void testAtomgetInitaux() {
+		assertEquals(Arrays.asList("a"), Parser.parseRegExp("a").getInitaux());
+	}
+	
+	@Test
+	void testUniongetInitaux() {
+		assertEquals(Arrays.asList("a","b"), Parser.parseRegExp("a+b").getInitaux());
+	}	
+	
+	@Test
+	void testConcatenatiogetInitaux() {
+		assertEquals(Arrays.asList("a"), Parser.parseRegExp("a.b.c").getInitaux());
+	}
+	
+	@Test
+	void testConcatenatioOverUniongetInitaux() {
+		assertEquals(Arrays.asList("a","c"), Parser.parseRegExp("(a+c).(v+r+s).c").getInitaux());
+	}
+	
+	@Test
+	void testUnionOverConcatenatiogetInitaux() {
+		assertEquals(Arrays.asList("q","a","a"), Parser.parseRegExp("(q.c.v.d)+(a.d)+(a.b.c)").getInitaux());
+	}
+	
+	@Test
+	void testStargetInitaux() {
+		assertEquals(Arrays.asList("a"), Parser.parseRegExp("(a*)").getInitaux());
+	}
+	
+	@Test
+	void testStarOverConcatenatiogetInitaux() {
+		assertEquals(Arrays.asList("q"), Parser.parseRegExp("((q.c.v.d)*)").getInitaux());
+	}
+	
+	@Test
+	void testStarOverUniongetInitaux() {
+		assertEquals(Arrays.asList("q","c","v","d"), Parser.parseRegExp("((q+c+v+d)*)").getInitaux());
+	}
+	
+	@Test
+	void testManyRegExpgetInitaux() {
+		assertEquals(Arrays.asList("q"), Parser.parseRegExp("((q.c.v.(a+v))*)").getInitaux());
+		assertEquals(Arrays.asList("q","a"), Parser.parseRegExp("((q.c.v.d)*)+a").getInitaux());
+		assertEquals(Arrays.asList("q"), Parser.parseRegExp("(q.((u+i)*).x). ( (a.(s+w+x+(q.u.e))) + ( ((a.v.(e+s))*) ))").getInitaux());
+		assertEquals(Arrays.asList("a","b","c"), Parser.parseRegExp("(a*)+((b+c).(d+e))").getInitaux());
+		assertEquals(Arrays.asList("a","b","c"), Parser.parseRegExp("(a*).(b*).(c*)").getInitaux());
+		assertEquals(Arrays.asList("a","b","a","d","e"), Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))").getInitaux());
+	}
+	/*
 	
 	
 	
+	
+	*/
 	
 }
