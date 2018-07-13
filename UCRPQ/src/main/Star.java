@@ -75,4 +75,9 @@ public class Star implements RegExp {
 		return new Star(this.child.getRename(i));
 	}
 
+	@Override
+	public List<String> getInitaux() {
+		return this.child.getInitaux();
+	}
+
 }

@@ -33,5 +33,7 @@ public interface RegExp {
 	public int getLength();
 
 	public RegExp getRename(int i);
+
+	public List<String> getInitaux();
 	
 }

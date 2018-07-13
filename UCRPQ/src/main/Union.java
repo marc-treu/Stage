@@ -111,4 +111,13 @@ public class Union extends NAry {
 		return resultat.size()==1 ? resultat.get(0).flatten() : new Union(resultat.toArray(new RegExp [resultat.size()]));
 	}
 
+	@Override
+	public List<String> getInitaux() {
+		ArrayList<String> resultat = new ArrayList<>();
+		for(RegExp e : this.children) {
+			resultat.addAll(e.getInitaux());
+		}
+		return resultat;
+	}
+
 }

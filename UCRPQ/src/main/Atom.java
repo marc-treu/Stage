@@ -66,4 +66,9 @@ public class Atom implements RegExp {
 		return new Atom(this.etiquette+String.valueOf(i),direction);
 	}
 
+	@Override
+	public List<String> getInitaux() {
+		return Arrays.asList(this.etiquette);
+	}
+
 }

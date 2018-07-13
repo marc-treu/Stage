@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,6 +61,21 @@ public class Concatenation extends NAry {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public List<String> getInitaux() {
+		
+		if(this.children.get(0).type()!=Type.Star)
+			return this.children.get(0).getInitaux();
+		
+		
+		List<String> resultat = new ArrayList<>();
+		resultat.addAll(this.children.get(0).getInitaux());
+		resultat.addAll(new Concatenation( 
+				this.children.subList(1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
+		
+		return null;
 	}
 
 }
