@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 public class Automate {
 	
 	// On débute toujours notre automate a 0;
@@ -23,11 +25,15 @@ public class Automate {
 	 */
 	public Automate automateFromRegExp(RegExp r) {
 		
+		//INITIALISATION 
+		
 		// On récuperer la taille de notre Expression
 		int taille = r.getLength() + 1; 
 		// On initialise notre tableau de transition avec des '0' partout
 		char[][] tableTransition  = initialisationTableau(taille);
 		RegExp r_renomer = r.getRename(0);
+		
+		List<String> initiaux = r_renomer.getInitaux();
 		
 		
 		return null;
