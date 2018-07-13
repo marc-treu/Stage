@@ -60,4 +60,5 @@ public class Concatenation extends NAry {
 		}
 		return true;
 	}
+
 }

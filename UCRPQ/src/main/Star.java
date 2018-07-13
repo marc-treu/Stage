@@ -65,4 +65,9 @@ public class Star implements RegExp {
 		return this.child.getEtiquette();
 	}
 
+	@Override
+	public int getLength() {
+		return this.child.getLength();
+	}
+
 }

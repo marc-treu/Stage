@@ -23,7 +23,7 @@ public class Automate {
 	 */
 	public Automate automateFromRegExp(RegExp r) {
 		
-		int taille = r.getLenght() + 1; 
+		int taille = r.getLength() + 1; 
 		
 		return null;
 	}

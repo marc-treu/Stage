@@ -65,6 +65,16 @@ public abstract class NAry implements RegExp {
 		return resultat;
 	}
 	
+	@Override
+	public int getLength() {
+		int taille = 0;
+		
+		for(RegExp e : this.children) {
+			taille += e.getLength();
+		}
+		
+		return taille;
+	}
 	
 
 }

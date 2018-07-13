@@ -56,4 +56,9 @@ public class Atom implements RegExp {
 		return this;
 	}
 
+	@Override
+	public int getLength() {
+		return 1;
+	}
+
 }

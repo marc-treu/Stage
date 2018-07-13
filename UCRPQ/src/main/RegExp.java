@@ -22,4 +22,11 @@ public interface RegExp {
 	public RegExp flatten();
 
 	public List<String> getEtiquette();
+
+	/**
+	 * Donne la taille d'une RegExp, ie, le nombre de lettre du langage
+	 * 
+	 * @return la taille de l'expression
+	 */
+	public int getLength();
 }
