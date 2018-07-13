@@ -70,4 +70,9 @@ public class Star implements RegExp {
 		return this.child.getLength();
 	}
 
+	@Override
+	public RegExp getRename(int i) {
+		return new Star(this.child.getRename(i));
+	}
+
 }

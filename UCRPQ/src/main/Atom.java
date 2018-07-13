@@ -61,4 +61,9 @@ public class Atom implements RegExp {
 		return 1;
 	}
 
+	@Override
+	public RegExp getRename(int i) {
+		return new Atom(this.etiquette+String.valueOf(i),direction);
+	}
+
 }

@@ -76,5 +76,19 @@ public abstract class NAry implements RegExp {
 		return taille;
 	}
 	
+	@Override
+	public RegExp getRename(int i) {
+		
+		List<RegExp> le = new ArrayList<RegExp>();
+
+		for(RegExp e : this.children) {
+			le.add(e.getRename(i));
+			i += e.getLength();
+		}
+		
+		return separator=="." ? new Concatenation(le.toArray(new RegExp [le.size()])) :  new Union(le.toArray(new RegExp [le.size()]));
+	}
+
+	
 
 }

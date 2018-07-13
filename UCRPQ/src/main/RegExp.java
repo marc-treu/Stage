@@ -2,6 +2,8 @@ package main;
 import java.util.List;
 
 public interface RegExp {
+	
+	int rename = 1;
 
 	public enum Type{
                 Epsilon,
@@ -29,4 +31,7 @@ public interface RegExp {
 	 * @return la taille de l'expression
 	 */
 	public int getLength();
+
+	public RegExp getRename(int i);
+	
 }
