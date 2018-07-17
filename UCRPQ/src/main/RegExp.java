@@ -35,5 +35,9 @@ public interface RegExp {
 	public RegExp getRename(int i);
 
 	public List<String> getInitaux();
+
+	public List<String> getSuivant(String s);
+
+	public boolean containsEtiquette(String s);
 	
 }

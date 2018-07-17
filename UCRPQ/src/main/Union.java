@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import main.RegExp.Type;
+
 
 public class Union extends NAry {
 
@@ -118,6 +120,26 @@ public class Union extends NAry {
 			resultat.addAll(e.getInitaux());
 		}
 		return resultat;
+	}
+
+	@Override
+	public List<String> getSuivant(String s) {
+		
+		for(int i = 0; i<this.children.size(); ++i) {
+			if (this.children.get(i).containsEtiquette(s)) {
+				if (this.children.get(i).type() == Type.Star) {
+					try {
+						return ((Star)this.children.get(i)).tryGetSuivant(s);
+					}catch (Exception e) {
+						// TODO: handle exception
+					}
+				}		
+				else
+					return this.children.get(i).getSuivant(s);
+			}
+		}
+		
+		return null;
 	}
 
 }

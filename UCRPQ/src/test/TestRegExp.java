@@ -173,11 +173,26 @@ public class TestRegExp {
 		assertEquals(Arrays.asList("a","b","c"), Parser.parseRegExp("(a*).(b*).(c*)").getInitaux());
 		assertEquals(Arrays.asList("a","b","a","d","e"), Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))").getInitaux());
 	}
-	/*
 	
 	
+	// TESTE UNIT POUR getSuivant()
+
+	@Test
+	void testAtomgetSuivant() {
+		try {
+			Parser.parseRegExp("a").getSuivant("a");
+			fail("N'a pas rattraper l'exception");
+		}
+		catch (UnsupportedOperationException e) {
+			assertEquals(0, 0);
+		}
+	}
+	
+	@Test
+	void testConcatenatiogetSuivant() {
+		assertEquals(Arrays.asList("b"), Parser.parseRegExp("a.b.c").getSuivant("a"));
+	}
 	
 	
-	*/
 	
 }

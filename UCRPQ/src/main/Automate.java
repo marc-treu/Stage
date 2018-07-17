@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Automate {
@@ -23,24 +24,57 @@ public class Automate {
 	 * @param r, l'expreesion rationnel que l'on cherche a transformé en automate
 	 * @return un Automate fini qui correspond au langage décrit par r
 	 */
-	public Automate automateFromRegExp(RegExp r) {
+	public static Automate automateFromRegExp(RegExp r) {
 		
 		//INITIALISATION 
 		
+		List<Integer> finale = new ArrayList<>();
 		// On récuperer la taille de notre Expression
 		int taille = r.getLength() + 1; 
 		// On initialise notre tableau de transition avec des '0' partout
 		char[][] tableTransition  = initialisationTableau(taille);
-		RegExp r_renomer = r.getRename(0);
+		RegExp r_renomer = r.getRename(1);
 		
+		// On recupere la liste 
 		List<String> initiaux = r_renomer.getInitaux();
 		
+		for(int i = 0; i<initiaux.size(); ++i) {
+			tableTransition[0][Integer.parseInt(initiaux.get(i).substring(1))]
+					= initiaux.get(i).charAt(0);					
+		}
 		
-		return null;
+		
+		// Boucle Principal
+		
+		for (String s : r_renomer.getEtiquette()) {
+			
+			try {
+				for (String suivant : r_renomer.getSuivant(s)) {
+					tableTransition[Integer.parseInt(s.substring(1))]
+							[Integer.parseInt(suivant.substring(1))]
+									= suivant.charAt(0);					
+				}
+			}
+			catch (UnsupportedOperationException e) {
+				finale.add(Integer.parseInt(s.substring(1)));
+			}
+		}
+		System.out.println("\nRegExp :"+ r_renomer);
+		System.out.println("initiaux : "+ initiaux);
+		System.out.println("finaux :"+finale);
+		for(int i=0;i<taille;++i) {
+			
+			System.out.println(tableTransition[i]);
+		}
+		
+		Automate automate = new Automate(tableTransition, finale.stream().mapToInt(Integer::intValue).toArray());
+
+		
+		return automate;
 	}
 
 
-	private char[][] initialisationTableau(int taille) {
+	private static char[][] initialisationTableau(int taille) {
 		char [][] resulat= new char [taille][taille];
 		for(int i=0;i<taille;i++) {
 			for(int j=0;j<taille;j++) {

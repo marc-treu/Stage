@@ -80,4 +80,27 @@ public class Star implements RegExp {
 		return this.child.getInitaux();
 	}
 
+	@Override
+	public List<String> getSuivant(String s) {
+		List <String> resultat = new ArrayList<String>();
+		//resultat.add(s);
+		try {
+			resultat.addAll(this.child.getSuivant(s));
+		}catch (UnsupportedOperationException e) {
+			resultat.addAll(this.child.getInitaux());
+		}		
+		return resultat;
+	}
+	
+	public List<String> tryGetSuivant(String s) {	
+		return this.child.getSuivant(s);
+	}
+	
+	
+
+	@Override
+	public boolean containsEtiquette(String s) {
+		return this.child.containsEtiquette(s);
+	}
+
 }

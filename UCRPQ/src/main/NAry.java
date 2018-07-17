@@ -90,5 +90,10 @@ public abstract class NAry implements RegExp {
 	}
 
 	
+	@Override
+	public boolean containsEtiquette(String s) {
+		return this.children.stream().anyMatch( e -> e.containsEtiquette(s));
+	}
+	
 
 }

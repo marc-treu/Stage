@@ -66,7 +66,19 @@ public class Test {
 			System.out.println("\n"+ucr.toString());
 			System.out.println(ucr.getCypherExpression());
 		}
+		
+		
+		Automate t = Automate.automateFromRegExp(Parser.parseRegExp("(a.(b+d).e*.c)"));		
+		Automate t2 = Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)"));		
+		Automate t3 = Automate.automateFromRegExp(Parser.parseRegExp("(a*)"));		
+		Automate t4 = Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)"));		
 
+		Automate.automateFromRegExp(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))"));
+		Automate.automateFromRegExp(Parser.parseRegExp("((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))"));
+		
+		Automate.automateFromRegExp(Parser.parseRegExp("a.(((a.c)+(d.r)))"));
+
+		Automate.automateFromRegExp(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))"));
 
 	}
 }
