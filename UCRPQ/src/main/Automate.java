@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Automate {
@@ -77,6 +78,20 @@ public class Automate {
 		return resulat;
 	}
 	
+	
+	public boolean isDeterminist() {
+		
+		for(int i=0;i<this.table_transition.length;++i) {
+			HashSet<Character> hs = new HashSet<>();
+			for (int j = 0; j<this.table_transition.length; ++j) {
+				if(this.table_transition[i][j] != '0' && hs.contains(this.table_transition[i][j])) {
+					return false;
+				}
+				hs.add(this.table_transition[i][j]);
+			}
+		}
+		return true;
+	}
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
