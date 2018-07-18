@@ -2,7 +2,9 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -179,20 +181,68 @@ public class TestRegExp {
 
 	@Test
 	void testAtomgetSuivant() {
-		try {
-			Parser.parseRegExp("a").getSuivant("a");
-			fail("N'a pas rattraper l'exception");
+			List<String> array = new ArrayList<>();
+			Parser.parseRegExp("a").getSuivant(array,"a");
+			assertEquals(new ArrayList<>(), array);
 		}
-		catch (UnsupportedOperationException e) {
-			assertEquals(0, 0);
-		}
+	
+	@Test
+	void testStarOverAtomgetSuivant() {
+		List<String> array = new ArrayList<>();
+		Parser.parseRegExp("(a*)").getSuivant(array,"a");
+		assertEquals(Arrays.asList("a"), array);
 	}
 	
 	@Test
-	void testConcatenatiogetSuivant() {
-		assertEquals(Arrays.asList("b"), Parser.parseRegExp("a.b.c").getSuivant("a"));
+	void testConcatenationOverAtomgetSuivant() {
+		List<String> array = new ArrayList<>();
+		Parser.parseRegExp("(a.b.c)").getSuivant(array,"a");
+		assertEquals(Arrays.asList("b"), array);
+
+		array.clear();
+		Parser.parseRegExp("(a.b.c)").getSuivant(array,"b");
+		assertEquals(Arrays.asList("c"), array);
+		
+		array.clear();
+		Parser.parseRegExp("(a.b.c)").getSuivant(array,"c");
+		assertEquals(new ArrayList<>(), array);
 	}
 	
+	@Test
+	void testStarOverConcatenationOverAtomgetSuivant() {
+		List<String> array = new ArrayList<>();
+		Parser.parseRegExp("((a.b.c)*)").getSuivant(array,"a");
+		assertEquals(Arrays.asList("b"), array);
+
+		array.clear();
+		Parser.parseRegExp("((a.b.c)*)").getSuivant(array,"b");
+		assertEquals(Arrays.asList("c"), array);
+		
+		array.clear();
+		Parser.parseRegExp("((a.b.c)*)").getSuivant(array,"c");
+		assertEquals(Arrays.asList("a"), array);
+	}
+
+	
+	
+	@Test
+	void testConcatenationOverStarAndAtomgetSuivant() {
+		List<String> array = new ArrayList<>();
+		Parser.parseRegExp("(a.(b*).(c*).d )").getSuivant(array,"a");
+		assertEquals(Arrays.asList("b","c","d"), array);
+
+		array.clear();
+		Parser.parseRegExp("(a.(b*).(c*).d )").getSuivant(array,"b");
+		assertEquals(Arrays.asList("b","c","d"), array);
+		
+		array.clear();
+		Parser.parseRegExp("(a.(b*).(c*).d )").getSuivant(array,"c");
+		assertEquals(Arrays.asList("c","d"), array);
+		
+		array.clear();
+		Parser.parseRegExp("(a.(b*).(c*).d )").getSuivant(array,"d");
+		assertEquals(new ArrayList<>(), array);
+	}
 	
 	
 }
