@@ -68,21 +68,21 @@ public class Test {
 			System.out.println(ucr.getCypherExpression());
 		}
 		
-		Automate.automateFromRegExp(Parser.parseRegExp("(a)"));	
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a)")));	
 
-		Automate.automateFromRegExp(Parser.parseRegExp("(a*)"));	
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a*)")));	
 		
-		Automate.automateFromRegExp(Parser.parseRegExp("(a.(b+d).e*.c)"));		
-		Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)"));		
-		Automate.automateFromRegExp(Parser.parseRegExp("(a*)"));		
-		Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)"));		
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a.(b+d).e*.c)")));		
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)")));		
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a*)")));		
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)")));		
 
-		Automate.automateFromRegExp(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))"));
-		Automate.automateFromRegExp(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)"));
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))")));
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)")));
 		
-		Automate.automateFromRegExp(Parser.parseRegExp("a.(((a.c)+(d.r)))"));
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("a.(((a.c)+(d.r)))")));
 
-		Automate.automateFromRegExp(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))"));
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))")));
 
 	}
 }
