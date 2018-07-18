@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Automate {
@@ -9,11 +10,13 @@ public class Automate {
 	int etat_initial = 0;
 	char [][] table_transition;
 	int[] etat_final; 
+	RegExp regexp;
 	
 	
-	public Automate(char [][] table_transition, int [] etat_final) {
+	public Automate(char [][] table_transition, int [] etat_final, RegExp regexp) {
 		this.table_transition = table_transition;
 		this.etat_final = etat_final;
+		this.regexp = regexp;
 	}
 	
 	
@@ -59,20 +62,8 @@ public class Automate {
 			}
 		}
 
-		
-		
-		System.out.println("\nRegExp :"+ r_renomer);
-		System.out.println("initiaux : "+ initiaux);
-		System.out.println("finaux :"+finale);
-		for(int i=0;i<taille;++i) {
-			
-			System.out.println(tableTransition[i]);
-		}
-		
-		Automate automate = new Automate(tableTransition, finale.stream().mapToInt(Integer::intValue).toArray());
 
-		
-		return automate;
+		return  new Automate(tableTransition, finale.stream().mapToInt(Integer::intValue).toArray(),r);
 	}
 
 
@@ -85,4 +76,21 @@ public class Automate {
 		}		
 		return resulat;
 	}
+	
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nRegExp :"+ this.regexp);
+		sb.append("\ninitiaux : "+ this.etat_initial);
+		sb.append("\nfinaux :"+ Arrays.toString(this.etat_final));
+		for(int i=0;i<this.table_transition.length;++i) {
+			sb.append("\n");
+			for (int j = 0; j<this.table_transition.length; ++j) {
+				sb.append(this.table_transition[i][j]);
+			}
+		}
+		return sb.toString();
+	}
+	
+	
 }
