@@ -81,19 +81,25 @@ public class Star implements RegExp {
 	}
 
 	@Override
-	public List<String> getSuivant(String s) {
+	public boolean getSuivant(List<String> sv, String s) {
+
+		if(this.child.getSuivant(sv, s))
+			return true;
+		else {
+			sv.addAll(this.child.getInitaux());
+			return false;
+		}
+		/*
 		List <String> resultat = new ArrayList<String>();
 		//resultat.add(s);
-		try {
-			resultat.addAll(this.child.getSuivant(s));
-		}catch (UnsupportedOperationException e) {
-			resultat.addAll(this.child.getInitaux());
-		}		
-		return resultat;
+		//resultat.addAll(this.child.getSuivant(s));
+		
+		resultat.addAll(this.child.getInitaux());
+		return false;//resultat;*/
 	}
 	
 	public List<String> tryGetSuivant(String s) {	
-		return this.child.getSuivant(s);
+		return null;// this.child.getSuivant(s);
 	}
 	
 	

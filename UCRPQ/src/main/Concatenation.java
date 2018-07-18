@@ -77,8 +77,9 @@ public class Concatenation extends NAry {
 		return resultat;
 	}
 
+	/*
 	@Override
-	public List<String> getSuivant(String s) {
+	public boolean getSuivant(List<String> sv, String s) {
 
 		for(int i = 0; i<this.children.size(); ++i) {
 			if (this.children.get(i).containsEtiquette(s)) {
@@ -88,10 +89,10 @@ public class Concatenation extends NAry {
 				if (this.children.get(i).type() == Type.Star) {
 					try {
 						resultat.addAll(((Star)this.children.get(i)).tryGetSuivant(s));
-						return resultat;
+						return false; // resultat;
 					}
 					catch (UnsupportedOperationException e) {
-						resultat.addAll(((Star)this.children.get(i)).getSuivant(s));
+						//resultat.addAll(((Star)this.children.get(i)).getSuivant(s));
 						if (i < this.children.size()-1)
 							resultat.addAll(new Concatenation( 
 									this.children.subList(i+1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
@@ -106,7 +107,7 @@ public class Concatenation extends NAry {
 
 				
 				try {
-					resultat.addAll(this.children.get(i).getSuivant(s));
+					//resultat.addAll(this.children.get(i).getSuivant(s));
 				} catch (UnsupportedOperationException e) {
 					if (i < this.children.size()-1) {
 						resultat.addAll(new Concatenation( 
@@ -119,12 +120,35 @@ public class Concatenation extends NAry {
 				}
 					
 					
-				return resultat;
+				return false; //resultat;
 			}
 		}
 		
-		return null;
+		return false;
 	}
+	 */
 
-
+	
+	@Override
+	public boolean getSuivant(List<String> sv, String s) {
+		
+		for (int i = 0 ;i<this.children.size() ;++i) {
+			if(this.children.get(i).containsEtiquette(s)){
+				if(this.children.get(i).getSuivant(sv, s)) 
+					return true;
+				
+				if (i < this.children.size()-1 ) {
+					sv.addAll(new Concatenation( this.children.subList(
+							i+1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
+					return true;
+				}
+				else
+					return false;
+			}
+		}
+		
+		return false;
+	}
+	
+	
 }

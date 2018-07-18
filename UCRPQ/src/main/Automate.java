@@ -48,17 +48,19 @@ public class Automate {
 		
 		for (String s : r_renomer.getEtiquette()) {
 			
-			try {
-				for (String suivant : r_renomer.getSuivant(s)) {
-					tableTransition[Integer.parseInt(s.substring(1))]
-							[Integer.parseInt(suivant.substring(1))]
-									= suivant.charAt(0);					
-				}
-			}
-			catch (UnsupportedOperationException e) {
+			List<String> sv = new ArrayList<>();
+			if (!r_renomer.getSuivant(sv,s)) {
 				finale.add(Integer.parseInt(s.substring(1)));
 			}
+			for (String suivant : sv) {
+				tableTransition[Integer.parseInt(s.substring(1))]
+						[Integer.parseInt(suivant.substring(1))]
+								= suivant.charAt(0);					
+			}
 		}
+
+		
+		
 		System.out.println("\nRegExp :"+ r_renomer);
 		System.out.println("initiaux : "+ initiaux);
 		System.out.println("finaux :"+finale);

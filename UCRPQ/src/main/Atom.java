@@ -72,11 +72,9 @@ public class Atom implements RegExp {
 	}
 
 	@Override
-	public List<String> getSuivant(String s) {
-		
-		if (s.equals("*")) // Si on viens d'une étoile
-			return Arrays.asList(this.etiquette);
-		throw new UnsupportedOperationException();
+	public boolean getSuivant(List<String> sv, String s) {
+		return false;
+		//throw new UnsupportedOperationException();
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Test {
+	
 
 	public static void main(String[] args) {
 
@@ -67,6 +68,9 @@ public class Test {
 			System.out.println(ucr.getCypherExpression());
 		}
 		
+		Automate.automateFromRegExp(Parser.parseRegExp("(a)"));	
+
+		Automate.automateFromRegExp(Parser.parseRegExp("(a*)"));	
 		
 		Automate t = Automate.automateFromRegExp(Parser.parseRegExp("(a.(b+d).e*.c)"));		
 		Automate t2 = Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)"));		
@@ -74,7 +78,7 @@ public class Test {
 		Automate t4 = Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)"));		
 
 		Automate.automateFromRegExp(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))"));
-		Automate.automateFromRegExp(Parser.parseRegExp("((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))"));
+		Automate.automateFromRegExp(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)"));
 		
 		Automate.automateFromRegExp(Parser.parseRegExp("a.(((a.c)+(d.r)))"));
 

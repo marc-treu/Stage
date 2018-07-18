@@ -36,7 +36,7 @@ public interface RegExp {
 
 	public List<String> getInitaux();
 
-	public List<String> getSuivant(String s);
+	public boolean getSuivant(List<String> sv, String s);
 
 	public boolean containsEtiquette(String s);
 	
