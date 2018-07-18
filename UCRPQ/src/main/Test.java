@@ -72,10 +72,10 @@ public class Test {
 
 		Automate.automateFromRegExp(Parser.parseRegExp("(a*)"));	
 		
-		Automate t = Automate.automateFromRegExp(Parser.parseRegExp("(a.(b+d).e*.c)"));		
-		Automate t2 = Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)"));		
-		Automate t3 = Automate.automateFromRegExp(Parser.parseRegExp("(a*)"));		
-		Automate t4 = Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)"));		
+		Automate.automateFromRegExp(Parser.parseRegExp("(a.(b+d).e*.c)"));		
+		Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)"));		
+		Automate.automateFromRegExp(Parser.parseRegExp("(a*)"));		
+		Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)"));		
 
 		Automate.automateFromRegExp(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))"));
 		Automate.automateFromRegExp(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)"));
