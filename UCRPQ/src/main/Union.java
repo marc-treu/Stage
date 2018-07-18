@@ -120,30 +120,6 @@ public class Union extends NAry {
 		return resultat;
 	}
 
-	/*
-	@Override
-	public boolean getSuivant(List<String> sv, String s) {
-		
-		for(int i = 0; i<this.children.size(); ++i) {
-			if (this.children.get(i).containsEtiquette(s)) {
-			
-				if (this.children.get(i).type() == Type.Star) {
-					
-					try {
-						//return ((Star)this.children.get(i)).tryGetSuivant(s);
-					}catch (Exception e) {
-						// TODO: handle exception
-					}
-				}		
-				else
-					return false ; //this.children.get(i).getSuivant(s);
-			}
-		}
-		
-		return false;
-	}*/
-
-
 	@Override
 	public boolean getSuivant(List<String> sv, String s) {
 		
@@ -155,14 +131,5 @@ public class Union extends NAry {
 		
 		return false;
 	}
-
-
-
-
-
-
-
-
-
 
 }

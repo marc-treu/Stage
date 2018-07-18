@@ -89,21 +89,8 @@ public class Star implements RegExp {
 			sv.addAll(this.child.getInitaux());
 			return false;
 		}
-		/*
-		List <String> resultat = new ArrayList<String>();
-		//resultat.add(s);
-		//resultat.addAll(this.child.getSuivant(s));
-		
-		resultat.addAll(this.child.getInitaux());
-		return false;//resultat;*/
 	}
 	
-	public List<String> tryGetSuivant(String s) {	
-		return null;// this.child.getSuivant(s);
-	}
-	
-	
-
 	@Override
 	public boolean containsEtiquette(String s) {
 		return this.child.containsEtiquette(s);

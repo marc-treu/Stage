@@ -77,58 +77,7 @@ public class Concatenation extends NAry {
 		return resultat;
 	}
 
-	/*
-	@Override
-	public boolean getSuivant(List<String> sv, String s) {
 
-		for(int i = 0; i<this.children.size(); ++i) {
-			if (this.children.get(i).containsEtiquette(s)) {
-				
-				List<String> resultat = new ArrayList<>();
-				
-				if (this.children.get(i).type() == Type.Star) {
-					try {
-						resultat.addAll(((Star)this.children.get(i)).tryGetSuivant(s));
-						return false; // resultat;
-					}
-					catch (UnsupportedOperationException e) {
-						//resultat.addAll(((Star)this.children.get(i)).getSuivant(s));
-						if (i < this.children.size()-1)
-							resultat.addAll(new Concatenation( 
-									this.children.subList(i+1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
-						System.out.println(this.children.get(i+1) + "  "+s+ resultat);
-					}
-				}
-
-				if (this.children.get(i).type() == Type.Atom && i < this.children.size()-1) {
-					resultat.addAll(new Concatenation( 
-							this.children.subList(i+1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
-				}
-
-				
-				try {
-					//resultat.addAll(this.children.get(i).getSuivant(s));
-				} catch (UnsupportedOperationException e) {
-					if (i < this.children.size()-1) {
-						resultat.addAll(new Concatenation( 
-							this.children.subList(i+1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
-				
-					}
-					else {
-						throw new UnsupportedOperationException();
-					}
-				}
-					
-					
-				return false; //resultat;
-			}
-		}
-		
-		return false;
-	}
-	 */
-
-	
 	@Override
 	public boolean getSuivant(List<String> sv, String s) {
 		
