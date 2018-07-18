@@ -82,10 +82,10 @@ public class Star implements RegExp {
 
 	@Override
 	public boolean getSuivant(List<String> sv, String s) {
-
+		// Si on peu avoir le suivant, c'est a dire que ca n'est pas un atom, une union ou le derniere element d'une concatenation
 		if(this.child.getSuivant(sv, s))
-			return true;
-		else {
+			return true; // On renvoie vrai
+		else {// Sinon on ajoute les initiaux du child, l'atom, les element de l'union, ou le premier element d'une concatenation
 			sv.addAll(this.child.getInitaux());
 			return false;
 		}

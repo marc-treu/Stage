@@ -82,16 +82,16 @@ public class Concatenation extends NAry {
 	public boolean getSuivant(List<String> sv, String s) {
 		
 		for (int i = 0 ;i<this.children.size() ;++i) {
-			if(this.children.get(i).containsEtiquette(s)){
-				if(this.children.get(i).getSuivant(sv, s)) 
-					return true;
+			if(this.children.get(i).containsEtiquette(s)){ // On trouve le bon descendant
+				if(this.children.get(i).getSuivant(sv, s)) // Si on peux lui appliquer getSuivant()
+					return true; // ie, si ce n'est pas un atom, une union, le derniere element d'une concatenation ou une étoile
 				
-				if (i < this.children.size()-1 ) {
-					sv.addAll(new Concatenation( this.children.subList(
+				if (i < this.children.size()-1 ) {// Sinon, Si le descendant n'est pas le dernier element
+					sv.addAll(new Concatenation( this.children.subList( // On ajoute la suite de la Concatenation a partie de l'element i+1
 							i+1, this.children.size()).toArray(new RegExp[this.children.size()-1])).getInitaux() );
 					return true;
 				}
-				else
+				else // Sinon, si c'est le dernier element, alors on renvoie faux
 					return false;
 			}
 		}

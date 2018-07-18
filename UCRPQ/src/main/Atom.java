@@ -73,6 +73,7 @@ public class Atom implements RegExp {
 
 	@Override
 	public boolean getSuivant(List<String> sv, String s) {
+		// On renverra toujours false car on manque d'information sur le suivant
 		return false;
 	}
 

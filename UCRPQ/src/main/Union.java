@@ -124,10 +124,10 @@ public class Union extends NAry {
 	public boolean getSuivant(List<String> sv, String s) {
 		
 		for(int i = 0; i<this.children.size(); ++i) {
-			if (this.children.get(i).containsEtiquette(s)) {
-				return this.children.get(i).getSuivant(sv, s);
-			}
-		}
+			if (this.children.get(i).containsEtiquette(s)) { // On trouve le descends
+				return this.children.get(i).getSuivant(sv, s); // On lui applique getSuivant
+			} // On renverra true dans les cas ou le descends est une étoile ou une concatenation
+		}// Dont on n'est pas au dernier element
 		
 		return false;
 	}
