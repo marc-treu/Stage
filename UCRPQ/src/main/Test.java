@@ -1,7 +1,11 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Test {
@@ -76,13 +80,35 @@ public class Test {
 		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)")));		
 		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a*)")));		
 		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)")));		
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a.c)+(a.d)")));		
 
 		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))")));
 		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)")));
 		
 		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("a.(((a.c)+(d.r)))")));
+		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((x+y).z)")));
 
 		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))")));
 
+		
+		
+		
+		HashMap<Integer,List<Transition>> hm = new HashMap<Integer,List<Transition>>();
+		List<Transition> s = new ArrayList<>();
+		Transition t1 = new Transition(1,"x");
+		Transition t2 = new Transition(1,"y");
+		s.add(t1);
+		s.add(t2);
+		hm.put(0, s);
+		int[] et = {3};
+		
+		System.out.println(new Automate(
+				hm
+				,et
+				,Parser.parseRegExp("((x+y).z)")));
+		
+		
+		
+		
 	}
 }
