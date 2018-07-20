@@ -2,10 +2,10 @@ package main;
 
 public class Transition {
 
-	Integer etat;
+	String etat;
 	String etiquette;
 	
-	public Transition(Integer etat, String etiquette) {
+	public Transition(String etat, String etiquette) {
 		this.etat = etat;
 		this.etiquette = etiquette;
 	}
@@ -17,6 +17,10 @@ public class Transition {
 
 	public String getEtiquette() {
 		return this.etiquette;
+	}
+
+	public String getEtat() {
+		return this.etat;
 	}
 
 }

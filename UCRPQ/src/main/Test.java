@@ -72,40 +72,32 @@ public class Test {
 			System.out.println(ucr.getCypherExpression());
 		}
 		
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a)")));	
+		System.out.println(new Automate(Parser.parseRegExp("(a)")));	
 
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a*)")));	
+		System.out.println(new Automate(Parser.parseRegExp("(a*)")));	
 		
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a.(b+d).e*.c)")));		
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a+b+(c.f)+d)")));		
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a*)")));		
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((a+b+(c.f)+d)*)")));		
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("(a.c)+(a.d)")));		
+		System.out.println(new Automate(Parser.parseRegExp("(a.(b+d).e*.c)")));		
+		System.out.println(new Automate(Parser.parseRegExp("(a+b+(c.f)+d)")));		
+		System.out.println(new Automate(Parser.parseRegExp("(a*)")));		
+		System.out.println(new Automate(Parser.parseRegExp("((a+b+(c.f)+d)*)")));		
+		System.out.println(new Automate(Parser.parseRegExp("(a.c)+(a.d)")));		
 
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))")));
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)")));
+		System.out.println(new Automate(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))")));
+		System.out.println(new Automate(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)")));
 		
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("a.(((a.c)+(d.r)))")));
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((x+y).z)")));
+		System.out.println(new Automate(Parser.parseRegExp("a.(((a.c)+(d.r)))")));
+		System.out.println(new Automate(Parser.parseRegExp("((x+y).z)")));
 
-		System.out.println(Automate.automateFromRegExp(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))")));
+		new Automate(Parser.parseRegExp("((a+a)*)"));
+		new Automate(Parser.parseRegExp("((a+b+(a.c)*+e)*)"));
+		new Automate(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))"));
+ 		new Automate(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)"));
 
-		
-		
-		
-		HashMap<Integer,List<Transition>> hm = new HashMap<Integer,List<Transition>>();
-		List<Transition> s = new ArrayList<>();
-		Transition t1 = new Transition(1,"x");
-		Transition t2 = new Transition(1,"y");
-		s.add(t1);
-		s.add(t2);
-		hm.put(0, s);
-		int[] et = {3};
-		
-		System.out.println(new Automate(
-				hm
-				,et
-				,Parser.parseRegExp("((x+y).z)")));
+ 		Automate teste =		new Automate(Parser.parseRegExp("((a+b+(a.c)*+e)*)"));
+ new Automate(Parser.parseRegExp("((a+b)*)"));
+
+ 		System.out.println(teste);
+		System.out.println(teste.brzozowski());
 		
 		
 		
