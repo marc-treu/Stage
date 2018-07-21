@@ -201,35 +201,48 @@ public class Automate {
 		return new HashSet<Etat>(Arrays.asList(resultat_etat));
 	}
 	
+	
+	/**
+	 * 
+	 * Methode pour reverser, inverser, l'automate.
+	 * C'est a dire que les etats finale devienne initial et inversement,
+	 * Et pour chaque transition, l'etat de départ devient finale et inversement.
+	 * 
+	 * @return L'automate renversé
+	 */
 	public Automate Renversement() {
 		
-		Set<Etat> resultat_etat = new HashSet<>();
-		for (Etat e : this.table_transition) {
-			resultat_etat.add(new Etat(e.getNom(),(e.isFinale()),(e.isInitial())));
+		Set<Etat> resultat_etat = new HashSet<>(); // Notre set des Etats qui sera notre nouveau automate
+		
+		for (Etat e : this.table_transition) { // On va d'abord remplir notre set resultat d'etats
+			resultat_etat.add(new Etat(e.getNom(),(e.isFinale()),(e.isInitial()))); // On prend soins d'inverser finale et initiale
 		}
 		
-		for (Etat e : this.table_transition) {
-			for (Transition t : e.getTransition()) {
-				findEtats(resultat_etat, Arrays.asList(t.getEtat())).get(0).addTransition(
-						new Transition(e.getNom(), t.getEtiquette()));;
+		// On reparcour les etats de notre automate
+		for (Etat e : this.table_transition) { // Mais on s'interesse a leur transition
+			for (Transition t : e.getTransition()) { // Pour chaque transition, on inverse les etat de départ et d'arrivé
+				findEtats(resultat_etat, Arrays.asList(t.getEtat())).get(0).addTransition( // et on ajout la nouvelle 
+						new Transition(e.getNom(), t.getEtiquette()));; // Transition dans notre set resultat_etat
 			}
 		}
-		
+		// On renvoie le nouvel automate inversé.
 		return new Automate(resultat_etat,this.regexp);
 	}
 	
 	
+	/**
+	 * 
+	 * Algorithme de Brzozowski, qui minimise un automate.
+	 * La procédure de minimisation
+	 * -inverser l'automate,
+	 * -determiniser
+	 * -ré-inverser
+	 * -re-determiniser
+	 * 
+	 * @return L'automate minimale
+	 */
 	public Automate brzozowski() {
-		Automate transposer = this.Renversement();
-		System.out.println("\n1 renversement"+transposer);
-		transposer = transposer.getDeterminist();
-		System.out.println("\n1 determinement"+transposer);
-		transposer = transposer.Renversement();
-		System.out.println("\n2 renversement"+transposer);
-		transposer = transposer.getDeterminist(); 
-		System.out.println("\n2 determinement"+transposer);
-		return transposer;
-		//return this.Renversement().getDeterminist().Renversement().getDeterminist();
+		return this.Renversement().getDeterminist().Renversement().getDeterminist();
 	}
 	
 	
@@ -237,7 +250,6 @@ public class Automate {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\nRegExp : "+ this.regexp);
-		//sb.append("\nI| "+this.etat_initial);
 		
 		for (Etat e : this.table_transition) {
 			sb.append("\n"+e.toString());
