@@ -93,8 +93,9 @@ public class Test {
 		new Automate(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))"));
  		new Automate(Parser.parseRegExp("((((a+b)).((((a+b+(c.(x+y+((a.b)*)))+d)*)+e)))*)"));
 
- 		Automate teste =		new Automate(Parser.parseRegExp("((a+b+(a.c)*+e)*)"));
- new Automate(Parser.parseRegExp("((a+b)*)"));
+ 		Automate teste =		new Automate(Parser.parseRegExp("((((a+b+(c.(x+y+((a.b)*)))+d)*)+e))"));
+		new Automate(Parser.parseRegExp("((a+b+(a.c)*+e)*)"));
+		new Automate(Parser.parseRegExp("((a+b)*)"));
 
  		System.out.println(teste);
 		System.out.println(teste.brzozowski());
