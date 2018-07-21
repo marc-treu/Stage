@@ -42,10 +42,8 @@ public class Automate {
 		Set<Etat> tableTransition = new HashSet<>();
 		RegExp r_renomer = r.getRename(1);
 		
-		if (r.type() == Type.Star)
-			finale = true;
-		Etat etat_0 = new Etat("0",true,finale);
-		finale = false;
+
+		Etat etat_0 = new Etat("0",true,isfinal(r_renomer));
 		// On recupere la liste des initiaux
 		for (String e : r_renomer.getInitaux()) {
 			etat_0.addTransition(new Transition(e.substring(1),e.substring(0, 1)));
@@ -68,6 +66,15 @@ public class Automate {
 		this.regexp = r;
 	}
 	
+	private boolean isfinal(RegExp regexp) {
+		for (String e : regexp.getInitaux()) {
+			if (!regexp.getSuivant(new ArrayList<>(), e)) 
+				return true;
+		}
+		return false;
+	}
+
+
 	public boolean isDeterminist() {
 		return this.table_transition.stream().allMatch(e -> e.isDeterminist());
 	}
