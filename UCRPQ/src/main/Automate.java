@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import main.RegExp.Type;
+
 
 public class Automate {
 	
@@ -64,6 +66,7 @@ public class Automate {
 		this.regexp = r;
 	}
 	
+	
 	/**
 	 * Methode qui determine si une RegExp accepte le mot vide
 	 * 
@@ -71,6 +74,8 @@ public class Automate {
 	 * @return true si le langage accepte epsilon, false sinon
 	 */
 	private boolean isfinal(RegExp regexp) {
+		if (regexp.type() == Type.Star) // Si l'expression est une etoile
+			return true; // Alors on renvoie directement true
 		for (String e : regexp.getInitaux()) { // Pour chaque etat que l'etat initial peu atteindre
 			if (!regexp.getSuivant(new ArrayList<>(), e)) // On regarde si il y en a un qui est finale
 				return true; // Si oui alors le langage accepte le mot vide
@@ -79,9 +84,18 @@ public class Automate {
 	}
 
 
+	/**
+	 * Methode qui determine si l'automate est deterministe
+	 * 
+	 * @return true si c'est le cas, false sinon
+	 */
 	public boolean isDeterminist() {
-		return this.table_transition.stream().allMatch(e -> e.isDeterminist());
+		int i = 0;
+		for (Etat e : this.table_transition) 
+			i+=e.isInitial() ? 1 : 0;
+		return this.table_transition.stream().allMatch(e -> e.isDeterminist()) && i==1;
 	}
+
 	
 	public Automate getDeterminist() {
 		
