@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import main.RegExp.Type;
-
 
 public class Automate {
 	
@@ -149,7 +147,7 @@ public class Automate {
 	}
 
 	
-	public List<String> getAlphabet() {
+	private List<String> getAlphabet() {
 		Set<String> resultat = new HashSet<>();
 		for (Etat t : this.table_transition) {
 			resultat.addAll(t.getAlphabet());
@@ -158,7 +156,7 @@ public class Automate {
 	}
 	
 	
-	public List<Etat> findEtats(List<String> noms) {
+	private List<Etat> findEtats(List<String> noms) {
 		List<Etat> resultat = new ArrayList<>();
 		for (Etat t : this.table_transition) {
 			for (String s : noms) {
@@ -168,7 +166,7 @@ public class Automate {
 		return resultat;
 	}
 	
-	public List<Etat> findEtats(Set<Etat> set , List<String> noms) {
+	private List<Etat> findEtats(Set<Etat> set , List<String> noms) {
 		List<Etat> resultat = new ArrayList<>();
 		for (Etat t : set) {
 			for (String s : noms) {
@@ -179,22 +177,36 @@ public class Automate {
 	}
 	
 
+	/**
+	 * Methode pour renommer les etats d'un automate au plus simple.
+	 * C'est a dire supprimer les etats qui ont pour noms n1.n2,
+	 * Ce qui peux arriver lors de la determinisation de l'automate
+	 * Pour ne plus avoir que des nom entre 0 et n.
+	 * 
+	 * @param tableTransition, le set d'etat a renommer
+	 * @return Le même set d'etat, avec les mêmes transitions, a un renommage prés
+	 */
 	private Set<Etat> rename(Set<Etat> tableTransition) {
+		
+		// On cree un tableau d'etats, les indice du tableau serviront à renommer les etats à la fin
 		Etat [] resultat_etat = new Etat[tableTransition.size()];
-		Map<String, String> hm = new HashMap<>();
-		int i = 1;
-		for (Etat e : tableTransition) {
-			if (e.isInitial()) 
-				hm.put(e.getNom(), "0");
-			else
-				hm.put(e.getNom(), String.valueOf(i++));
-			resultat_etat[Integer.parseInt(hm.get(e.getNom()))] = new Etat(hm.get(e.getNom()),e.isInitial(),e.isFinale());
+		
+		// La HashMap nous donnera pour chaque nom d'etat sa position dans le tableau resultat_etat
+		Map<String, String> hm = new HashMap<>();  
+		
+		int i = 1; // les Indices dans le tableau, on ne commence pas à 0, car 0 est reservé pour l'etat Initial
+		for (Etat e : tableTransition) { // Pour chaque etat de l'automate, on va l'ajouter a notre tableau de renommage
+			if (e.isInitial()) // Si c'est l'etat inital
+				hm.put(e.getNom(), "0"); // On lui assigne la case 0
+			else // Sinon, On lui assigne une autre case,
+				hm.put(e.getNom(), String.valueOf(i++)); // On rentre nos etat dans la hashmap, pour garder l'information de la case
+			resultat_etat[Integer.parseInt(hm.get(e.getNom()))] = new Etat(hm.get(e.getNom()),e.isInitial(),e.isFinale()); // et finalement dans le tableau
 		}
 		
-		for (Etat e : tableTransition) {
-			for (Transition t : e.getTransition()) {
-				resultat_etat[Integer.parseInt(hm.get(e.getNom()))].addTransition(
-						new Transition(hm.get(t.getEtat()), t.getEtiquette()));
+		for (Etat e : tableTransition) { // On va reparcourrir nos etats
+			for (Transition t : e.getTransition()) { // Pour chaque transition
+				resultat_etat[Integer.parseInt(hm.get(e.getNom()))].addTransition( // On trouve le bon etat renommer correspondant 
+						new Transition(hm.get(t.getEtat()), t.getEtiquette())); // On lui ajout la transition, avec l'etat finale bien renommer
 			}
 		}
 		
