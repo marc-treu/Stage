@@ -64,12 +64,18 @@ public class Automate {
 		this.regexp = r;
 	}
 	
+	/**
+	 * Methode qui determine si une RegExp accepte le mot vide
+	 * 
+	 * @param regexp renomer pour pouvoir utliser getSuivant
+	 * @return true si le langage accepte epsilon, false sinon
+	 */
 	private boolean isfinal(RegExp regexp) {
-		for (String e : regexp.getInitaux()) {
-			if (!regexp.getSuivant(new ArrayList<>(), e)) 
-				return true;
+		for (String e : regexp.getInitaux()) { // Pour chaque etat que l'etat initial peu atteindre
+			if (!regexp.getSuivant(new ArrayList<>(), e)) // On regarde si il y en a un qui est finale
+				return true; // Si oui alors le langage accepte le mot vide
 		}
-		return false;
+		return false; // Sinon, on renvoie false
 	}
 
 
@@ -146,6 +152,7 @@ public class Automate {
 		return new Automate(rename(tableTransition),this.regexp);
 	}
 
+	
 	/**
 	 * Methode qui renvoie tous l'alphabet utiliser par un automate.
 	 * 
@@ -159,6 +166,7 @@ public class Automate {
 		return new ArrayList<>(resultat);
 	}
 	
+	
 	/**
 	 * Methode qui renvoie les etats correspond a une liste de noms.
 	 * equivalent a un getter pour les Set
@@ -169,9 +177,9 @@ public class Automate {
 	 */
 	private List<Etat> findEtats(Set<Etat> set , List<String> noms) {
 		List<Etat> resultat = new ArrayList<>();
-		for (Etat t : set) {
-			for (String s : noms) {
-				if (t.equals(s)) resultat.add(t.getEtat());
+		for (Etat t : set) { // Pour chaque etat de l'automate
+			for (String s : noms) { // Pour chaque noms
+				if (t.equals(s)) resultat.add(t.getEtat()); // Si le nom est celuis de l'etat alors on l'ajoute au résultat
 			}
 		}
 		return resultat;
@@ -216,7 +224,6 @@ public class Automate {
 	
 	
 	/**
-	 * 
 	 * Methode pour reverser, inverser, l'automate.
 	 * C'est a dire que les etats finale devienne initial et inversement,
 	 * Et pour chaque transition, l'etat de départ devient finale et inversement.
@@ -257,8 +264,7 @@ public class Automate {
 	public Automate brzozowski() {
 		return this.Renversement().getDeterminist().Renversement().getDeterminist();
 	}
-	
-	
+		
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
