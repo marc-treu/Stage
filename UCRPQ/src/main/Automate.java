@@ -98,7 +98,7 @@ public class Automate {
 		
 		
 		while(!file.isEmpty()) {
-			List<Etat> l = findEtats(file.poll());
+			List<Etat> l = findEtats(this.table_transition,file.poll());
 			Collections.sort(l, new Comparator<Etat>() {
 		        public int compare(Etat e1, Etat e2) {
 		            return  e1.nom.compareTo(e2.nom);
@@ -155,17 +155,14 @@ public class Automate {
 		return new ArrayList<>(resultat);
 	}
 	
-	
-	private List<Etat> findEtats(List<String> noms) {
-		List<Etat> resultat = new ArrayList<>();
-		for (Etat t : this.table_transition) {
-			for (String s : noms) {
-				if (t.equals(s)) resultat.add(t.getEtat());
-			}
-		}
-		return resultat;
-	}
-	
+	/**
+	 * Methode qui renvoie les etats correspond a une liste de noms.
+	 * equivalent a un getter pour les Set
+	 * 	
+	 * @param set, l'ensemble dans lequel on cherche
+	 * @param noms, les noms des etats que l'on cherche
+	 * @return Un liste des états qui correspond au noms donné en paramettre.
+	 */
 	private List<Etat> findEtats(Set<Etat> set , List<String> noms) {
 		List<Etat> resultat = new ArrayList<>();
 		for (Etat t : set) {
