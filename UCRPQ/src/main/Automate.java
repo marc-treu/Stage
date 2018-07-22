@@ -146,11 +146,15 @@ public class Automate {
 		return new Automate(rename(tableTransition),this.regexp);
 	}
 
-	
+	/**
+	 * Methode qui renvoie tous l'alphabet utiliser par un automate.
+	 * 
+	 * @return La liste des lettre contenue dans l'alphabet
+	 */
 	private List<String> getAlphabet() {
-		Set<String> resultat = new HashSet<>();
-		for (Etat t : this.table_transition) {
-			resultat.addAll(t.getAlphabet());
+		Set<String> resultat = new HashSet<>(); // On fait un set pour ne pas avoir de doublon
+		for (Etat t : this.table_transition) { // Pour chauque etat
+			resultat.addAll(t.getAlphabet()); // On ajout son alphabet
 		}
 		return new ArrayList<>(resultat);
 	}
