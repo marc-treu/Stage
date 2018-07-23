@@ -244,5 +244,53 @@ public class TestRegExp {
 		assertEquals(new ArrayList<>(), array);
 	}
 	
+	@Test
+	void testRegExp1getSuivant() {
+		List<String> array = new ArrayList<>();
+		RegExp r = Parser.parseRegExp("((((a+b)).((((c+d+(e.(f+g+((h.i)*)))+j)*)+k)))*)");
+		r.getSuivant(array,"a");
+		assertEquals(Arrays.asList("c","d","e","j","k"), array);
+
+		array.clear();
+		r.getSuivant(array,"b");
+		assertEquals(Arrays.asList("c","d","e","j","k"), array);
+
+		array.clear();
+		r.getSuivant(array,"c");
+		assertEquals(Arrays.asList("c","d","e","j","a","b"), array);
+		
+		array.clear();
+		r.getSuivant(array,"d");
+		assertEquals(Arrays.asList("c","d","e","j","a","b"), array);
+
+		array.clear();
+		r.getSuivant(array,"e");
+		assertEquals(Arrays.asList("f","g","h"), array);
+
+		array.clear();
+		r.getSuivant(array,"f");
+		assertEquals(Arrays.asList("c","d","e","j","a","b"), array);
+
+		array.clear();
+		r.getSuivant(array,"g");
+		assertEquals(Arrays.asList("c","d","e","j","a","b"), array);
+
+		array.clear();
+		r.getSuivant(array,"h");
+		assertEquals(Arrays.asList("i"), array);
+
+		array.clear();
+		r.getSuivant(array,"i");
+		assertEquals(Arrays.asList("h","c","d","e","j","a","b"), array);
+
+		array.clear();
+		r.getSuivant(array,"j");
+		assertEquals(Arrays.asList("c","d","e","j","a","b"), array);
+
+		array.clear();
+		r.getSuivant(array,"k");
+		assertEquals(Arrays.asList("a","b"), array);		
+	}
+	
 	
 }
