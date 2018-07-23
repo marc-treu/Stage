@@ -28,7 +28,7 @@ public class Automate {
 	
 	
 	/**
-	 * Algorithme de GLUSHKOV
+	 * Algorithme de GLUSHKOV, créé un automate à partir d'une expression regulière 
 	 * 
 	 * 
 	 * @param r, l'expression rationnel que l'on cherche a transformé en automate
@@ -37,26 +37,27 @@ public class Automate {
 	public Automate (RegExp r) {
 		
 		//INITIALISATION 
-		
 		boolean finale = false;
-		Set<Etat> tableTransition = new HashSet<>();
-		RegExp r_renomer = r.getRename(1);
+		Set<Etat> tableTransition = new HashSet<>(); // Notre set resultat des Etats
+		RegExp r_renommer = r.getRename(1); // On renomme notre RegExp, de tel sorte
+		// Que chaque atom soit unique.		
+
+		Etat etat_0 = new Etat("0",true,isfinal(r_renommer)); // On créé l'etat initial
+		for (String e : r_renommer.getInitaux()) { // On recupere la liste successeur de l'etat initial
+			etat_0.addTransition(new Transition(e.substring(1),e.substring(0, 1))); // On ajout les transitions
+		} // e va etre de la forme a4 par exemple, avec toujour la premiere lettre qui correspond au chemins,
+		// et le nombre qui suit l'état vers lequel on va
 		
-
-		Etat etat_0 = new Etat("0",true,isfinal(r_renomer));
-		// On recupere la liste des initiaux
-		for (String e : r_renomer.getInitaux()) {
-			etat_0.addTransition(new Transition(e.substring(1),e.substring(0, 1)));
-		}
-		tableTransition.add(etat_0);				
-
+		tableTransition.add(etat_0); // On ajout cet Etat initial.
 		
 		// Boucle Principal
-		for (String s : r_renomer.getEtiquette()) {
-			List<String> sv = new ArrayList<>();
-			finale = !r_renomer.getSuivant(sv,s);
-			Etat etat_n = new Etat(s.substring(1),false,finale);
-			for (String e : sv) {
+		for (String s : r_renommer.getEtiquette()) { // Pour chaque Atom
+			List<String> sv = new ArrayList<>(); // On initialise la liste des successeurs
+			finale = !r_renommer.getSuivant(sv,s); // Qui sera remplie par getSuivant
+			// getSuivant revoie false si l'atom est peu etre final dans la RegExp
+			
+			Etat etat_n = new Etat(s.substring(1),false,finale); // On créé l'etat
+			for (String e : sv) { // Pour chaque successeur, on ajout la transition
 				etat_n.addTransition(new Transition(e.substring(1),e.substring(0, 1)));
 			}
 			tableTransition.add(etat_n);				
@@ -85,15 +86,15 @@ public class Automate {
 
 
 	/**
-	 * Methode qui determine si l'automate est deterministe
+	 * Methode qui determine si l'automate est deterministe.
 	 * 
 	 * @return true si c'est le cas, false sinon
 	 */
 	public boolean isDeterminist() {
-		int i = 0;
+		int nombre_etat_initial = 0;
 		for (Etat e : this.table_transition) 
-			i+=e.isInitial() ? 1 : 0;
-		return this.table_transition.stream().allMatch(e -> e.isDeterminist()) && i==1;
+			nombre_etat_initial += e.isInitial() ? 1 : 0;
+		return nombre_etat_initial==1 && this.table_transition.stream().allMatch(e -> e.isDeterminist());
 	}
 
 	
