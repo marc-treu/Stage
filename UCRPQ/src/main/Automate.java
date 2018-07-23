@@ -98,69 +98,77 @@ public class Automate {
 	}
 
 	
+	/**
+	 * Methode qui determine un automate
+	 * 
+	 * @return
+	 */
 	public Automate getDeterminist() {
 		
 		if(this.isDeterminist()) // Si l'automate est deja deterministe
 			return this;
 		
+		// Initialisation
 		Set<Etat> tableTransition = new HashSet<>();
-		Queue<List<String>> file = new ArrayDeque<>();
-		List<String> alphabet = getAlphabet();
+		Queue<List<String>> file = new ArrayDeque<>(); 
+		List<String> alphabet = getAlphabet(); // On recuperer l'alphabet de l'automate
 		
+		// On s'occupe de l'etat initial
 		List<String> etat_initiaux = new ArrayList<>();
-		for (Etat e : this.table_transition) {
-			if (e.isInitial())
-				etat_initiaux.add(e.getNom());
+		for (Etat e : this.table_transition) { // Pour tous les états
+			if (e.isInitial()) // On teste si il sont initiaux
+				etat_initiaux.add(e.getNom()); // si oui, on les 
 		}
-		Collections.sort(etat_initiaux);
-		file.add(etat_initiaux);
-		boolean initial = true;
-
+		Collections.sort(etat_initiaux); // On les trie 
+		file.add(etat_initiaux); // On les ajoute a notre file
+		boolean initial = true; // Le premiere etat que l'on va traiter sera l'etat initial.
+		// Le boolean va permettre à la boucle while de savoir qu'il s'agit du premiere etat.
 		
-		
-		while(!file.isEmpty()) {
-			List<Etat> l = findEtats(this.table_transition,file.poll());
-			Collections.sort(l, new Comparator<Etat>() {
-		        public int compare(Etat e1, Etat e2) {
-		            return  e1.nom.compareTo(e2.nom);
+		while(!file.isEmpty()) { // tant que la file n'est pas vide
+			List<Etat> l = findEtats(this.table_transition,file.poll()); // On recupere les états associer a la liste dans la tete de la file
+			Collections.sort(l, new Comparator<Etat>() { // On les trie, mais normalement, lorsque l'on 
+		        public int compare(Etat e1, Etat e2) { // ajout la liste des noms des etat dans la file
+		            return  e1.nom.compareTo(e2.nom); // On les trie deja
 		        }
 		    });
 			
+			// On créé le  nouvelle etat, qui peut etre l'association de plusieur
 			boolean finale = l.get(0).isFinale();
 			String nom = l.get(0).getNom();
 			
-			for(int j = 1; j<l.size() ;++j) {
-				nom+="."+l.get(j).getNom();
-				if(l.get(j).isFinale()) finale=true ;
+			for(int j = 1; j<l.size() ;++j) { // Sont nom sera la forme 
+				nom+="."+l.get(j).getNom(); // 1.3.5 par exemple.
+				if(l.get(j).isFinale()) finale=true ; // Si un des etats qui le compose est finale, alors il sera finale
 			}
 			
 			Etat etat_n = new Etat(nom, initial, finale);
 			
-			initial = false;
+			initial = false; // Si on était a la premiere iteration, on viens de créé l'etat initial, est donc on passe la variable a false
 
 			
-			for (String a : alphabet) {
-				Set<String> temp = new HashSet<>();
-				for(int i = 0 ; i<l.size(); ++i) {
-					temp.addAll(l.get(i).getTransitionFromEtiquette(a));
+			for (String a : alphabet) { // Pour chaque lettre de l'alphabet
+				Set<String> temp = new HashSet<>(); 
+				for(int i = 0 ; i<l.size(); ++i) { // Pour chaque état qui compose notre nouvelle état
+					temp.addAll(l.get(i).getTransitionFromEtiquette(a)); // On récuperer tous les etat voisins par la lettre a 
 				}
-				List<String> suivant = new ArrayList<>(temp);
-				Collections.sort(suivant);
-				if (!suivant.isEmpty()) {
-					String nomTemp = suivant.get(0);
-					for(int c = 1; c<suivant.size() ;++c) {
-						nomTemp+="."+suivant.get(c);
+				List<String> suivant = new ArrayList<>(temp); // On en fait une liste
+				Collections.sort(suivant); // Que l'on trie
+				if (!suivant.isEmpty()) { // Si la liste n'est pas vide
+					String nomTemp = suivant.get(0); // On va créé le nom de notre etat voisin par la lettre a 
+					for(int c = 1; c<suivant.size() ;++c) { // Qui est une composition de tous les noms des états qui le compose
+						nomTemp+="."+suivant.get(c); // Par exemple 2.4
 					}
 					
-					etat_n.addTransition(new Transition(nomTemp, a));
+					etat_n.addTransition(new Transition(nomTemp, a)); // On a notre transition pour la lettre a
+					// Transition qui est donc unique pour chaque lettre
 
-					if ( findEtats(tableTransition,Arrays.asList(nomTemp)).isEmpty()) {
-						file.add(suivant);
+					if ( findEtats(tableTransition,Arrays.asList(nomTemp)).isEmpty()) { // Si le nouvelle etat n'est pas encore dans notre automate résultat
+						file.add(suivant); // On l'ajoute a la file pour créé son etat plus tard
 					}
 				}				
 			}	
-			if (findEtats(tableTransition,Arrays.asList(etat_n.getNom())).isEmpty() )
-				tableTransition.add(etat_n);			
+			if (findEtats(tableTransition,Arrays.asList(etat_n.getNom())).isEmpty() ) // Si le nouvelle etat que l'on viens de créé n'est pas encore dans notre automate résultat
+				tableTransition.add(etat_n); // Alors on l'ajoute
 		}	
 		
 		
