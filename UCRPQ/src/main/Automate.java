@@ -264,7 +264,7 @@ public class Automate {
 		for (Etat etat : this.tableTransition) { // Mais on s'interesse a leur transition
 			for (Transition tran : etat.getTransition()) { // Pour chaque transition, on inverse les etat de depart et d'arrive
 				trouveEtats(resultatEtat, Arrays.asList(tran.getEtat())).get(0).addTransition( // et on ajout la nouvelle 
-						new Transition(etat.getNom(), tran.getEtiquette()));; // Transition dans notre set resultatEtat
+						new Transition(etat.getNom(), tran.getEtiquette()));// Transition dans notre set resultatEtat
 			}
 		}
 		// On renvoie le nouvel automate inverse.
@@ -298,12 +298,14 @@ public class Automate {
 		
 		Set<Etat> resultatEtat = new HashSet<>(); 
 		List<String> alphabet = getAlphabet();
+		
+		String nomPuit = String.valueOf(this.tableTransition.size());
 
-		Etat puit = new Etat("P",false,false); // On Construit le puit
+		Etat puit = new Etat(nomPuit,false,false); // On Construit le puit
 		// qui sera la destination de toutes les transition qui'il faut pour complete l'automate
 		
 		for (String a : alphabet) {
-			puit.addTransition(new Transition("P",a)); // Le puit ne peux que aller vers lui même
+			puit.addTransition(new Transition(nomPuit,a)); // Le puit ne peux que aller vers lui même
 		}
 		
 		resultatEtat.add(puit);
@@ -319,7 +321,7 @@ public class Automate {
 			
 			for (String a : alphabet) { // Pour chaque lettre 
 				if (!transitionExiste.contains(a)) // Si la transition n'existe pas 
-					nouvelleEtat.addTransition(new Transition("P",a)); // Alors on ajouts l'etiquettes qui manque vers le puit
+					nouvelleEtat.addTransition(new Transition(nomPuit,a)); // Alors on ajouts l'etiquettes qui manque vers le puit
 			}
 			resultatEtat.add(nouvelleEtat); // On ajout l'etat bien construit dans notre set resultat
 
