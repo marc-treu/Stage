@@ -288,9 +288,9 @@ public class Automate {
 	}
 	
 	
-	public Monoide_transition getMonoideTransition() {
+	public MonoideTransition getMonoideTransition() {
 		
-		Monoide_transition monoide = new Monoide_transition();
+		MonoideTransition monoide = new MonoideTransition();
 		
 		ArrayList<Etat> liste_etat = new ArrayList<Etat>(this.table_transition);
 		Collections.sort(liste_etat, new Comparator<Etat>() { 
@@ -307,7 +307,7 @@ public class Automate {
 		return null;
 	}
 		
-	public void getMonoideAux(Monoide_transition monoide, List<Etat> liste_etat, List<String> n, List<String> alphabet) {
+	public void getMonoideAux(MonoideTransition monoide, List<Etat> liste_etat, List<String> n, List<String> alphabet) {
 		
 		List<String> correspond = new ArrayList<>();
 		String indice_etat = "0";
