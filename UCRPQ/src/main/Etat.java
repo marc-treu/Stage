@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,14 +44,18 @@ public class Etat {
 	}
 	
 	public List<String> getTransitionFromEtiquette(String etiquette){
-		List<String> resultat = new ArrayList<>();
+
+		if (etiquette == "") {
+			return Arrays.asList(this.getNom());
+		}
 		
+		List<String> resultat = new ArrayList<>();
+
 		for(Transition t : this.transition) {
 			if(t.getEtiquette().equals(etiquette)) {
 				resultat.add(t.getEtat());
 			}
 		}
-		
 		return resultat;
 	}
 
