@@ -33,7 +33,7 @@ public class Etat {
 		this.transition.add(t);
 	}
 	
-	public boolean isDeterminist() {
+	public boolean estDeterministe() {
 		Set<String> test = new HashSet<>();
 		for (Transition t : transition) {
 			if (test.contains(t.getEtiquette()))
