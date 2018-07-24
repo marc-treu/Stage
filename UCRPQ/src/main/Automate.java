@@ -288,6 +288,42 @@ public class Automate {
 	}
 	
 	
+	public Automate getAutomateComplet() {
+		
+		Set<Etat> resultatEtat = new HashSet<>(); 
+		List<String> alphabet = getAlphabet();
+
+		Etat puit = new Etat("P",false,false); // On Construit le puit
+		// qui sera la destination de toutes les transition qui'il faut pour complete l'automate
+		
+		for (String a : alphabet) {
+			puit.addTransition(new Transition("P",a)); // Le puit ne peux que aller vers lui même
+		}
+		
+		resultatEtat.add(puit);
+		
+		for (Etat etat : this.tableTransition) {
+			Etat nouvelleEtat = new Etat(etat.getNom(),etat.isInitial(),etat.isFinale());
+
+			Set<String> transitionExiste = new HashSet<>(); // On ajoutera les transitions qui existe deja dans cette ensemble
+			for (Transition t : etat.getTransition()) {
+				nouvelleEtat.addTransition(new Transition(t.getEtat(), t.getEtiquette()));
+				transitionExiste.add(t.getEtiquette());
+			}
+			
+			for (String a : alphabet) { // Pour chaque lettre 
+				if (!transitionExiste.contains(a)) // Si la transition n'existe pas 
+					nouvelleEtat.addTransition(new Transition("P",a)); // Alors on ajouts l'etiquettes qui manque vers le puit
+			}
+			resultatEtat.add(nouvelleEtat); // On ajout l'etat bien construit dans notre set resultat
+
+		}
+		
+		
+		return new Automate(resultatEtat,this.regexp);
+	}
+	
+	
 	public MonoideTransition getMonoideTransition() {
 		
 		MonoideTransition monoide = new MonoideTransition();
@@ -304,7 +340,7 @@ public class Automate {
 		
 		System.out.println(monoide);
 		
-		return null;
+		return monoide;
 	}
 		
 	public void getMonoideAux(MonoideTransition monoide, List<Etat> listeEtat, List<String> mot, List<String> alphabet) {
