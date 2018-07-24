@@ -20,7 +20,6 @@ public class Automate {
 	Set<Etat> table_transition;
 	RegExp regexp;
 	
-	
 	public Automate(Set<Etat> table_transition, RegExp regexp) {
 		this.table_transition = table_transition;
 		this.regexp = regexp;
@@ -287,7 +286,55 @@ public class Automate {
 	public Automate brzozowski() {
 		return this.Renversement().getDeterminist().Renversement().getDeterminist();
 	}
+	
+	
+	public Monoide_transition getMonoideTransition() {
 		
+		Monoide_transition monoide = new Monoide_transition();
+		
+		ArrayList<Etat> liste_etat = new ArrayList<Etat>(this.table_transition);
+		Collections.sort(liste_etat, new Comparator<Etat>() { 
+	        public int compare(Etat e1, Etat e2) { 
+	            return  e1.nom.compareTo(e2.nom); 
+	        }
+	    });
+		System.out.println(this);
+		
+		getMonoideAux(monoide, liste_etat, Arrays.asList(""), getAlphabet());
+		
+		System.out.println(monoide);
+		
+		return null;
+	}
+		
+	public void getMonoideAux(Monoide_transition monoide, List<Etat> liste_etat, List<String> n, List<String> alphabet) {
+		
+		List<String> correspond = new ArrayList<>();
+		String indice_etat = "0";
+		for (int i = 0; i<liste_etat.size(); ++i) {
+			indice_etat = String.valueOf(i);
+			for (int j = 0; j<n.size(); ++j) {
+				List<String> temp = liste_etat.get(Integer.parseInt(indice_etat)).getTransitionFromEtiquette(n.get(j));
+				if (temp.size() != 0)
+					indice_etat = temp.get(0);
+			}
+			correspond.add(indice_etat);
+		}
+		if (!monoide.containtListeMot(correspond)) {
+			monoide.addmot(String.join("", n), correspond);
+		
+			for (String a : alphabet) {
+				List<String> temp = new ArrayList<>(n);
+				temp.add(a);
+				getMonoideAux(monoide,liste_etat,temp,alphabet);
+			}
+		}
+		else {
+			monoide.addregle(String.join("", n),correspond);
+		}
+		System.out.println(n+" : "+correspond);
+	}
+	
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -299,6 +346,5 @@ public class Automate {
 		
 		return sb.toString();
 	}
-	
 	
 }
