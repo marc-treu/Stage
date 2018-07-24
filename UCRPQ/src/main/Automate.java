@@ -287,7 +287,13 @@ public class Automate {
 		return this.transposition().getDeterministe().transposition().getDeterministe();
 	}
 	
-	
+	/**
+	 * Methode qui complete l'automate this
+	 * En ajoutant un puit ou toute les etiquettes manquante y finissent
+	 * sans pouvoir aller vers un autre etat
+	 * 
+	 * @return l'automate complet
+	 */
 	public Automate getAutomateComplet() {
 		
 		Set<Etat> resultatEtat = new HashSet<>(); 
