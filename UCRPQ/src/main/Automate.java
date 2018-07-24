@@ -27,11 +27,11 @@ public class Automate {
 	
 	
 	/**
-	 * Algorithme de GLUSHKOV, créé un automate à partir d'une expression regulière 
+	 * Algorithme de GLUSHKOV, cree un automate a partir d'une expression reguliere 
 	 * 
 	 * 
-	 * @param r, l'expression rationnel que l'on cherche a transformé en automate
-	 * @return un Automate fini qui correspond au langage décrit par r
+	 * @param r, l'expression rationnel que l'on cherche a transforme en automate
+	 * @return un Automate fini qui correspond au langage decrit par r
 	 */
 	public Automate (RegExp r) {
 		
@@ -41,11 +41,11 @@ public class Automate {
 		RegExp rRenommer = r.getRename(1); // On renomme notre RegExp, de tel sorte
 		// Que chaque atom soit unique.		
 
-		Etat etat0 = new Etat("0",true,isfinal(rRenommer)); // On créé l'etat initial
+		Etat etat0 = new Etat("0",true,isFinal(rRenommer)); // On cree l'etat initial
 		for (String e : rRenommer.getInitaux()) { // On recupere la liste successeur de l'etat initial
 			etat0.addTransition(new Transition(e.substring(1),e.substring(0, 1))); // On ajout les transitions
 		} // e va etre de la forme a4 par exemple, avec toujour la premiere lettre qui correspond au chemins,
-		// et le nombre qui suit l'état vers lequel on va
+		// et le nombre qui suit l'etat vers lequel on va
 		
 		tableTransition.add(etat0); // On ajout cet Etat initial.
 		
@@ -55,7 +55,7 @@ public class Automate {
 			finale = !rRenommer.getSuivant(listeSuccesseur,nomEtat); // Qui sera remplie par getSuivant
 			// getSuivant revoie false si l'atom est peu etre final dans la RegExp
 			
-			Etat etatN = new Etat(nomEtat.substring(1),false,finale); // On créé l'etat
+			Etat etatN = new Etat(nomEtat.substring(1),false,finale); // On cree l'etat
 			for (String successeur : listeSuccesseur) { // Pour chaque successeur, on ajout la transition
 				etatN.addTransition(new Transition(successeur.substring(1),successeur.substring(0, 1)));
 			}
@@ -73,7 +73,7 @@ public class Automate {
 	 * @param regexp renomer pour pouvoir utliser getSuivant
 	 * @return true si le langage accepte epsilon, false sinon
 	 */
-	private boolean isfinal(RegExp regexp) {
+	private boolean isFinal(RegExp regexp) {
 		if (regexp.type() == Type.Star) // Si l'expression est une etoile
 			return true; // Alors on renvoie directement true
 		for (String e : regexp.getInitaux()) { // Pour chaque etat que l'etat initial peu atteindre
@@ -102,7 +102,7 @@ public class Automate {
 	 * 
 	 * @return
 	 */
-	public Automate getDeterminist() {
+	public Automate getDeterministe() {
 		
 		if(this.estDeterministe()) // Si l'automate est deja deterministe
 			return this;
@@ -114,24 +114,24 @@ public class Automate {
 		
 		// On s'occupe de l'etat initial
 		List<String> etatInitiaux = new ArrayList<>();
-		for (Etat e : this.tableTransition) { // Pour tous les états
+		for (Etat e : this.tableTransition) { // Pour tous les etats
 			if (e.isInitial()) // On teste si il sont initiaux
 				etatInitiaux.add(e.getNom()); // si oui, on les 
 		}
 		Collections.sort(etatInitiaux); // On les trie 
 		file.add(etatInitiaux); // On les ajoute a notre file
 		boolean initial = true; // Le premiere etat que l'on va traiter sera l'etat initial.
-		// Le boolean va permettre à la boucle while de savoir qu'il s'agit du premiere etat.
+		// Le boolean va permettre a la boucle while de savoir qu'il s'agit du premiere etat.
 		
 		while(!file.isEmpty()) { // tant que la file n'est pas vide
-			List<Etat> l = trouveEtats(this.tableTransition,file.poll()); // On recupere les états associer a la liste dans la tete de la file
+			List<Etat> l = trouveEtats(this.tableTransition,file.poll()); // On recupere les etats associer a la liste dans la tete de la file
 			Collections.sort(l, new Comparator<Etat>() { // On les trie, mais normalement, lorsque l'on 
 		        public int compare(Etat e1, Etat e2) { // ajout la liste des noms des etat dans la file
 		            return  e1.nom.compareTo(e2.nom); // On les trie deja
 		        }
 		    });
 			
-			// On créé le  nouvelle etat, qui peut etre l'association de plusieur
+			// On cree le  nouvelle etat, qui peut etre l'association de plusieur
 			boolean finale = l.get(0).isFinale();
 			String nom = l.get(0).getNom();
 			
@@ -142,31 +142,31 @@ public class Automate {
 			
 			Etat etatN = new Etat(nom, initial, finale);
 			
-			initial = false; // Si on était a la premiere iteration, on viens de créé l'etat initial, est donc on passe la variable a false
+			initial = false; // Si on etait a la premiere iteration, on viens de cree l'etat initial, est donc on passe la variable a false
 
 			
 			for (String a : alphabet) { // Pour chaque lettre de l'alphabet
 				Set<String> temp = new HashSet<>(); 
-				for(int i = 0 ; i<l.size(); ++i) { // Pour chaque état qui compose notre nouvelle état
-					temp.addAll(l.get(i).getTransitionFromEtiquette(a)); // On récuperer tous les etat voisins par la lettre a 
+				for(int i = 0 ; i<l.size(); ++i) { // Pour chaque etat qui compose notre nouvelle etat
+					temp.addAll(l.get(i).getTransitionFromEtiquette(a)); // On recuperer tous les etat voisins par la lettre a 
 				}
 				List<String> suivant = new ArrayList<>(temp); // On en fait une liste
 				Collections.sort(suivant); // Que l'on trie
 				if (!suivant.isEmpty()) { // Si la liste n'est pas vide
-					String nomTemp = suivant.get(0); // On va créé le nom de notre etat voisin par la lettre a 
-					for(int c = 1; c<suivant.size() ;++c) { // Qui est une composition de tous les noms des états qui le compose
+					String nomTemp = suivant.get(0); // On va cree le nom de notre etat voisin par la lettre a 
+					for(int c = 1; c<suivant.size() ;++c) { // Qui est une composition de tous les noms des etats qui le compose
 						nomTemp+="."+suivant.get(c); // Par exemple 2.4
 					}
 					
 					etatN.addTransition(new Transition(nomTemp, a)); // On a notre transition pour la lettre a
 					// Transition qui est donc unique pour chaque lettre
 
-					if ( trouveEtats(tableTransition,Arrays.asList(nomTemp)).isEmpty()) { // Si le nouvelle etat n'est pas encore dans notre automate résultat
-						file.add(suivant); // On l'ajoute a la file pour créé son etat plus tard
+					if ( trouveEtats(tableTransition,Arrays.asList(nomTemp)).isEmpty()) { // Si le nouvelle etat n'est pas encore dans notre automate resultat
+						file.add(suivant); // On l'ajoute a la file pour cree son etat plus tard
 					}
 				}				
 			}	
-			if (trouveEtats(tableTransition,Arrays.asList(etatN.getNom())).isEmpty() ) // Si le nouvelle etat que l'on viens de créé n'est pas encore dans notre automate résultat
+			if (trouveEtats(tableTransition,Arrays.asList(etatN.getNom())).isEmpty() ) // Si le nouvelle etat que l'on viens de cree n'est pas encore dans notre automate resultat
 				tableTransition.add(etatN); // Alors on l'ajoute
 		}	
 		
@@ -195,13 +195,13 @@ public class Automate {
 	 * 	
 	 * @param set, l'ensemble dans lequel on cherche
 	 * @param noms, les noms des etats que l'on cherche
-	 * @return Un liste des états qui correspond au noms donné en paramettre.
+	 * @return Un liste des etats qui correspond au noms donne en paramettre.
 	 */
-	private List<Etat> trouveEtats(Set<Etat> set , List<String> noms) {
+	private List<Etat> trouveEtats(Set<Etat> set , List<String> listeNoms) {
 		List<Etat> resultat = new ArrayList<>();
 		for (Etat t : set) { // Pour chaque etat de l'automate
-			for (String s : noms) { // Pour chaque noms
-				if (t.equals(s)) resultat.add(t.getEtat()); // Si le nom est celuis de l'etat alors on l'ajoute au résultat
+			for (String nom : listeNoms) { // Pour chaque noms
+				if (t.equals(nom)) resultat.add(t.getEtat()); // Si le nom est celuis de l'etat alors on l'ajoute au resultat
 			}
 		}
 		return resultat;
@@ -215,17 +215,17 @@ public class Automate {
 	 * Pour ne plus avoir que des nom entre 0 et n.
 	 * 
 	 * @param tableTransition, le set d'etat a renommer
-	 * @return Le même set d'etat, avec les mêmes transitions, a un renommage prés
+	 * @return Le même set d'etat, avec les mêmes transitions, a un renommage pres
 	 */
 	private Set<Etat> renommer(Set<Etat> tableTransition) {
 		
-		// On cree un tableau d'etats, les indice du tableau serviront à renommer les etats à la fin
+		// On cree un tableau d'etats, les indice du tableau serviront a renommer les etats a la fin
 		Etat [] resultatEtat = new Etat[tableTransition.size()];
 		
 		// La HashMap nous donnera pour chaque nom d'etat sa position dans le tableau resultatEtat
 		Map<String, String> hm = new HashMap<>();  
 		
-		int i = 1; // les Indices dans le tableau, on ne commence pas à 0, car 0 est reservé pour l'etat Initial
+		int i = 1; // les Indices dans le tableau, on ne commence pas a 0, car 0 est reserve pour l'etat Initial
 		for (Etat e : tableTransition) { // Pour chaque etat de l'automate, on va l'ajouter a notre tableau de renommage
 			if (e.isInitial()) // Si c'est l'etat inital
 				hm.put(e.getNom(), "0"); // On lui assigne la case 0
@@ -248,9 +248,9 @@ public class Automate {
 	/**
 	 * Methode pour reverser, inverser, l'automate.
 	 * C'est a dire que les etats finale devienne initial et inversement,
-	 * Et pour chaque transition, l'etat de départ devient finale et inversement.
+	 * Et pour chaque transition, l'etat de depart devient finale et inversement.
 	 * 
-	 * @return L'automate renversé
+	 * @return L'automate renverse
 	 */
 	public Automate transposition() {
 		
@@ -262,12 +262,12 @@ public class Automate {
 		
 		// On reparcour les etats de notre automate
 		for (Etat etat : this.tableTransition) { // Mais on s'interesse a leur transition
-			for (Transition tran : etat.getTransition()) { // Pour chaque transition, on inverse les etat de départ et d'arrivé
+			for (Transition tran : etat.getTransition()) { // Pour chaque transition, on inverse les etat de depart et d'arrive
 				trouveEtats(resultatEtat, Arrays.asList(tran.getEtat())).get(0).addTransition( // et on ajout la nouvelle 
 						new Transition(etat.getNom(), tran.getEtiquette()));; // Transition dans notre set resultatEtat
 			}
 		}
-		// On renvoie le nouvel automate inversé.
+		// On renvoie le nouvel automate inverse.
 		return new Automate(resultatEtat,this.regexp);
 	}
 	
@@ -275,16 +275,16 @@ public class Automate {
 	/**
 	 * 
 	 * Algorithme de Brzozowski, qui minimise un automate.
-	 * La procédure de minimisation
+	 * La procedure de minimisation
 	 * -inverser l'automate,
 	 * -determiniser
-	 * -ré-inverser
+	 * -re-inverser
 	 * -re-determiniser
 	 * 
 	 * @return L'automate minimale
 	 */
 	public Automate brzozowski() {
-		return this.transposition().getDeterminist().transposition().getDeterminist();
+		return this.transposition().getDeterministe().transposition().getDeterministe();
 	}
 	
 	
@@ -307,32 +307,32 @@ public class Automate {
 		return null;
 	}
 		
-	public void getMonoideAux(MonoideTransition monoide, List<Etat> listeEtat, List<String> n, List<String> alphabet) {
+	public void getMonoideAux(MonoideTransition monoide, List<Etat> listeEtat, List<String> mot, List<String> alphabet) {
 		
-		List<String> correspond = new ArrayList<>();
+		String [] correspond = new String[listeEtat.size()];
 		String indiceEtat = "0";
 		for (int i = 0; i<listeEtat.size(); ++i) {
 			indiceEtat = String.valueOf(i);
-			for (int j = 0; j<n.size(); ++j) {
-				List<String> temp = listeEtat.get(Integer.parseInt(indiceEtat)).getTransitionFromEtiquette(n.get(j));
+			for (int j = 0; j<mot.size(); ++j) {
+				List<String> temp = listeEtat.get(Integer.parseInt(indiceEtat)).getTransitionFromEtiquette(mot.get(j));
 				if (temp.size() != 0)
 					indiceEtat = temp.get(0);
 			}
-			correspond.add(indiceEtat);
+			correspond[i] = indiceEtat;
 		}
 		if (!monoide.containtListeMot(correspond)) {
-			monoide.addmot(String.join("", n), correspond);
+			monoide.addMot(String.join("", mot), correspond);
 		
 			for (String a : alphabet) {
-				List<String> temp = new ArrayList<>(n);
-				temp.add(a);
-				getMonoideAux(monoide,listeEtat,temp,alphabet);
+				List<String> nouveauMot = new ArrayList<>(mot);
+				nouveauMot.add(a);
+				getMonoideAux(monoide,listeEtat,nouveauMot,alphabet);
 			}
 		}
 		else {
-			monoide.addregle(String.join("", n),correspond);
+			monoide.addRegle(String.join("", mot),correspond);
 		}
-		System.out.println(n+" : "+correspond);
+		System.out.println(mot+" : "+correspond);
 	}
 	
 	
