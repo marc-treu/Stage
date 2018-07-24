@@ -97,6 +97,7 @@ public class Test {
 		
 		Automate t = new Automate(Parser.parseRegExp("((a.b)*)"));
 		t.brzozowski().getMonoideTransition();
+		System.out.println(t.getAutomateComplet());
 		
 	}
 }
