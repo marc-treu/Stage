@@ -28,7 +28,6 @@ public class MonoideTransition {
 	}
 
 	public boolean containtListeMot(List<String> correspond) {
-		System.out.println(this+"\n"+correspond.toString());
 		return listeMot.containsKey(correspond);
 	}
 
