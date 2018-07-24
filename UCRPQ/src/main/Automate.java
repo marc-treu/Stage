@@ -331,7 +331,13 @@ public class Automate {
 		return new Automate(resultatEtat,this.regexp);
 	}
 	
-	
+	/**
+	 * Methode pour obtenir le monoide de transition d'un automate complet et deterministe
+	 * On suppose que l'automate a ete renommer selon le procede de renommer()
+	 * Donc le nom des n etats est compris entre 0 et n-1
+	 * 
+	 * @return le monoide de transition
+	 */
 	public MonoideTransition getMonoideTransition() {
 		
 		MonoideTransition monoide = new MonoideTransition();
@@ -341,12 +347,8 @@ public class Automate {
 	        public int compare(Etat e1, Etat e2) { 
 	            return  e1.nom.compareTo(e2.nom); 
 	        }
-	    });
-		System.out.println(this);
-		
+	    });		
 		getMonoideAux(monoide, listeEtat, Arrays.asList(""), getAlphabet());
-		
-		System.out.println(monoide);
 		
 		return monoide;
 	}
@@ -359,24 +361,23 @@ public class Automate {
 			indiceEtat = String.valueOf(i);
 			for (int j = 0; j<mot.size(); ++j) {
 				List<String> temp = listeEtat.get(Integer.parseInt(indiceEtat)).getTransitionFromEtiquette(mot.get(j));
-				if (temp.size() != 0)
+				if (temp.size() != 0) // Si l'automate est complet et deterministe, temp devrais toujours etre de taille 1
 					indiceEtat = temp.get(0);
 			}
 			correspond.add(indiceEtat);
 		}
-		if (!monoide.containtListeMot(correspond)) {
-			monoide.addMot(String.join("", mot), correspond);
+		if (!monoide.containtListeMot(correspond)) { // Si on a pas encore rencontré la liste correspondante
+			monoide.addMot(String.join("", mot), correspond); // on ajout la correspondance au monoide
 		
-			for (String a : alphabet) {
+			for (String a : alphabet) { // Pour chaque lettre de l'alphabet
 				List<String> nouveauMot = new ArrayList<>(mot);
-				nouveauMot.add(a);
-				getMonoideAux(monoide,listeEtat,nouveauMot,alphabet);
+				nouveauMot.add(a); // On va créé un nouveau mot
+				getMonoideAux(monoide,listeEtat,nouveauMot,alphabet); // Et continuer a chercher les prochaine correspondance
 			}
 		}
-		else {
-			monoide.addRegle(String.join("", mot),correspond);
-		}
-		System.out.println(mot+" : "+correspond);
+		else { // Sinon
+			monoide.addRegle(String.join("", mot),correspond); // On ajout la regle au monoide
+		} // on sait aussi que l'on a pas besoin de continuer a chercher plus dans cette direction, car on se rapportera toujours a des regle connue maintenant
 	}
 	
 	
