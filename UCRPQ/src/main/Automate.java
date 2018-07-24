@@ -309,7 +309,7 @@ public class Automate {
 		
 	public void getMonoideAux(MonoideTransition monoide, List<Etat> listeEtat, List<String> mot, List<String> alphabet) {
 		
-		String [] correspond = new String[listeEtat.size()];
+		List<String> correspond = new ArrayList<>();
 		String indiceEtat = "0";
 		for (int i = 0; i<listeEtat.size(); ++i) {
 			indiceEtat = String.valueOf(i);
@@ -318,7 +318,7 @@ public class Automate {
 				if (temp.size() != 0)
 					indiceEtat = temp.get(0);
 			}
-			correspond[i] = indiceEtat;
+			correspond.add(indiceEtat);
 		}
 		if (!monoide.containtListeMot(correspond)) {
 			monoide.addMot(String.join("", mot), correspond);
