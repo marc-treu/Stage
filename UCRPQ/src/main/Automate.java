@@ -50,14 +50,14 @@ public class Automate {
 		tableTransition.add(etat0); // On ajout cet Etat initial.
 		
 		// Boucle Principal
-		for (String s : rRenommer.getEtiquette()) { // Pour chaque Atom
-			List<String> sv = new ArrayList<>(); // On initialise la liste des successeurs
-			finale = !rRenommer.getSuivant(sv,s); // Qui sera remplie par getSuivant
+		for (String nomEtat : rRenommer.getEtiquette()) { // Pour chaque Atom
+			List<String> listeSuccesseur = new ArrayList<>(); // On initialise la liste des successeurs
+			finale = !rRenommer.getSuivant(listeSuccesseur,nomEtat); // Qui sera remplie par getSuivant
 			// getSuivant revoie false si l'atom est peu etre final dans la RegExp
 			
-			Etat etatN = new Etat(s.substring(1),false,finale); // On créé l'etat
-			for (String e : sv) { // Pour chaque successeur, on ajout la transition
-				etatN.addTransition(new Transition(e.substring(1),e.substring(0, 1)));
+			Etat etatN = new Etat(nomEtat.substring(1),false,finale); // On créé l'etat
+			for (String successeur : listeSuccesseur) { // Pour chaque successeur, on ajout la transition
+				etatN.addTransition(new Transition(successeur.substring(1),successeur.substring(0, 1)));
 			}
 			tableTransition.add(etatN);				
 		}
@@ -89,11 +89,11 @@ public class Automate {
 	 * 
 	 * @return true si c'est le cas, false sinon
 	 */
-	public boolean isDeterminist() {
+	public boolean estDeterministe() {
 		int nombreEtatInitial = 0;
 		for (Etat etat : this.tableTransition) 
 			nombreEtatInitial += etat.isInitial() ? 1 : 0;
-		return nombreEtatInitial==1 && this.tableTransition.stream().allMatch(etat -> etat.isDeterminist());
+		return nombreEtatInitial==1 && this.tableTransition.stream().allMatch(etat -> etat.estDeterministe());
 	}
 
 	
@@ -104,7 +104,7 @@ public class Automate {
 	 */
 	public Automate getDeterminist() {
 		
-		if(this.isDeterminist()) // Si l'automate est deja deterministe
+		if(this.estDeterministe()) // Si l'automate est deja deterministe
 			return this;
 		
 		// Initialisation
