@@ -1,11 +1,7 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Test {
@@ -79,7 +75,6 @@ public class Test {
 		System.out.println(new Automate(Parser.parseRegExp("(a.(b+d).e*.c)")));		
 		System.out.println(new Automate(Parser.parseRegExp("(a+b+(c.f)+d)")));		
 		System.out.println(new Automate(Parser.parseRegExp("(a*)")));		
-		System.out.println(new Automate(Parser.parseRegExp("((a+b+(c.f)+d)*)")));		
 		System.out.println(new Automate(Parser.parseRegExp("(a.c)+(a.d)")));		
 
 		System.out.println(new Automate(Parser.parseRegExp("((a+b)*)+(((a.c)*).(d+e))")));
@@ -100,8 +95,8 @@ public class Test {
  		System.out.println(teste);
 		System.out.println(teste.brzozowski());
 		
-		
-		
+		Automate t = new Automate(Parser.parseRegExp("((a.b)*)"));
+		t.brzozowski().getMonoideTransition();
 		
 	}
 }
