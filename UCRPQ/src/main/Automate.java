@@ -355,7 +355,7 @@ public class Automate {
 		
 	public void getMonoideAux(MonoideTransition monoide, List<Etat> listeEtat, List<String> mot, List<String> alphabet) {
 		
-		List<String> correspond = new ArrayList<>();
+		List<String> correspond = new ArrayList<>(listeEtat.size());
 		String indiceEtat = "0";
 		for (int i = 0; i<listeEtat.size(); ++i) {
 			indiceEtat = String.valueOf(i);
@@ -366,8 +366,8 @@ public class Automate {
 			}
 			correspond.add(indiceEtat);
 		}
-		if (!monoide.containtListeMot(correspond)) { // Si on a pas encore rencontré la liste correspondante
-			monoide.addMot(String.join("", mot), correspond); // on ajout la correspondance au monoide
+		if (!monoide.contient(correspond)) { // Si on a pas encore rencontré la liste correspondante
+			monoide.ajoute(String.join("", mot), correspond); // on ajout la correspondance au monoide
 		
 			for (String a : alphabet) { // Pour chaque lettre de l'alphabet
 				List<String> nouveauMot = new ArrayList<>(mot);
@@ -376,7 +376,7 @@ public class Automate {
 			}
 		}
 		else { // Sinon
-			monoide.addRegle(String.join("", mot),correspond); // On ajout la regle au monoide
+			monoide.ajouteRegle(String.join("", mot),correspond); // On ajout la regle au monoide
 		} // on sait aussi que l'on a pas besoin de continuer a chercher plus dans cette direction, car on se rapportera toujours a des regle connue maintenant
 	}
 	

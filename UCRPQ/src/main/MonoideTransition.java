@@ -1,6 +1,5 @@
 package main;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,22 +16,27 @@ public class MonoideTransition {
 		this.listeRegle = new HashMap<>();
 	}
 	
-	public void addMot(String mot, List<String> correspondant) {
+	public void ajoute(String mot, List<String> correspondant) {
 		this.mot.put(mot,correspondant);
 		this.listeMot.put(correspondant,mot);
 	}
 	
-	public void addListe(List<String> correspondant,String mot) {
-		this.listeMot.put(correspondant,mot);
-		this.mot.put(mot,correspondant);
+	public void ajoute(List<String> correspondant,String mot) {
+		ajoute(mot, correspondant);
 	}
 
-	public boolean containtListeMot(List<String> correspond) {
-		return listeMot.containsKey(correspond);
+	public boolean contient(List<String> correspond) {
+		return this.listeMot.containsKey(correspond);
 	}
+	
+	public boolean contient(String mot) {
+		return this.mot.containsKey(mot);
+		
+	}
+	
 
-	public void addRegle(String motlong, List<String> correspond) {
-		listeRegle.put(motlong, listeMot.get(correspond));			
+	public void ajouteRegle(String motlong, List<String> correspond) {
+		this.listeRegle.put(motlong, listeMot.get(correspond));			
 	}
 	
 	@Override
@@ -40,4 +44,6 @@ public class MonoideTransition {
 		return mot.toString()+"\n"+listeRegle.toString();
 	}		
 
+	
+	
 }
