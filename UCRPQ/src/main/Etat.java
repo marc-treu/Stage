@@ -29,7 +29,7 @@ public class Etat {
 		this.transition = new ArrayList<>();
 	}
 	
-	public void addTransition(Transition t) {
+	public void ajoutTransition(Transition t) {
 		this.transition.add(t);
 	}
 	
@@ -43,7 +43,7 @@ public class Etat {
 		return true;
 	}
 	
-	public List<String> getTransitionFromEtiquette(String etiquette){
+	public List<String> getTransitionAvecEtiquette(String etiquette){
 
 		if (etiquette == "") {
 			return Arrays.asList(this.getNom());
@@ -84,11 +84,11 @@ public class Etat {
 		return resultat;
 	}
 	
-	public boolean isFinale() {
+	public boolean estFinale() {
 		return finale;
 	}
 	
-	public boolean isInitial() {
+	public boolean estInitial() {
 		return initial;
 	}
 	

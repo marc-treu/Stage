@@ -41,9 +41,9 @@ public class Automate {
 		RegExp rRenommer = r.getRename(1); // On renomme notre RegExp, de tel sorte
 		// Que chaque atom soit unique.		
 
-		Etat etat0 = new Etat("0",true,isFinal(rRenommer)); // On cree l'etat initial
+		Etat etat0 = new Etat("0",true,estFinal(rRenommer)); // On cree l'etat initial
 		for (String e : rRenommer.getInitaux()) { // On recupere la liste successeur de l'etat initial
-			etat0.addTransition(new Transition(e.substring(1),e.substring(0, 1))); // On ajout les transitions
+			etat0.ajoutTransition(new Transition(e.substring(1),e.substring(0, 1))); // On ajout les transitions
 		} // e va etre de la forme a4 par exemple, avec toujour la premiere lettre qui correspond au chemins,
 		// et le nombre qui suit l'etat vers lequel on va
 		
@@ -57,7 +57,7 @@ public class Automate {
 			
 			Etat etatN = new Etat(nomEtat.substring(1),false,finale); // On cree l'etat
 			for (String successeur : listeSuccesseur) { // Pour chaque successeur, on ajout la transition
-				etatN.addTransition(new Transition(successeur.substring(1),successeur.substring(0, 1)));
+				etatN.ajoutTransition(new Transition(successeur.substring(1),successeur.substring(0, 1)));
 			}
 			tableTransition.add(etatN);				
 		}
@@ -73,7 +73,7 @@ public class Automate {
 	 * @param regexp renomer pour pouvoir utliser getSuivant
 	 * @return true si le langage accepte epsilon, false sinon
 	 */
-	private boolean isFinal(RegExp regexp) {
+	private boolean estFinal(RegExp regexp) {
 		if (regexp.type() == Type.Star) // Si l'expression est une etoile
 			return true; // Alors on renvoie directement true
 		for (String e : regexp.getInitaux()) { // Pour chaque etat que l'etat initial peu atteindre
@@ -92,7 +92,7 @@ public class Automate {
 	public boolean estDeterministe() {
 		int nombreEtatInitial = 0;
 		for (Etat etat : this.tableTransition) 
-			nombreEtatInitial += etat.isInitial() ? 1 : 0;
+			nombreEtatInitial += etat.estInitial() ? 1 : 0;
 		return nombreEtatInitial==1 && this.tableTransition.stream().allMatch(etat -> etat.estDeterministe());
 	}
 
@@ -115,7 +115,7 @@ public class Automate {
 		// On s'occupe de l'etat initial
 		List<String> etatInitiaux = new ArrayList<>();
 		for (Etat e : this.tableTransition) { // Pour tous les etats
-			if (e.isInitial()) // On teste si il sont initiaux
+			if (e.estInitial()) // On teste si il sont initiaux
 				etatInitiaux.add(e.getNom()); // si oui, on les 
 		}
 		Collections.sort(etatInitiaux); // On les trie 
@@ -132,12 +132,12 @@ public class Automate {
 		    });
 			
 			// On cree le  nouvelle etat, qui peut etre l'association de plusieur
-			boolean finale = l.get(0).isFinale();
+			boolean finale = l.get(0).estFinale();
 			String nom = l.get(0).getNom();
 			
 			for(int j = 1; j<l.size() ;++j) { // Sont nom sera la forme 
 				nom+="."+l.get(j).getNom(); // 1.3.5 par exemple.
-				if(l.get(j).isFinale()) finale=true ; // Si un des etats qui le compose est finale, alors il sera finale
+				if(l.get(j).estFinale()) finale=true ; // Si un des etats qui le compose est finale, alors il sera finale
 			}
 			
 			Etat etatN = new Etat(nom, initial, finale);
@@ -148,7 +148,7 @@ public class Automate {
 			for (String a : alphabet) { // Pour chaque lettre de l'alphabet
 				Set<String> temp = new HashSet<>(); 
 				for(int i = 0 ; i<l.size(); ++i) { // Pour chaque etat qui compose notre nouvelle etat
-					temp.addAll(l.get(i).getTransitionFromEtiquette(a)); // On recuperer tous les etat voisins par la lettre a 
+					temp.addAll(l.get(i).getTransitionAvecEtiquette(a)); // On recuperer tous les etat voisins par la lettre a 
 				}
 				List<String> suivant = new ArrayList<>(temp); // On en fait une liste
 				Collections.sort(suivant); // Que l'on trie
@@ -158,7 +158,7 @@ public class Automate {
 						nomTemp+="."+suivant.get(c); // Par exemple 2.4
 					}
 					
-					etatN.addTransition(new Transition(nomTemp, a)); // On a notre transition pour la lettre a
+					etatN.ajoutTransition(new Transition(nomTemp, a)); // On a notre transition pour la lettre a
 					// Transition qui est donc unique pour chaque lettre
 
 					if ( trouveEtats(tableTransition,Arrays.asList(nomTemp)).isEmpty()) { // Si le nouvelle etat n'est pas encore dans notre automate resultat
@@ -227,16 +227,16 @@ public class Automate {
 		
 		int i = 1; // les Indices dans le tableau, on ne commence pas a 0, car 0 est reserve pour l'etat Initial
 		for (Etat e : tableTransition) { // Pour chaque etat de l'automate, on va l'ajouter a notre tableau de renommage
-			if (e.isInitial()) // Si c'est l'etat inital
+			if (e.estInitial()) // Si c'est l'etat inital
 				hm.put(e.getNom(), "0"); // On lui assigne la case 0
 			else // Sinon, On lui assigne une autre case,
 				hm.put(e.getNom(), String.valueOf(i++)); // On rentre nos etat dans la hashmap, pour garder l'information de la case
-			resultatEtat[Integer.parseInt(hm.get(e.getNom()))] = new Etat(hm.get(e.getNom()),e.isInitial(),e.isFinale()); // et finalement dans le tableau
+			resultatEtat[Integer.parseInt(hm.get(e.getNom()))] = new Etat(hm.get(e.getNom()),e.estInitial(),e.estFinale()); // et finalement dans le tableau
 		}
 		
 		for (Etat e : tableTransition) { // On va reparcourrir nos etats
 			for (Transition t : e.getTransition()) { // Pour chaque transition
-				resultatEtat[Integer.parseInt(hm.get(e.getNom()))].addTransition( // On trouve le bon etat renommer correspondant 
+				resultatEtat[Integer.parseInt(hm.get(e.getNom()))].ajoutTransition( // On trouve le bon etat renommer correspondant 
 						new Transition(hm.get(t.getEtat()), t.getEtiquette())); // On lui ajout la transition, avec l'etat finale bien renommer
 			}
 		}
@@ -257,13 +257,13 @@ public class Automate {
 		Set<Etat> resultatEtat = new HashSet<>(); // Notre set des Etats qui sera notre nouveau automate
 		
 		for (Etat etat : this.tableTransition) { // On va d'abord remplir notre set resultat d'etats
-			resultatEtat.add(new Etat(etat.getNom(),(etat.isFinale()),(etat.isInitial()))); // On prend soins d'inverser finale et initiale
+			resultatEtat.add(new Etat(etat.getNom(),(etat.estFinale()),(etat.estInitial()))); // On prend soins d'inverser finale et initiale
 		}
 		
 		// On reparcour les etats de notre automate
 		for (Etat etat : this.tableTransition) { // Mais on s'interesse a leur transition
 			for (Transition tran : etat.getTransition()) { // Pour chaque transition, on inverse les etat de depart et d'arrive
-				trouveEtats(resultatEtat, Arrays.asList(tran.getEtat())).get(0).addTransition( // et on ajout la nouvelle 
+				trouveEtats(resultatEtat, Arrays.asList(tran.getEtat())).get(0).ajoutTransition( // et on ajout la nouvelle 
 						new Transition(etat.getNom(), tran.getEtiquette()));// Transition dans notre set resultatEtat
 			}
 		}
@@ -305,23 +305,23 @@ public class Automate {
 		// qui sera la destination de toutes les transition qui'il faut pour complete l'automate
 		
 		for (String a : alphabet) {
-			puit.addTransition(new Transition(nomPuit,a)); // Le puit ne peux que aller vers lui même
+			puit.ajoutTransition(new Transition(nomPuit,a)); // Le puit ne peux que aller vers lui même
 		}
 		
 		resultatEtat.add(puit);
 		
 		for (Etat etat : this.tableTransition) {
-			Etat nouvelleEtat = new Etat(etat.getNom(),etat.isInitial(),etat.isFinale());
+			Etat nouvelleEtat = new Etat(etat.getNom(),etat.estInitial(),etat.estFinale());
 
 			Set<String> transitionExiste = new HashSet<>(); // On ajoutera les transitions qui existe deja dans cette ensemble
 			for (Transition t : etat.getTransition()) {
-				nouvelleEtat.addTransition(new Transition(t.getEtat(), t.getEtiquette()));
+				nouvelleEtat.ajoutTransition(new Transition(t.getEtat(), t.getEtiquette()));
 				transitionExiste.add(t.getEtiquette());
 			}
 			
 			for (String a : alphabet) { // Pour chaque lettre 
 				if (!transitionExiste.contains(a)) // Si la transition n'existe pas 
-					nouvelleEtat.addTransition(new Transition(nomPuit,a)); // Alors on ajouts l'etiquettes qui manque vers le puit
+					nouvelleEtat.ajoutTransition(new Transition(nomPuit,a)); // Alors on ajouts l'etiquettes qui manque vers le puit
 			}
 			resultatEtat.add(nouvelleEtat); // On ajout l'etat bien construit dans notre set resultat
 
@@ -360,7 +360,7 @@ public class Automate {
 		for (int i = 0; i<listeEtat.size(); ++i) {
 			indiceEtat = String.valueOf(i);
 			for (int j = 0; j<mot.size(); ++j) {
-				List<String> temp = listeEtat.get(Integer.parseInt(indiceEtat)).getTransitionFromEtiquette(mot.get(j));
+				List<String> temp = listeEtat.get(Integer.parseInt(indiceEtat)).getTransitionAvecEtiquette(mot.get(j));
 				if (temp.size() != 0) // Si l'automate est complet et deterministe, temp devrais toujours etre de taille 1
 					indiceEtat = temp.get(0);
 			}
