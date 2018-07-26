@@ -95,9 +95,12 @@ public class Test {
  		System.out.println(teste);
 		System.out.println(teste.brzozowski());
 		
-		Automate t = new Automate(Parser.parseRegExp("((a.b)*)"));
-		t.brzozowski().getMonoideTransition();
+		Automate t = new Automate(Parser.parseRegExp("((a.a.b)*)"));
+		System.out.println(t.brzozowski().getAutomateComplet().getMonoideTransition());
 		System.out.println(t.getAutomateComplet());
+		MonoideTransition m = t.brzozowski().getAutomateComplet().getMonoideTransition();
+		System.out.println(m.estAperiodique());
 		
 	}
+	
 }
